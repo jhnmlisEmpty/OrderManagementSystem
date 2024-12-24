@@ -1,0 +1,15 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Packaging extends Model
+{
+    protected $fillable = ['name', 'quantity'];
+
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+}
