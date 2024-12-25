@@ -7,7 +7,7 @@
 /storage/pail
 /vendor
 /.env
-.htaccess
+/.htaccess
 .env.backup
 .env.production
 .phpactor.json
