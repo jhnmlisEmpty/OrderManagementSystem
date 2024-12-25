@@ -30,7 +30,7 @@ class AddProduct extends Component
         
         $this->validate();
 
-        $imagePath = $this->image->storeAs('products', 'public');
+        $imagePath = $this->image->store('products', 'public');
 
         Product::create([
             'name' => $this->name,
