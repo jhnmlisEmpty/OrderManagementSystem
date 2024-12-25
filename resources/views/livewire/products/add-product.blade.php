@@ -33,10 +33,11 @@
                 <input type="file" id="image" wire:model="image" class="mt-1 block w-full">
                 @error('image') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
 
-              
-                    <div class="mt-2" wire.ignore>
-                        <img id="image-preview" class="h-24 w-24 object-cover" style="display: none;">
+                @if ($image)
+                    <div class="mt-2">
+                        <img src="{{ $image->temporaryUrl() }}" class="h-24 w-24 object-cover">
                     </div>
+                @endif
             </div>
 
             
@@ -46,15 +47,4 @@
             </button>
         </form>
    </div>
-   <script>
-        function previewImage(event) {
-            var reader = new FileReader();
-            reader.onload = function(){
-                var output = document.getElementById('image-preview');
-                output.src = reader.result;
-                output.style.display = 'block';
-            };
-            reader.readAsDataURL(event.target.files[0]);
-        }
-    </script>
 </div>
