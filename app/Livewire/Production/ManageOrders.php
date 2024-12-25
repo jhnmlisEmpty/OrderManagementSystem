@@ -5,10 +5,12 @@ namespace App\Livewire\Production;
 use App\Models\Order;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class ManageOrders extends Component
 { 
     use WithPagination;
+    use LivewireAlert;
 
     public $currentTab = 'pending';
     public $search = '';
@@ -24,9 +26,41 @@ class ManageOrders extends Component
 
     protected $queryString = ['search'];
 
+
     public function mount()
     {
         $this->loadCounts();
+    }
+
+    public function deleteOrder($id)
+    {
+        $this->alert('question', 'Are you sure you want to delete this order?', [
+            'showConfirmButton' => true,
+            'confirmButtonText' => 'YES',
+            'onConfirmed' => 'confirmDelete',
+            'showDenyButton' => true,
+            'denyButtonText' => 'NO',
+            'onDenied' => 'cancelDelete',
+            'data' => [
+                    'id' => $id
+                ]
+        ]);
+    }
+
+    public function confirmDelete($data)
+    { 
+        $id = $data['id'];
+
+        $order = Order::findOrFail($id);
+        $order->delete();
+
+        $this->alert('success', 'Order deleted successfully!');
+        $this->resetPage();
+    }
+
+    public function cancelDelete()
+    {
+        $this->alert('info', 'Order deletion canceled.');
     }
 
     public function updatingSearch()
