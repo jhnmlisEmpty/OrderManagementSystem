@@ -62,6 +62,7 @@ class TableEmployee extends Component
             $query->where('name', 'like', '%' . $this->search . '%')
                   ->orWhere('email', 'like', '%' . $this->search . '%');
         })
+        ->where('role', '!=', 'super admin')
         ->paginate($this->perPage);
 
         return view('livewire.employee.table-employee', [
