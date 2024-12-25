@@ -35,7 +35,7 @@
 
                 @if ($image)
                     <div class="mt-2">
-                        <img src="{{ $image->temporaryUrl() }}" class="h-24 w-24 object-cover">
+                        <img id="image-preview" class="h-24 w-24 object-cover" style="display: none;">
                     </div>
                 @endif
             </div>
@@ -47,4 +47,15 @@
             </button>
         </form>
    </div>
+   <script>
+        function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function(){
+                var output = document.getElementById('image-preview');
+                output.src = reader.result;
+                output.style.display = 'block';
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
 </div>
