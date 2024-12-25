@@ -34,7 +34,7 @@
                 @error('image') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
 
               
-                    <div class="mt-2">
+                    <div class="mt-2" wire.ignore>
                         <img id="image-preview" class="h-24 w-24 object-cover" style="display: none;">
                     </div>
             </div>
