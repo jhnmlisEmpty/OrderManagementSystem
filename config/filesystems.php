@@ -46,7 +46,7 @@ return [
         ],
 
         'temporary_file_upload' => [
-            'disk' => 'local', // Ensure this is set to a valid disk
+            'disk' => 'public', // Ensure this is set to a valid disk
             'rules' => null,
             'directory' => null,
             'middleware' => null,
