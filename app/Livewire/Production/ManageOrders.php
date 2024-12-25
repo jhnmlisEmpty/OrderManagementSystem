@@ -26,7 +26,11 @@ class ManageOrders extends Component
 
     protected $queryString = ['search'];
 
-
+    protected $listeners = [
+        'confirmDelete',
+        'cancelDelete'
+    ];
+    
     public function mount()
     {
         $this->loadCounts();

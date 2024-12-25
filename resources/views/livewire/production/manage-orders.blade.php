@@ -184,9 +184,12 @@
                                 {{ $order->status }}
                             </td>
                             <td class="px-6 py-4">
-                                <button wire:click="deleteOrder({{ $order->id }})" class="font-medium text-red-600 dark:text-red-500 hover:underline">
-                                    Delete
-                                </button>
+                                @if (auth()->user()->role === 'admin'|| auth()->user()->role === 'super_admin')
+                                    <button wire:click="deleteOrder({{ $order->id }})" class="font-medium text-red-600 dark:text-red-500 hover:underline">
+                                        Delete
+                                    </button>
+                                @endif
+                                
                                 <a href="{{ route('view.order', ['orderId' => $order->id]) }}" target="_blank" class="font-medium text-blue-600 dark:text-red-500 hover:underline">
                                     View
                                 </a>
@@ -202,22 +205,4 @@
     <div class="mt-4 px-4">
         {{ $orders->links() }} 
     </div>
-
-    @if ($selectedOrder)
-        <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
-            <div class="bg-white p-6 rounded-lg">
-                <h2 class="text-2xl font-bold mb-4">Order #{{ $selectedOrder->id }}</h2>
-                <ul>
-                    @foreach ($selectedOrder->orderItems as $item)
-                        <li>{{ $item->name }} - {{ $item->quantity }}</li>
-                    @endforeach
-                </ul>
-                <div class="mt-4">
-                    <button wire:click="updateStatus('on_prod')" class="bg-yellow-500 text-white px-4 py-2 rounded">Move to On Production</button>
-                    <button wire:click="updateStatus('created')" class="bg-green-500 text-white px-4 py-2 rounded">Move to Created</button>
-                    <button wire:click="$set('selectedOrder', null)" class="bg-red-500 text-white px-4 py-2 rounded mt-2">Close</button>
-                </div>
-            </div>
-        </div>
-    @endif
 </div>
