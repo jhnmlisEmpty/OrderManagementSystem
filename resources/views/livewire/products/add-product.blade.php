@@ -43,7 +43,7 @@
             
 
             <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md">
-                Add Product
+                Add Products
             </button>
         </form>
    </div>
