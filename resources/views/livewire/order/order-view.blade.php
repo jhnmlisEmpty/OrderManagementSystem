@@ -82,88 +82,92 @@
                         <dt class="text-xl font-medium text-gray-500">Full Amount</dt>
                         <dd class="mt-1 text-xl text-gray-900 sm:col-span-2 sm:mt-0">{{ $order->full_amount }}</dd>
                     </div>
-                </div>
 
-                <!-- Update Status Button -->
-                @if($order->status == 'pending')
-                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-6">
                     <div>
-                        <button wire:click="updateStatus('on_prod')" class="inline-flex items-center px-4 py-2 bg-blue-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:border-blue-900 focus:ring ring-blue-300 disabled:opacity-25 transition ease-in-out duration-150">
-                            Update Status to On Production
-                        </button>
+                        <!-- Update Status Button -->
+                        @if($order->status == 'pending')
+                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-6">
+                            <div>
+                                <button wire:click="updateStatus('on_prod')" class="btn btn-primary">
+                                    Update Status to On Production
+                                </button>
+                            </div>
+                        </div>
+                        @endif
+
+                        @if($order->status == 'on_prod')
+                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-6">
+                            <div>
+                                <button wire:click="updateStatus('created')" class="btn btn-primary">
+                                    Update Status to Created
+                                </button>
+                            </div>
+                        </div>
+                        @endif
+
+                        @if($order->status == 'created')
+                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-6">
+                            <div>
+                                <button wire:click="updateStatus('shipped')" class="btn btn-primary">
+                                    Update Status to Shipped
+                                </button>
+                            </div>
+                        </div>
+                        @endif
+
+                        @if($order->status == 'shipped')
+                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-6">
+                            <div>
+                                <button wire:click="updateStatus('delivered')" class="btn btn-primary">
+                                    Update Status to Delivered
+                                </button>
+                            </div>
+                        </div>
+                        @endif
+
+                        @if($order->status == 'delivered')
+                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-6">
+                            <div>
+                                <button wire:click="updateStatus('canceled')" class="btn btn-primary">
+                                    Update Status to Canceled
+                                </button>
+                            </div>
+                        </div>
+                        @endif
+
+                        @if($order->status == 'canceled')
+                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-6">
+                            <div>
+                                <button wire:click="updateStatus('returned')" class="btn btn-primary">
+                                    Update Status to Returned
+                                </button>
+                            </div>
+                        </div>
+                        @endif
+
+                        @if($order->status == 'returned')
+                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-6">
+                            <div>
+                                <button wire:click="updateStatus('reprocess')" class="btn btn-primary">
+                                    Update Status to Reprocess
+                                </button>
+                            </div>
+                        </div>
+                        @endif
+
+                        @if($order->status == 'reprocess')
+                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-6">
+                            <div>
+                                <button wire:click="updateStatus('pending')" class="btn btn-primary">
+                                    Update Status to Pending
+                                </button>
+                            </div>
+                        </div>
+                        @endif
                     </div>
                 </div>
-                @endif
 
-                @if($order->status == 'on_prod')
-                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-6">
-                    <div>
-                        <button wire:click="updateStatus('created')" class="inline-flex items-center px-4 py-2 bg-green-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 active:bg-green-900 focus:outline-none focus:border-green-900 focus:ring ring-green-300 disabled:opacity-25 transition ease-in-out duration-150">
-                            Update Status to Created
-                        </button>
-                    </div>
-                </div>
-                @endif
-
-                @if($order->status == 'created')
-                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-6">
-                    <div>
-                        <button wire:click="updateStatus('shipped')" class="inline-flex items-center px-4 py-2 bg-yellow-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-yellow-700 active:bg-yellow-900 focus:outline-none focus:border-yellow-900 focus:ring ring-yellow-300 disabled:opacity-25 transition ease-in-out duration-150">
-                            Update Status to Shipped
-                        </button>
-                    </div>
-                </div>
-                @endif
-
-                @if($order->status == 'shipped')
-                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-6">
-                    <div>
-                        <button wire:click="updateStatus('delivered')" class="inline-flex items-center px-4 py-2 bg-purple-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-purple-700 active:bg-purple-900 focus:outline-none focus:border-purple-900 focus:ring ring-purple-300 disabled:opacity-25 transition ease-in-out duration-150">
-                            Update Status to Delivered
-                        </button>
-                    </div>
-                </div>
-                @endif
-
-                @if($order->status == 'delivered')
-                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-6">
-                    <div>
-                        <button wire:click="updateStatus('canceled')" class="inline-flex items-center px-4 py-2 bg-red-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 active:bg-red-900 focus:outline-none focus:border-red-900 focus:ring ring-red-300 disabled:opacity-25 transition ease-in-out duration-150">
-                            Update Status to Canceled
-                        </button>
-                    </div>
-                </div>
-                @endif
-
-                @if($order->status == 'canceled')
-                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-6">
-                    <div>
-                        <button wire:click="updateStatus('returned')" class="inline-flex items-center px-4 py-2 bg-indigo-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:border-indigo-900 focus:ring ring-indigo-300 disabled:opacity-25 transition ease-in-out duration-150">
-                            Update Status to Returned
-                        </button>
-                    </div>
-                </div>
-                @endif
-
-                @if($order->status == 'returned')
-                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-6">
-                    <div>
-                        <button wire:click="updateStatus('reprocess')" class="inline-flex items-center px-4 py-2 bg-pink-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-pink-700 active:bg-pink-900 focus:outline-none focus:border-pink-900 focus:ring ring-pink-300 disabled:opacity-25 transition ease-in-out duration-150">
-                            Update Status to Reprocess
-                        </button>
-                    </div>
-                </div>
-                @endif
-
-                @if($order->status == 'reprocess')
-                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-6">
-                    <div>
-                        <button wire:click="updateStatus('pending')" class="inline-flex items-center px-4 py-2 bg-gray-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
-                            Update Status to Pending
-                        </button>
-                    </div>
-                </div>
-                @endif
+                
             </dl>
         </div>
     </div>
