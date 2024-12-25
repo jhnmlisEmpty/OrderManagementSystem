@@ -107,7 +107,7 @@
                         @endif
                         <!-- Update Status Button -->
                        
-                        @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin' || auth()->user()->role === 'logistic')
+                        @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin' || auth()->user()->role === 'logistics')
                             @if($order->status == 'created')
                             <div >
                                 <div>
