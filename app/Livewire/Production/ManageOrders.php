@@ -55,6 +55,7 @@ class ManageOrders extends Component
         }
     }
 
+    
     public function loadCounts()
     {
         $user = auth()->user();
