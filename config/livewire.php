@@ -37,8 +37,6 @@ return [
     | property on the component class.
     */
 
-    'layout' => 'layouts.app',
-
     /*
     |--------------------------------------------------------------------------
     | Temporary File Upload Configuration
