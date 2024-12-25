@@ -68,7 +68,7 @@ class ManageOrders extends Component
         $returnedQuery = Order::where('status', 'returned');
         $reprocessQuery = Order::where('status', 'reprocess');
     
-        if ($user->role !== 'admin') {
+        if ($user->role === 'user') {
             $pendingQuery->where('user_id', $user->id);
             $onProdQuery->where('user_id', $user->id);
             $createdQuery->where('user_id', $user->id);

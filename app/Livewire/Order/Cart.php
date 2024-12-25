@@ -253,7 +253,7 @@ class Cart extends Component
 
         CartManagement::clearCartItems();
 
-        return redirect()->route('table.order');
+        return redirect()->route('manage.orders');
     }
 
     public function cancelOrder()
