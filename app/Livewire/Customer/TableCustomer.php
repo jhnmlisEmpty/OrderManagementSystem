@@ -59,7 +59,7 @@ class TableCustomer extends Component
 
         $customersQuery = Customer::query();
     
-        if ($user->role !== 'admin') {
+        if ($user->role === 'user') {
             $customersQuery->where('user_id', $user->id);
         }
     

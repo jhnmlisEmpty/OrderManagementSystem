@@ -16,7 +16,7 @@ class ViewDashboard extends Component
 
         $ordersQuery = Order::query();
 
-        if ($user->role !== 'admin') {
+        if ($user->role === 'user') {
             $ordersQuery->where('user_id', $user->id);
         }
 

@@ -102,7 +102,7 @@ class ManageOrders extends Component
                       });
             });
     
-        if ($user->role !== 'admin') {
+        if ($user->role === 'user') {
             $ordersQuery->where('user_id', $user->id);
         }
     
