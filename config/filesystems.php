@@ -44,13 +44,7 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
-
-        'temporary_file_upload' => [
-            'disk' => 'public', // Ensure this is set to a valid disk
-            'rules' => null,
-            'directory' => null,
-            'middleware' => null,
-        ],
+        
 
         's3' => [
             'driver' => 's3',
