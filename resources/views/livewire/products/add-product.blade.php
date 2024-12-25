@@ -35,7 +35,7 @@
 
                 @if ($image)
                     <div class="mt-2">
-                        <img src="{{ $image->temporaryUrl() }}{{ asset($image->temporaryUrl()) }}" class="h-24 w-24 object-cover">
+                        <img src="{{ $image->temporaryUrl() }}" class="h-24 w-24 object-cover">
                     </div>
                 @endif
             </div>
