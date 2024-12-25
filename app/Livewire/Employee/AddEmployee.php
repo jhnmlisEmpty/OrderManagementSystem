@@ -21,6 +21,8 @@ class AddEmployee extends Component
     public $roles = [
         'admin' => 'Admin',
         'user' => 'User',
+        'logistics' => 'Logistics',
+        'production' => 'Production',
     ];
 
     public function store()
@@ -43,6 +45,9 @@ class AddEmployee extends Component
         $user->image = $profilePicturePath;
         $user->save();
         $this->reset();
+
+        return redirect()->route('table.employee');
+        
     }
 
     public function render()
