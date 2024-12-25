@@ -55,6 +55,31 @@
                 Created ({{ $createdCount }})
             </a>
         </li>
+        <li class="mr-1">
+            <a wire:click.prevent="switchTab('shipped')" class="cursor-pointer bg-white inline-block py-2 px-4 {{ $currentTab === 'shipped' ? 'text-blue-700 border-l border-t border-r rounded-t' : 'text-blue-500 hover:text-blue-800' }} font-semibold">
+                Shipped ({{ $shippedCount }})
+            </a>
+        </li>
+        <li class="mr-1">
+            <a wire:click.prevent="switchTab('delivered')" class="cursor-pointer bg-white inline-block py-2 px-4 {{ $currentTab === 'delivered' ? 'text-blue-700 border-l border-t border-r rounded-t' : 'text-blue-500 hover:text-blue-800' }} font-semibold">
+                Delivered ({{ $deliveredCount }})
+            </a>
+        </li>
+        <li class="mr-1">
+            <a wire:click.prevent="switchTab('canceled')" class="cursor-pointer bg-white inline-block py-2 px-4 {{ $currentTab === 'canceled' ? 'text-blue-700 border-l border-t border-r rounded-t' : 'text-blue-500 hover:text-blue-800' }} font-semibold">
+                Canceled ({{ $canceledCount }})
+            </a>
+        </li>
+        <li class="mr-1">
+            <a wire:click.prevent="switchTab('returned')" class="cursor-pointer bg-white inline-block py-2 px-4 {{ $currentTab === 'returned' ? 'text-blue-700 border-l border-t border-r rounded-t' : 'text-blue-500 hover:text-blue-800' }} font-semibold">
+                Returned ({{ $returnedCount }})
+            </a>
+        </li>
+        <li class="mr-1">
+            <a wire:click.prevent="switchTab('reprocess')" class="cursor-pointer bg-white inline-block py-2 px-4 {{ $currentTab === 'reprocess' ? 'text-blue-700 border-l border-t border-r rounded-t' : 'text-blue-500 hover:text-blue-800' }} font-semibold">
+                Reprocess ({{ $reprocessCount }})
+            </a>
+        </li>
     </ul>
 
     <!-- Table -->
