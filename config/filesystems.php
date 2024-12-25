@@ -45,6 +45,13 @@ return [
             'throw' => false,
         ],
 
+        'temporary_file_upload' => [
+            'disk' => 'local', // Ensure this is set to a valid disk
+            'rules' => null,
+            'directory' => null,
+            'middleware' => null,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
