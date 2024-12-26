@@ -36,7 +36,7 @@
 
                 @if ($image)
                     <div class="mt-2">
-                        <img src="{{ $image->temporaryUrl() }}" class="h-24 w-24 object-cover" id="imagePreview">
+                        <img src="" class="h-24 w-24 object-cover" id="imagePreview">
                     </div>
                 @endif
             </div>
