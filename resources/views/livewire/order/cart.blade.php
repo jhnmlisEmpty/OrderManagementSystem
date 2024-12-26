@@ -190,12 +190,18 @@
         <div class="mt-4 text-2xl font-semibold text-center">
             <span>Total: </span>
             <span>
-                {{ number_format(
+                {{-- {{ number_format(
                     collect($cartItems)->sum(function($item) {
                         return (float) $item['price'] * (int) $item['quantity'];
                     }) - ($total_amount), 2)
+                }} --}}
+                {{ number_format(
+                    collect($cartItems)->sum(function($item) {
+                        return (float) $item['price'] * (int) $item['quantity'];
+                    }) - (float) $total_amount, 2)
                 }}
             </span>
+
         </div>
 
         <!-- Submit Button -->

@@ -17,6 +17,7 @@ class AddProduct extends Component
     public $code;
     public $image;
     public $stocks;
+    public $imagePreview;
 
     protected $rules = [
         'name' => 'required|string|max:255',
@@ -24,6 +25,15 @@ class AddProduct extends Component
         'image' => 'required|image|max:1024',
         'stocks' => 'required|integer|min:0',
     ];
+
+
+
+    public function updatedImage()
+    {
+        if ($this->image) {
+            $this->imagePreview = $this->image->temporaryUrl();
+        }
+    }
 
     public function addProduct()
     {
