@@ -9,7 +9,7 @@
 
    <div  class="relative overflow-x-auto shadow-lg sm:rounded-lg p-4">
         <form wire:submit.prevent="addProduct">
-            @csrf
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="mb-4">
                 <label for="name" class="block text-sm font-medium text-gray-700">Product Name</label>
                 <input type="text" id="name" wire:model="name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
