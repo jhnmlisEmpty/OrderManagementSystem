@@ -35,9 +35,9 @@
                 @error('newImage') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
     
                 @if ($newImage)
-                    <div class="mt-2">
+                    {{-- <div class="mt-2">
                         <img src="{{ $newImage->temporaryUrl() }}" class="h-24 w-24 object-cover">
-                    </div>
+                    </div> --}}
                 @else
                     <div class="mt-2">
                         <img src="{{ asset('storage/' . $image) }}" class="h-24 w-24 object-cover">

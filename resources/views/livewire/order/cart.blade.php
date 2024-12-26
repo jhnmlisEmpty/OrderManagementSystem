@@ -61,11 +61,11 @@
                 <label for="payment_status" class="block font-medium">Payment Proof</label>
                 <input type="file" id="payment_status" wire:model="payment_status" class="border rounded w-full p-2" accept="image/*">
                 
-                @if ($payment_status)
+                {{-- @if ($payment_status)
                     <div class="mt-2">
                         <img src="{{ $payment_status->temporaryUrl() }}" alt="Payment Status Preview" class="w-32 h-32 object-cover border rounded">
                     </div>
-                @endif
+                @endif --}}
                 
                 @error('payment_status') 
                     <span class="text-red-500 text-sm">{{ $message }}</span> 
@@ -136,13 +136,13 @@
                         <span class="text-red-500 text-sm">{{ $message }}</span> 
                     @enderror
 
-                    @if (isset($cartItems[$index]['layout']) && is_array($cartItems[$index]['layout']))
+                    {{-- @if (isset($cartItems[$index]['layout']) && is_array($cartItems[$index]['layout']))
                         <div class="mt-2 flex space-x-2 overflow-x-auto">
                             @foreach($cartItems[$index]['layout'] as $file)
                                 <img src="{{ $file->temporaryUrl() }}" alt="Preview" class="w-20 h-20 object-cover">
                             @endforeach
                         </div>
-                    @endif
+                    @endif --}}
                 </div>
                <div class="text-center mt-4">
                     <span class="text-lg font-bold">Total: {{ (float) $cartItems[$index]['price'] * (int) $cartItems[$index]['quantity'] }}</span>

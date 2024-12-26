@@ -57,13 +57,13 @@
             <input type="file" id="image" wire:model="image" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
             @error('image') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
 
-            @if ($image)
+            {{-- @if ($image)
                 <!-- Live Preview -->
                 <div class="mt-2">
                     <p class="text-sm text-gray-600">Preview:</p>
                     <img src="{{ $image->temporaryUrl() }}" alt="Profile Picture Preview" class="mt-2 rounded-lg shadow-md w-24 h-24">
                 </div>
-            @endif
+            @endif --}}
         </div>
 
         <!-- Submit Button -->
