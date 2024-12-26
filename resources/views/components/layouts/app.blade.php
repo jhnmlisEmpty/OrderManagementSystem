@@ -30,7 +30,7 @@
                     </svg>
                 </button>
                 <a href="/" class="flex ms-2 md:me-24">
-                    <img src="{{ asset('storage/other/companyLogo.png') }}" class="h-1 me-2" alt="G7 Logo" />
+                    <img src="{{ asset('storage/other/companyLogo.png') }}" class="h-12 me-2" alt="G7 Logo" />
                     <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">G7GLOBAL</span>
                 </a>
                 </div>
