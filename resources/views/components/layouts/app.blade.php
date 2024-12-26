@@ -15,7 +15,7 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-        <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/sweetalert2.css') }}">
         @livewireStyles
     </head>
     <body>   
