@@ -9,6 +9,7 @@
 
    <div  class="relative overflow-x-auto shadow-lg sm:rounded-lg p-4">
         <form wire:submit.prevent="addProduct">
+            @csrf
             <div class="mb-4">
                 <label for="name" class="block text-sm font-medium text-gray-700">Product Name</label>
                 <input type="text" id="name" wire:model="name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
@@ -28,32 +29,19 @@
                 </div>
             </div>
 
-            <div class="mb-4" wire:ignore>
+            <div class="mb-4">
                 <label for="image" class="block text-sm font-medium text-gray-700">Product Image</label>
                 <input type="file" id="image" wire:model="image" class="mt-1 block w-full">
                 @error('image') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
 
-                <div id="current-image-container" class="hidden mt-2">
-                    <p class="text-sm text-gray-500" id="image-label">Selected Image:</p>
-                    <img id="current-image" src="#" alt="Selected Image" class="w-20 h-20 mt-1 rounded-md">
-                </div>
-
-                <script>
-                    document.getElementById('image').addEventListener('change', function() {
-                        var input = this;
-                        if (input.files && input.files[0]) {
-                            var reader = new FileReader();
-                            reader.onload = function(e) {
-                                document.getElementById('current-image').src = e.target.result;
-                                document.getElementById('image-label').textContent = 'Selected Image:';
-                                document.getElementById('current-image-container').classList.remove('hidden');
-                            }
-                            reader.readAsDataURL(input.files[0]);
-                        }
-                    });
-                </script>
+                @if ($image)
+                    <div class="mt-2">
+                        <p class="text-sm text-gray-500">Selected Image:</p>
+                        <img src="{{ $image->temporaryUrl() }}" alt="Selected Image" class="w-20 h-20 mt-1 rounded-md" wire:loading.remove wire:target="image" onerror="this.style.display='none'">
+                        <p wire:loading wire:target="image">Uploading...</p>
+                    </div>
+                @endif
             </div>
-
             
 
             <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md">
