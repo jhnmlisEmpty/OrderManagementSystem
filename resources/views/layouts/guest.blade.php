@@ -17,17 +17,27 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
-            <div>
-                <a href="/" wire:navigate>
-                    {{-- <x-application-logo class="w-20 h-20 fill-current text-gray-500" /> --}}
-                    G7MANAGEMENT SYSTEM
-                </a>
-            </div>
+        
 
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
-                {{ $slot }}
+        <section class="flex flex-col md:flex-row h-screen items-center">
+
+            <div class="bg-blue-600 hidden lg:block w-full md:w-1/2 xl:w-2/3 h-screen">
+              <img src="https://images.unsplash.com/photo-1444313431167-e7921088a9d3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1441&q=100" alt="" class="w-full h-full object-cover">
             </div>
-        </div>
+          
+            <div class="bg-white w-full md:max-w-md lg:max-w-full md:mx-auto md:w-1/2 xl:w-1/3 h-screen px-6 lg:px-16 xl:px-12
+                  flex items-center justify-center">
+          
+              <div class="w-full h-100">
+          
+                <h1 class="text-xl font-bold">G7 GLOBAL</h1>
+          
+                <h1 class="text-xl md:text-2xl font-bold leading-tight mt-12">Log in to your account</h1>
+          
+                {{ $slot }}
+              </div>
+            </div>
+          
+          </section>
     </body>
 </html>
