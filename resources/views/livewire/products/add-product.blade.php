@@ -38,10 +38,6 @@
                         <img src="{{ $image->temporaryUrl() }}" class="h-24 w-24 object-cover">
                     </div>
                 @endif
-
-                @if ($imagePreview)
-                    
-                @endif
             </div>
 
             
