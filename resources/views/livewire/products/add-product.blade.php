@@ -33,11 +33,25 @@
                 <input type="file" id="image" wire:model="image" class="mt-1 block w-full">
                 @error('image') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
 
-                @if ($image)
-                    <div class="mt-2">
-                        <img src="{{ $image->temporaryUrl() }}" class="h-24 w-24 object-cover">
-                    </div>
-                @endif
+                <div id="current-image-container" class="hidden mt-2">
+                    <p class="text-sm text-gray-500" id="image-label">Selected Image:</p>
+                    <img id="current-image" src="#" alt="Selected Image" class="w-20 h-20 mt-1 rounded-md">
+                </div>
+
+                <script>
+                    document.getElementById('image').addEventListener('change', function() {
+                        var input = this;
+                        if (input.files && input.files[0]) {
+                            var reader = new FileReader();
+                            reader.onload = function(e) {
+                                document.getElementById('current-image').src = e.target.result;
+                                document.getElementById('image-label').textContent = 'Selected Image:';
+                                document.getElementById('current-image-container').classList.remove('hidden');
+                            }
+                            reader.readAsDataURL(input.files[0]);
+                        }
+                    });
+                </script>
             </div>
 
             

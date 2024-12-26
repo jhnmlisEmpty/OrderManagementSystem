@@ -14,10 +14,6 @@
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
 
-    # Allow access to Livewire's temporary files
-    RewriteCond %{REQUEST_URI} ^/livewire/livewire-tmp/
-    RewriteRule ^ livewire/livewire-tmp/ [L]
-
     # Send Requests To Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
