@@ -17,15 +17,17 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans text-gray-900 antialiased">
-        <div class="flex min-h-screen">
-            <div class="hidden md:flex md:flex-1 bg-cover bg-center" style="background-image: url('{{ asset('storage/other/companyLogo.png') }}');"></div>
-            <div class="flex-1 flex justify-center items-center">
-                <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
-                    {{ $slot }}
-                </div>
+        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
+            <div>
+                <a href="/" wire:navigate>
+                    {{-- <x-application-logo class="w-20 h-20 fill-current text-gray-500" /> --}}
+                    G7MANAGEMENT SYSTEM
+                </a>
+            </div>
+
+            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
+                {{ $slot }}
             </div>
         </div>
     </body>
-   
-    
 </html>
