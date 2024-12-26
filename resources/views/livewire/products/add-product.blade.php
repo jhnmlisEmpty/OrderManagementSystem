@@ -34,15 +34,11 @@
                 <input type="file" id="image" wire:model="image" class="mt-1 block w-full">
                 @error('image') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
 
-                {{-- @if ($image)
+                @if ($image)
                     <div class="mt-2">
-                        <img src="{{ $image->temporaryUrl() }}" class="h-24 w-24 object-cover">
+                        <img src="{{ $image->temporaryUrl() }}" class="h-24 w-24 object-cover" id="imagePreview">
                     </div>
-                @endif --}}
-            </div>
-            <div class="mb-4">
-                <label for="preview" class="block text-sm font-medium text-gray-700">Image Preview</label>
-                <img id="imagePreview" class="h-24 w-24 object-cover">
+                @endif
             </div>
 
             <script>
