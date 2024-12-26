@@ -1,4 +1,4 @@
-<div>
+<div class="container mx-auto mt-5">
     <div class="grid grid-cols-1 gap-6 pb-10 mt-6 md:grid-cols-2 lg:grid-cols-3">
         <!-- New Orders Card -->
         <div class="p-6 bg-white rounded-lg shadow-md">

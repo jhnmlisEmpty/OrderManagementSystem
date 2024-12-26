@@ -1,5 +1,5 @@
 <!-- filepath: /C:/Users/Hi/Documents/School Files/OrderManagementSystem/resources/views/livewire/packaging/packaging-manager.blade.php -->
-<div>
+<div class="container mx-auto mt-5">
     <div>
         <div class="flex flex-column sm:flex-row flex-wrap space-y-2 sm:space-y-0 items-center justify-between pl-4">
             <div>
