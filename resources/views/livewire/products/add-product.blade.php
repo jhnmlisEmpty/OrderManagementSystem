@@ -28,12 +28,12 @@
                 </div>
             </div>
 
-            <div class="mb-4">
+            <div class="mb-4" >
                 <label for="image" class="block text-sm font-medium text-gray-700">Product Image</label>
                 <input type="file" id="image" wire:model="image" class="mt-1 block w-full">
                 @error('image') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
 
-                <div id="current-image-container" class="hidden mt-2">
+                <div id="current-image-container" class="hidden mt-2" wire.ignore>
                     <p class="text-sm text-gray-500" id="image-label">Selected Image:</p>
                     <img id="current-image" src="#" alt="Selected Image" class="w-20 h-20 mt-1 rounded-md">
                 </div>
