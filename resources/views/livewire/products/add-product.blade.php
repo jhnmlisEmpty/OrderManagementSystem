@@ -36,12 +36,11 @@
 
                 @if ($image)
                     <div class="mt-2">
-                        <p class="text-sm text-gray-500">Selected Image:</p>
-                        <img src="{{ $image->temporaryUrl() }}" alt="Selected Image" class="w-20 h-20 mt-1 rounded-md" wire:loading.remove wire:target="image" onerror="this.style.display='none'">
-                        <p wire:loading wire:target="image">Uploading...</p>
+                        <img src="{{ $image->temporaryUrl() }}" class="h-24 w-24 object-cover">
                     </div>
                 @endif
             </div>
+
             
 
             <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md">
