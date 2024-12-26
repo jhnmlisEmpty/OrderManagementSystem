@@ -34,12 +34,29 @@
                 <input type="file" id="image" wire:model="image" class="mt-1 block w-full">
                 @error('image') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
 
-                @if ($image)
+                {{-- @if ($image)
                     <div class="mt-2">
                         <img src="{{ $image->temporaryUrl() }}" class="h-24 w-24 object-cover">
                     </div>
-                @endif
+                @endif --}}
             </div>
+            <div class="mb-4">
+                <label for="preview" class="block text-sm font-medium text-gray-700">Image Preview</label>
+                <img id="imagePreview" class="h-24 w-24 object-cover">
+            </div>
+
+            <script>
+                document.getElementById('image').addEventListener('change', function(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            document.getElementById('imagePreview').src = e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            </script>
 
             
 
