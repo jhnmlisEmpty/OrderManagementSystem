@@ -31,6 +31,7 @@ class AddProduct extends Component
         $this->validate();
 
         $imagePath = $this->image->store('products', 'public');
+        Storage::disk('public')->setVisibility($imagePath, 'public');
 
         Product::create([
             'name' => $this->name,
