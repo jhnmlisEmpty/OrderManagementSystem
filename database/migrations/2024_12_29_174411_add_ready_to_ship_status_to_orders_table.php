@@ -11,8 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('orders', function (Blueprint $table) {
-            DB::statement("ALTER TABLE orders MODIFY COLUMN status ENUM('pending', 'on_prod', 'created', 'shipped', 'delivered', 'canceled', 'returned', 'reprocess', 'ready_to_ship') NOT NULL");
+        DB::table('users')
+        ->whereNotIn('role', ['admin', 'osr', 'affiliate', 'super_admin', 'production', 'logistics'])
+        ->orWhereNull('role')
+        ->update(['role' => 'affiliate']); // Default value
+
+        // Modify the column to ENUM
+        Schema::table('users', function (Blueprint $table) {
+            $table->enum('role', ['admin', 'osr', 'affiliate', 'super_admin', 'production', 'logistics'])
+                ->default('affiliate')
+                ->change();
         });
     }
 
@@ -21,8 +29,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('orders', function (Blueprint $table) {
-            DB::statement("ALTER TABLE orders MODIFY COLUMN status ENUM('pending', 'on_prod', 'created', 'shipped', 'delivered', 'canceled', 'returned', 'reprocess') NOT NULL");
+        // Rollback to a string type in case you need to revert
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('role')->default('affiliate')->change();
         });
     }
 };
