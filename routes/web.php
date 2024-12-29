@@ -7,20 +7,25 @@ use App\Livewire\Order\OrderView;
 use App\Livewire\Order\TableOrder;
 
 use App\Livewire\Order\CreateOrder;
+use App\Livewire\Order\ManageOrders;
+
 use App\Livewire\Products\AddProduct;
 
 use Illuminate\Support\Facades\Route;
-
 use App\Livewire\Employee\AddEmployee;
+use App\Livewire\Finance\FinanceTable;
+use App\Livewire\Employee\EditEmployee;
+use App\Livewire\Finance\FinanceStatus;
+
 use App\Livewire\Logistic\SetLogistics;
 use App\Livewire\Products\TableProduct;
 use App\Livewire\Customer\TableCustomer;
 
 use App\Livewire\Employee\TableEmployee;
+
 use App\Livewire\Products\UpdateProduct;
 use App\Livewire\Dashboard\ViewDashboard;
-
-use App\Livewire\Production\ManageOrders;
+use App\Livewire\Employee\AssignProducts;
 use App\Livewire\Packaging\PackagingManager;
 
 
@@ -41,6 +46,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/create-order', CreateOrder::class)->name('create.order');
     Route::get('/cart-order', Cart::class)->name('cart.order');
     Route::get('/view-order/{orderId}', OrderView::class)->name('view.order');
+    Route::get('/manage-orders', ManageOrders::class)->name('manage.orders');
 
     // Customer Route
     Route::get('/table-customer', TableCustomer::class)->name('table.customer');
@@ -48,14 +54,18 @@ Route::middleware(['auth'])->group(function () {
     // Employee Routes
     Route::get('/table-employee', TableEmployee::class)->name('table.employee');
     Route::get('/add-employee', AddEmployee::class)->name('add.employee');
-
+    Route::get('/assign-products/{user}', AssignProducts::class)->name('assign.products');
+    Route::get('/edit-employee/{user}', EditEmployee::class)->name('edit.employee');
     // Logistics Route
     Route::get('/set-logistics', SetLogistics::class)->name('set.logistics');
 
     // Packaging Route
     Route::get('/packaging', PackagingManager::class)->name('packaging.manager');
-    
-    Route::get('/manage-orders', ManageOrders::class)->name('manage.orders');
+
+    // Finance Route
+   Route::get('/finance', FinanceTable::class)->name('finance.table');
+   Route::get('/finance/status/{user}', FinanceStatus::class)->name('finance.status');
+
 });
 
 

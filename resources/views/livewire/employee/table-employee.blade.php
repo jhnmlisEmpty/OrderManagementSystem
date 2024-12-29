@@ -32,7 +32,7 @@
                 <div>
                     <a href="{{ route('add.employee') }}" 
                         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                        Add New Employee
+                        Add New User
                     </a>
                 </div>
             </div>
@@ -76,7 +76,12 @@
                             <td class="px-6 py-4">
                                 {{ ucfirst($user->role) }}
                             </td>
-                        
+                            <td class="px-6 py-4">
+                                @if($user->role === 'affiliate')
+                                    <a href="{{ route('assign.products', $user->id) }}" class="text-blue-500 underline">Assign Products</a>
+                                @endif
+                                <a href="{{ route('edit.employee', $user->id) }}" class="text-green-500 underline ml-2">Edit</a>
+                            </td>
                         </tr>
                     @endforeach
                 @endif

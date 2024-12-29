@@ -36,7 +36,17 @@
                 <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-6">
                     <div>
                          <dt class="text-sm font-medium text-gray-500">Tracking</dt>
-                         <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{$order->tracking ?? 'Waiting to set by logistician'}}</dd>
+                        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                            @if($order->tracking)
+                                <a href="https://www.trackingmore.com/track/en/{{ $order->tracking }}?express=jtexpress-ph" 
+                                   class="text-blue-500 underline" 
+                                   target="_blank">
+                                    {{ $order->tracking }}
+                                </a>
+                            @else
+                                Waiting to set by logistician
+                            @endif
+                        </dd>
                     </div>
                     <div>
                          <dt class="text-sm font-medium text-gray-500">Order Date</dt>
@@ -83,13 +93,26 @@
                         <dd class="mt-1 text-xl text-gray-900 sm:col-span-2 sm:mt-0">{{ $order->full_amount }}</dd>
                     </div>
 
+                    @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin' || auth()->user()->role === 'logistics')
+                        @if ($order->status == 'ready_to_ship')
+                            <div class="col-span-2">
+                                <div class="flex items-center space-x-2">
+                                    <input type="text" wire:model="tracking" class="block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="Enter tracking number">
+                                    <button wire:click="saveTracking" class="w-3/4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Ready to Ship</button>
+                                </div>
+                                @error('tracking') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                            </div>
+                        @endif        
+                    @endif
+                    
+
                     <div>
                         @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin' || auth()->user()->role === 'production')
                             @if($order->status == 'pending')
                             <div >
                                 <div>
-                                    <button wire:click="updateStatus('on_prod')" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                        Update Status to On Production
+                                    <button wire:click="acceptOrder"  class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                        Accept Order
                                     </button>
                                 </div>
                             </div>
@@ -99,7 +122,7 @@
                             <div >
                                 <div>
                                     <button wire:click="updateStatus('created')" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                        Update Status to Created
+                                        Order Created
                                     </button>
                                 </div>
                             </div>
@@ -109,67 +132,50 @@
                        
                         @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin' || auth()->user()->role === 'logistics')
                             @if($order->status == 'created')
-                            <div >
-                                <div>
-                                    <button wire:click="updateStatus('shipped')" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                        Update Status to Shipped
-                                    </button>
+                            <div class="col-span-">
+                                <div class="flex items-center space-x-4">
+                                    <button wire:click="updateStatus('ready_to_ship')" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                        Ready to Ship
+                                    </button>   
                                 </div>
                             </div>
                             @endif
-
+                        
                             @if($order->status == 'shipped')
-                            <div >
-                                <div>
-                                    <button wire:click="updateStatus('delivered')" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                        Update Status to Delivered
-                                    </button>
+                                <div class="flex space-x-4">
+                                    <div>
+                                        <button wire:click="updateStatus('delivered')" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                            Order Delivered
+                                        </button>
+                                    </div>
+                                    <div>
+                                        <button wire:click="updateStatus('canceled')" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                            Order Canceled
+                                        </button>
+                                    </div>
+                                    <div>
+                                        <button wire:click="updateStatus('returned')" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                            Order Returned
+                                        </button>
+                                    </div>
+                                    <div>
+                                        <button wire:click="updateStatus('reprocess')" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                            Order Reprocess
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                            @endif
-
-                            @if($order->status == 'delivered')
-                            <div >
-                                <div>
-                                    <button wire:click="updateStatus('canceled')" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                        Update Status to Canceled
-                                    </button>
-                                </div>
-                            </div>
-                            @endif
-
-                            @if($order->status == 'canceled')
-                            <div >
-                                <div>
-                                    <button wire:click="updateStatus('returned')" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                        Update Status to Returned
-                                    </button>
-                                </div>
-                            </div>
-                            @endif
-
-                            @if($order->status == 'returned')
-                            <div >
-                                <div>
-                                    <button wire:click="updateStatus('reprocess')" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                        Update Status to Reprocess
-                                    </button>
-                                </div>
-                            </div>
                             @endif
 
                             @if($order->status == 'reprocess')
-                            <div >
-                                <div>
-                                    <button wire:click="updateStatus('pending')" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                        Update Status to Pending
-                                    </button>
+                                <div class="flex space-x-4">
+                                    <div>
+                                        <button wire:click="updateStatus('pending')" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                            Order Pending
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
                             @endif
                         @endif
-
-                      
                     </div>
                 </div>   
             </dl>

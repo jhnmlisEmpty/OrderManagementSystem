@@ -53,25 +53,32 @@ class TableCustomer extends Component
         $this->alert('info', 'Customer deletion canceled.');
     }
 
+
+
     public function render()
     {
         $user = auth()->user();
 
         $customersQuery = Customer::query();
     
-        if ($user->role === 'user') {
+        if ($user->role === 'osr' || $user->role === 'affiliate') {
             $customersQuery->where('user_id', $user->id);
         }
     
         $customersQuery->where(function ($query) {
             $query->where('name', 'like', '%' . $this->search . '%')
-                  ->orWhere('contact_number', 'like', '%' . $this->search . '%')
-                  ->orWhereHas('user', function ($query) {
-                      $query->where('name', 'like', '%' . $this->search . '%');
-                  });
+                    ->orWhere('contact_number', 'like', '%' . $this->search . '%')
+                    ->orWhereHas('user', function ($query) {
+                        $query->where('name', 'like', '%' . $this->search . '%');
+                    })
+                    ->orWhereHas('orders', function ($query) {
+                        $query->where('note', 'like', '%' . $this->search . '%');
+                    });
         });
     
-        $customers = $customersQuery->paginate($this->perPage);
+        $customers = $customersQuery->with(['orders' => function ($query) {
+            $query->select('customer_id', 'full_amount', 'created_at', 'note');
+        }])->paginate($this->perPage);
     
         return view('livewire.customer.table-customer', [
             'customers' => $customers,

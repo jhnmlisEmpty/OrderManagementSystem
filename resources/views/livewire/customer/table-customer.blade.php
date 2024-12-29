@@ -47,16 +47,19 @@
                         Phone Number
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Landmark
+                        Address
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Street
+                        Order Note
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        City
+                        Company Name
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Province
+                        Amount Ordered
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Date Ordered
                     </th>
                 </tr>
             </thead>
@@ -65,7 +68,7 @@
                 <!-- Display No Customers Message if Empty -->
                 @if($customers->isEmpty())
                     <tr>
-                        <td colspan="6" class="p-4 text-center text-gray-500">
+                        <td colspan="11" class="p-4 text-center text-gray-500">
                             No customers found matching your search criteria.
                         </td>
                     </tr>
@@ -82,16 +85,26 @@
                                 {{ $customer->contact_number }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $customer->landmark }}
+                                {{ $customer->landmark }}, {{ $customer->street }}, {{ $customer->city }}, {{ $customer->province }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $customer->street }}
+                                @foreach($customer->orders as $order)
+                                    {{ $order->note }}<br>
+                                @endforeach
                             </td>
                             <td class="px-6 py-4">
-                                {{ $customer->city }}
+                                {{ $customer->company }}
+                            </td>
+
+                            <td class="px-6 py-4">
+                                @foreach($customer->orders as $order)
+                                    {{ $order->full_amount }}<br>
+                                @endforeach
                             </td>
                             <td class="px-6 py-4">
-                                {{ $customer->province }}
+                                @foreach($customer->orders as $order)
+                                    {{ $order->created_at->format('Y-m-d') }}<br>
+                                @endforeach
                             </td>
                         </tr>
                     @endforeach

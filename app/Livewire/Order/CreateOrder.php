@@ -2,10 +2,12 @@
 
 namespace App\Livewire\Order;
 
-use App\Helpers\CartManagement;
+use App\Models\User;
 use App\Models\Product;
-use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
+use App\Helpers\CartManagement;
+use Illuminate\Support\Facades\Auth;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class CreateOrder extends Component
 {
@@ -37,12 +39,25 @@ class CreateOrder extends Component
 
     public function render()
     {
-        $products = Product::where(function ($query) {
-            $query->where('name', 'like', '%' . $this->search . '%')
-                  ->orWhere('code', 'like', '%' . $this->search . '%');
-        })
-        ->where('stocks', '>', 0) 
-        ->paginate($this->perPage);
+        $user = Auth::user();
+
+        if ($user->role === 'affiliate') {
+            $assignedProductIds = $user->products->pluck('id')->toArray();
+            $products = Product::whereIn('id', $assignedProductIds)
+                ->where(function ($query) {
+                    $query->where('name', 'like', '%' . $this->search . '%')
+                          ->orWhere('code', 'like', '%' . $this->search . '%');
+                })
+                ->where('stocks', '>', 0) 
+                ->paginate($this->perPage);
+        } else {
+            $products = Product::where(function ($query) {
+                $query->where('name', 'like', '%' . $this->search . '%')
+                      ->orWhere('code', 'like', '%' . $this->search . '%');
+            })
+            ->where('stocks', '>', 0) 
+            ->paginate($this->perPage);
+        }
 
         return view('livewire.order.create-order', [
             'products' => $products,

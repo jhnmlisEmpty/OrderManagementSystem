@@ -25,12 +25,13 @@ class Cart extends Component
     public $street;
     public $city;
     public $province;
+    public $company;
 
     public $payment_method;
     public $total_amount;
     public $payment_status;
 
-    public $shipping_price;
+    public $shipping_fee;
     public $platform;
     public $tracking;
     public $status;
@@ -49,12 +50,15 @@ class Cart extends Component
         'landmark' => 'nullable|string|max:255',
         'city' => 'required|string|max:255',
         'province' => 'required|string|max:255',
+        'company' => 'nullable|string|max:255',
+        
 
         'payment_method' => 'required|string|max:255',
         'total_amount' => 'required|numeric|min:0',
         'payment_status' => 'required|image|max:1024',
 
         'platform' => 'required|string|max:255',
+        'shipping_fee' => 'nullable|numeric|min:0',
         'note' => 'nullable|string|max:1000',
 
         'cartItems.*.layout' => 'required|array',
@@ -174,7 +178,7 @@ class Cart extends Component
        
         DB::transaction(function () use ($totalFromItems) {
 
-            $full_amount = $totalFromItems - $this->total_amount;
+            $full_amount = $totalFromItems - $this->total_amount + $this->shipping_fee;
 
             $customer = Customer::create([
                 'user_id' => auth()->id(),
@@ -184,6 +188,7 @@ class Cart extends Component
                 'street' => $this->street,
                 'city' => $this->city,
                 'province' => $this->province,
+                'company' => $this->company,
             ]);
 
             if ($this->payment_status) {
@@ -203,6 +208,7 @@ class Cart extends Component
                 'payment_method_id' => $payment->id,
                 'platform' => $this->platform,
                 'note' => $this->note,
+                'shipping_price' => $this->shipping_fee,
                 'total_from_items' => $totalFromItems,
                 'full_amount' => $full_amount,
             ]);
@@ -232,22 +238,22 @@ class Cart extends Component
                     'layout' => json_encode($storedLayouts),
                 ]);
             
-                if ($product) {
-                    $product->stocks -= $quantity;
-                    $product->save();
-                }
+                // if ($product) {
+                //     $product->stocks -= $quantity;
+                //     $product->save();
+                // }
 
-                if ($packaging) {
-                    $packaging->quantity -= $quantity;
-                    $packaging->save();
-                }
+                // if ($packaging) {
+                //     $packaging->quantity -= $quantity;
+                //     $packaging->save();
+                // }
             }
 
         });
 
         $this->reset([
             'customer_name', 'contact_number', 'landmark', 'street', 'city', 'province',
-            'payment_method', 'total_amount', 'payment_status', 'shipping_price', 'platform',
+            'payment_method', 'total_amount', 'payment_status', 'shipping_fee', 'platform',
             'tracking', 'status', 'date_received', 'note', 'cartItems'
         ]);
 

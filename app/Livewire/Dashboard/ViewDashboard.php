@@ -2,9 +2,10 @@
 
 namespace App\Livewire\Dashboard;
 
-use Livewire\Component;
-
+use Carbon\Carbon;
 use App\Models\Order;
+use Livewire\Component;
+use App\Models\OrderItem;
 
 class ViewDashboard extends Component
 {
@@ -16,7 +17,7 @@ class ViewDashboard extends Component
 
         $ordersQuery = Order::query();
 
-        if ($user->role === 'user') {
+        if ($user->role === 'osr' || $user->role === 'affiliate') {
             $ordersQuery->where('user_id', $user->id);
         }
 
@@ -31,6 +32,32 @@ class ViewDashboard extends Component
             'reprocessOrders' => (clone $ordersQuery)->where('status', 'reprocess')->count(),
             'totalSales' => (clone $ordersQuery)->where('status', 'delivered')->sum('full_amount'),
         ];
+
+        $this->salesStats = [
+            'dailySales' => (clone $ordersQuery)->where('status', 'delivered')->whereDate('created_at', Carbon::today())->sum('full_amount'),
+            'weeklySales' => (clone $ordersQuery)->where('status', 'delivered')->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->sum('full_amount'),
+            'monthlySales' => (clone $ordersQuery)->where('status', 'delivered')->whereMonth('created_at', Carbon::now()->month)->sum('full_amount'),
+        ];
+
+        $orderItemsQuery = OrderItem::query();
+
+        if ($user->role === 'osr' || $user->role === 'affiliate') {
+            $orderItemsQuery->whereHas('order', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            });
+        }
+
+        $this->productStats = [
+            'dailyProductsOut' => (clone $orderItemsQuery)->whereHas('order', function ($query) {
+            $query->where('status', 'delivered');
+            })->whereDate('created_at', Carbon::today())->sum('quantity'),
+            'weeklyProductsOut' => (clone $orderItemsQuery)->whereHas('order', function ($query) {
+            $query->where('status', 'delivered');
+            })->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->sum('quantity'),
+            'monthlyProductsOut' => (clone $orderItemsQuery)->whereHas('order', function ($query) {
+            $query->where('status', 'delivered');
+            })->whereMonth('created_at', Carbon::now()->month)->sum('quantity'),
+        ];
     }
 
 
@@ -38,6 +65,8 @@ class ViewDashboard extends Component
     {
         return view('livewire.dashboard.view-dashboard', [
             'orderStats' => $this->orderStats,
+            'salesStats' => $this->salesStats,
+            'productStats' => $this->productStats,
         ]);
     }
 }

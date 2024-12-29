@@ -20,9 +20,10 @@ class AddEmployee extends Component
 
     public $roles = [
         'admin' => 'Admin',
-        'user' => 'User',
+        'osr' => 'OSR',
         'logistics' => 'Logistics',
         'production' => 'Production',
+        'affiliate' => 'Affiliate',
     ];
 
     public function store()

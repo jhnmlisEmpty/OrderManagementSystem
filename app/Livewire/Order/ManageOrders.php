@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Production;
+namespace App\Livewire\Order;
 
 use App\Models\Order;
 use Livewire\Component;
@@ -107,7 +107,7 @@ class ManageOrders extends Component
         $returnedQuery = Order::where('status', 'returned');
         $reprocessQuery = Order::where('status', 'reprocess');
     
-        if ($user->role === 'user') {
+        if ($user->role === 'osr' || $user->role === 'affiliate') {
             $pendingQuery->where('user_id', $user->id);
             $onProdQuery->where('user_id', $user->id);
             $createdQuery->where('user_id', $user->id);
@@ -141,13 +141,13 @@ class ManageOrders extends Component
                       });
             });
     
-        if ($user->role === 'user') {
+        if ($user->role === 'osr' || $user->role === 'affiliate') {
             $ordersQuery->where('user_id', $user->id);
         }
     
         $orders = $ordersQuery->paginate(10);
     
-        return view('livewire.production.manage-orders', [
+        return view('livewire.order.manage-orders', [
             'orders' => $orders,
         ]);
     }

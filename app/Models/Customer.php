@@ -19,6 +19,7 @@ class Customer extends Model
         'street',
         'city',
         'province',
+        'company',
     ];
 
     public function orders()
