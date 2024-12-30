@@ -9,7 +9,7 @@
         </div>
         <div class="px-4 py-5 sm:px-6">
             <p class="mt-1 max-w-2xl text-lg text-gray-500">Agent: {{ $user->name }}</p>
-            <p class="mt-1 max-w-2xl text-sm text-gray-500">Role: {{ $user->role }}</p>
+            <p class="uppercase mt-1 max-w-2xl text-sm text-gray-500">Role: {{ $user->role }}</p>
         </div>
     
         <div class="grid grid-cols-2 gap-4 mb-6 p-2">
@@ -34,19 +34,19 @@
                 <h3 class="text-sm font-medium">Shipped Orders</h3>
                 <p class="text-lg font-semibold">{{ $shippedCount }}</p>
                 <h3 class="text-sm font-medium">Total Amount</h3>
-                <p class="text-lg font-semibold">&#36;{{ number_format($shippedAmount, 2) }}</p>
+                <p class="text-lg font-semibold">₱{{ number_format($shippedAmount, 2) }}</p>
             </div>
     
             <div class="p-4 bg-gray-100 rounded-lg">
                 <h3 class="text-sm font-medium">Delivered Orders</h3>
                 <p class="text-lg font-semibold">{{ $deliveredCount }}</p>
                 <h3 class="text-sm font-medium">Total Amount</h3>
-                <p class="text-lg font-semibold">&#36;{{ number_format($deliveredAmount, 2) }}</p>
+                <p class="text-lg font-semibold">₱{{ number_format($deliveredAmount, 2) }}</p>
             </div>
     
             <div class="p-4 bg-gray-100 rounded-lg col-span-2">
                 <h3 class="text-sm font-medium">Total Incentive</h3>
-                <p class="text-lg font-semibold text-green-500">&#36;{{ number_format($totalIncentive, 2) }}</p>
+                <p class="text-lg font-semibold text-green-500">₱{{ number_format($totalIncentive, 2) }}</p>
             </div>
         </div>
     </div>

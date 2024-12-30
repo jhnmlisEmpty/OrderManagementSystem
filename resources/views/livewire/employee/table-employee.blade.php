@@ -3,7 +3,7 @@
         <div class="flex flex-column sm:flex-row flex-wrap space-y-2 sm:space-y-0 items-center justify-between pl-4">
             <div>
                 <h3 class="text-3xl font-bold text-gray-900 mt-4">
-                    Employees
+                    Users
                 </h3>
             </div>
         </div>
@@ -52,6 +52,9 @@
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Role
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Action
                     </th>
                 </tr>
             </thead>
