@@ -130,7 +130,7 @@
                         @endif
                         <!-- Update Status Button -->
                        
-                        @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin' || auth()->user()->role === 'logistics')
+                        @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin' || auth()->user()->role === 'logistics' || auth()->user()->role === 'osr' || auth()->user()->role === 'affiliate')
                             @if($order->status == 'created')
                             <div class="col-span-">
                                 <div class="flex items-center space-x-4">
@@ -140,7 +140,9 @@
                                 </div>
                             </div>
                             @endif
+                        @endif
                         
+                        @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin' || auth()->user()->role === 'logistics')
                             @if($order->status == 'shipped')
                                 <div class="flex space-x-4">
                                     <div>
