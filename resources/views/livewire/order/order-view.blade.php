@@ -1,7 +1,7 @@
 <div class="container mx-auto mt-5">
     <div class="bg-white shadow overflow-hidden sm:rounded-lg">
         <div class="px-4 py-5 sm:px-6">
-            <h3 class="text-lg font-medium leading-6 text-gray-900">Order Details (ID: {{ $order->id }})</h3>
+            <h3 class="text-2xl font-medium leading-6 text-gray-900">Order Details (ID: {{ $order->id }})</h3>
             <p class="mt-1 max-w-2xl text-sm text-gray-500">Agent: {{ $order->user->name }}</p>
         </div>
         <div class="border-t border-gray-200">

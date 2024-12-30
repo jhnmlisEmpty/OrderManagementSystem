@@ -55,7 +55,7 @@ class Cart extends Component
 
         'payment_method' => 'required|string|max:255',
         'total_amount' => 'required|numeric|min:0',
-        'payment_status' => 'required|image|max:1024',
+        'payment_status' => 'nullable|image|max:1024|required_if:payment_method,Bank,Gcash',
 
         'platform' => 'required|string|max:255',
         'shipping_fee' => 'nullable|numeric|min:0',
