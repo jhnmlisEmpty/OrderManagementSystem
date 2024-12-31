@@ -85,6 +85,18 @@
                             {{ $order->shipping_price ?? 'Waiting to set by logistician' }}
                         </dd>
                     </div>
+
+
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Payment Proof</dt>
+                        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                            @if ($order->paymentMethod->image)
+                                <img src="{{ asset('storage/' . $order->paymentMethod->image) }}" alt="Payment Proof" class="w-20 h-20 rounded-md shadow-md">
+                            @else
+                                <span class="text-gray-500">No payment proof uploaded.</span>
+                            @endif
+                        </dd>
+                    </div>
                 </div>
                 <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-6">
                     <!-- Full Amount -->
@@ -98,7 +110,7 @@
                             <div class="col-span-2">
                                 <div class="flex items-center space-x-2">
                                     <input type="text" wire:model="tracking" class="block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="Enter tracking number">
-                                    <button wire:click="saveTracking" class="w-3/4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Ready to Ship</button>
+                                    <button wire:click="saveTracking" class="w-3/4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Ship Order</button>
                                 </div>
                                 @error('tracking') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                             </div>

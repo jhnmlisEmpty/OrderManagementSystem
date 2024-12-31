@@ -65,6 +65,11 @@
             <p class="text-3xl font-bold text-black">{{ $orderStats['createdOrders'] }}</p>
         </div>
 
+        <div class="p-6 bg-white rounded-lg shadow-md">
+            <h3 class="mb-2 text-lg text-gray-500">Ready to Ship Orders</h3>
+            <p class="text-3xl font-bold text-black">{{ $orderStats['readytoshipOrders'] }}</p>
+        </div>
+
         <!-- Shipped Orders Card -->
         <div class="p-6 bg-white rounded-lg shadow-md">
             <h3 class="mb-2 text-lg text-gray-500">Shipped</h3>

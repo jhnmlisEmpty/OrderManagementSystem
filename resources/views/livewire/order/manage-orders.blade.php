@@ -58,6 +58,11 @@
             </a>
         </li>
         <li class="mr-1">
+            <a wire:click.prevent="switchTab('readt_to_ship')" class="cursor-pointer bg-white inline-block py-2 px-4 {{ $currentTab === 'created' ? 'text-blue-700 border-l border-t border-r rounded-t' : 'text-blue-500 hover:text-blue-800' }} font-semibold">
+                Ready to Ship ({{ $readytoshipCount }})
+            </a>
+        </li>
+        <li class="mr-1">
             <a wire:click.prevent="switchTab('shipped')" class="cursor-pointer bg-white inline-block py-2 px-4 {{ $currentTab === 'shipped' ? 'text-blue-700 border-l border-t border-r rounded-t' : 'text-blue-500 hover:text-blue-800' }} font-semibold">
                 Shipped ({{ $shippedCount }})
             </a>
@@ -165,20 +170,20 @@
                                 {{ $order->paymentMethod->method }}
                             </td>
                             <td class="px-6 py-4">
-                                ${{ number_format($order->total_from_items, 2) }}
+                                ₱{{ number_format($order->total_from_items, 2) }}
                             </td>
                             <td class="px-6 py-4">
-                                ${{ number_format($order->paymentMethod->amount, 2) }}
+                                ₱{{ number_format($order->paymentMethod->amount, 2) }}
                             </td>
                             <td class="px-6 py-4">
                                 @if($order->shipping_price)
-                                    ${{ number_format($order->shipping_price, 2) }}
+                                    ₱{{ number_format($order->shipping_price, 2) }}
                                 @else
                                     Not set
                                 @endif
                             </td>
                             <td class="px-6 py-4">
-                                ${{ number_format($order->full_amount, 2) }}
+                                ₱{{ number_format($order->full_amount, 2) }}
                             </td>
                             <td class="px-6 py-4">
                                 {{ $order->status }}

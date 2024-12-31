@@ -18,6 +18,7 @@ class ManageOrders extends Component
     public $pendingCount;
     public $onProdCount;
     public $createdCount;
+    public $readytoshipCount;
     public $shippedCount;
     public $deliveredCount;
     public $canceledCount;
@@ -101,6 +102,7 @@ class ManageOrders extends Component
         $pendingQuery = Order::where('status', 'pending');
         $onProdQuery = Order::where('status', 'on_prod');
         $createdQuery = Order::where('status', 'created');
+        $readytoshipQuery = Order::where('status', 'ready_to_ship');
         $shippedQuery = Order::where('status', 'shipped');
         $deliveredQuery = Order::where('status', 'delivered');
         $canceledQuery = Order::where('status', 'canceled');
@@ -111,6 +113,7 @@ class ManageOrders extends Component
             $pendingQuery->where('user_id', $user->id);
             $onProdQuery->where('user_id', $user->id);
             $createdQuery->where('user_id', $user->id);
+            $readytoshipQuery->where('user_id', $user->id);
             $shippedQuery->where('user_id', $user->id);
             $deliveredQuery->where('user_id', $user->id);
             $canceledQuery->where('user_id', $user->id);
@@ -121,6 +124,7 @@ class ManageOrders extends Component
         $this->pendingCount = $pendingQuery->count();
         $this->onProdCount = $onProdQuery->count();
         $this->createdCount = $createdQuery->count();
+        $this->readytoshipCount = $readytoshipQuery->count();
         $this->shippedCount = $shippedQuery->count();
         $this->deliveredCount = $deliveredQuery->count();
         $this->canceledCount = $canceledQuery->count();

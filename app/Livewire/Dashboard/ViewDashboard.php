@@ -25,6 +25,7 @@ class ViewDashboard extends Component
             'newOrders' => (clone $ordersQuery)->where('status', 'pending')->count(),
             'onProductionOrders' => (clone $ordersQuery)->where('status', 'on_prod')->count(),
             'createdOrders' => (clone $ordersQuery)->where('status', 'created')->count(),
+            'readytoshipOrders' => (clone $ordersQuery)->where('status', 'ready_to_ship')->count(),
             'shippedOrders' => (clone $ordersQuery)->where('status', 'shipped')->count(),
             'deliveredOrders' => (clone $ordersQuery)->where('status', 'delivered')->count(),
             'cancelledOrders' => (clone $ordersQuery)->where('status', 'canceled')->count(),

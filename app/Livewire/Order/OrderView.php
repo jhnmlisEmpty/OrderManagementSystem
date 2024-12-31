@@ -23,9 +23,19 @@ class OrderView extends Component
     {
         $order = $this->order;
         foreach ($order->orderItems as $orderItem) {
+
             $product = $orderItem->product;
             if ($product->stocks < $orderItem->quantity) {
                 $this->alert('error', 'Not enough stock for product: '.$product->name, [
+                    'position' => 'top-right',
+                    'timer' => 3000,
+                ]);
+                return;
+            }
+
+            $packaging = $orderItem->packaging;
+            if ($packaging->quantity < $orderItem->quantity) {
+                $this->alert('error', 'Not enough stock for product: '.$packaging->name, [
                     'position' => 'top-right',
                     'timer' => 3000,
                 ]);
@@ -37,6 +47,10 @@ class OrderView extends Component
             $product = $orderItem->product;
             $product->stocks -= $orderItem->quantity;
             $product->save();
+
+            $packaging = $orderItem->packaging;
+            $packaging->quantity -= $orderItem->quantity;
+            $packaging->save();
         }
 
         $order->status = 'on_prod';
