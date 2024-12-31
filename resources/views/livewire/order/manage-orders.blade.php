@@ -58,7 +58,7 @@
             </a>
         </li>
         <li class="mr-1">
-            <a wire:click.prevent="switchTab('readt_to_ship')" class="cursor-pointer bg-white inline-block py-2 px-4 {{ $currentTab === 'created' ? 'text-blue-700 border-l border-t border-r rounded-t' : 'text-blue-500 hover:text-blue-800' }} font-semibold">
+            <a wire:click.prevent="switchTab('ready_to_ship')" class="cursor-pointer bg-white inline-block py-2 px-4 {{ $currentTab === 'ready_to_ship' ? 'text-blue-700 border-l border-t border-r rounded-t' : 'text-blue-500 hover:text-blue-800' }} font-semibold">
                 Ready to Ship ({{ $readytoshipCount }})
             </a>
         </li>
