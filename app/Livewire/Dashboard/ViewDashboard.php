@@ -36,9 +36,9 @@ class ViewDashboard extends Component
         ];
 
         $this->salesStats = [
-            'dailySales' => (clone $ordersQuery)->where('status', 'delivered')->whereDate('created_at', Carbon::today())->sum('full_amount'),
-            'weeklySales' => (clone $ordersQuery)->where('status', 'delivered')->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->sum('full_amount'),
-            'monthlySales' => (clone $ordersQuery)->where('status', 'delivered')->whereMonth('created_at', Carbon::now()->month)->sum('full_amount'),
+            'dailySales' => (clone $ordersQuery)->where('status', 'delivered')->whereDate('date_received', Carbon::today())->sum('full_amount'),
+            'weeklySales' => (clone $ordersQuery)->where('status', 'delivered')->whereBetween('date_received', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->sum('full_amount'),
+            'monthlySales' => (clone $ordersQuery)->where('status', 'delivered')->whereMonth('date_received', Carbon::now()->month)->sum('full_amount'),
         ];
 
         $orderItemsQuery = OrderItem::query();
@@ -51,30 +51,40 @@ class ViewDashboard extends Component
 
         $this->productStats = [
             'dailyProductsOut' => (clone $orderItemsQuery)->whereHas('order', function ($query) {
-            $query->where('status', 'delivered');
-            })->whereDate('created_at', Carbon::today())->sum('quantity'),
+                $query->whereIn('status', ['shipped', 'delivered']) // Check for either shipped or delivered status
+                      ->whereDate('date_received', Carbon::today()); // Apply date_received filter on orders table
+            })->sum('quantity'),
             'weeklyProductsOut' => (clone $orderItemsQuery)->whereHas('order', function ($query) {
-            $query->where('status', 'delivered');
-            })->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->sum('quantity'),
+                $query->whereIn('status', ['shipped', 'delivered']) // Check for either shipped or delivered status
+                      ->whereBetween('date_received', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]); // Apply date_received filter on orders table
+            })->sum('quantity'),
             'monthlyProductsOut' => (clone $orderItemsQuery)->whereHas('order', function ($query) {
-            $query->where('status', 'delivered');
-            })->whereMonth('created_at', Carbon::now()->month)->sum('quantity'),
-        ];
+                $query->whereIn('status', ['shipped', 'delivered']) // Check for either shipped or delivered status
+                      ->whereMonth('date_received', Carbon::now()->month); // Apply date_received filter on orders table
+            })->sum('quantity'),
+        ];        
+        
 
         $this->rankedUsers = User::whereIn('role', ['osr', 'affiliate']) // Filter by role
             ->with(['orders' => function ($query) {
-                $query->where('status', 'delivered') // Only delivered orders
-                    ->whereMonth('created_at', Carbon::now()->month); // Orders from the current month
+                $query->whereIn('status', ['shipped', 'delivered']) // Only shipped and delivered orders
+                    ->whereMonth('date_received', Carbon::now()->month); // Orders from the current month
             }])
-            ->withCount(['orders as total_quantity' => function ($query) {
-                $query->where('status', 'delivered') // Filter delivered orders
-                    ->whereMonth('created_at', Carbon::now()->month) // Filter by current month
-                    ->withSum('orderItems', 'quantity'); // Sum order items quantity
-            }])
-            ->orderBy('total_quantity', 'desc') // Rank by total quantity in descending order
+            ->withCount([
+                'orders as total_quantity' => function ($query) {
+                    $query->where('status', 'delivered') // Filter delivered orders
+                        ->whereMonth('date_received', Carbon::now()->month) // Filter by current month
+                        ->withSum('orderItems', 'quantity'); // Sum order items quantity for delivered orders
+                },
+                'orders as shipped_quantity' => function ($query) {
+                    $query->where('status', 'shipped') // Filter shipped orders
+                        ->whereMonth('date_received', Carbon::now()->month) // Filter by current month
+                        ->withSum('orderItems', 'quantity'); // Sum order items quantity for shipped orders
+                }
+            ])
+            ->orderByDesc('total_quantity') // Rank by total quantity of delivered orders in descending order
             ->get();
     }
-
 
     public function render()
     {

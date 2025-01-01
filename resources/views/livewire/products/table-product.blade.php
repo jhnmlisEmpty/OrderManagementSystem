@@ -73,8 +73,8 @@
                     @else
                         @foreach ($products as $product)
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-center">
-                                <td class="w-4 p-4">
-                                    <img src="{{ asset('storage/' . $product->image) }}" class="h-12 w-12 object-cover justify-center">
+                                <td class="w-44 p-4">
+                                    <img src="{{ asset('storage/' . $product->image) }}" class="h-32 w-32 rounded-lg object-cover justify-center">
                                 </td>
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ $product->name }}
@@ -104,12 +104,6 @@
                 </tbody>
             </table>
         </div>
-
-        <!-- Pagination Links -->
-        <div class="mt-4 px-4">
-            {{ $products->links() }} 
-        </div>
-
 
         <div>
             <!-- Modal Background -->

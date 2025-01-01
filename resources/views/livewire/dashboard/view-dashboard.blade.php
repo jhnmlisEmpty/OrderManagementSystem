@@ -23,8 +23,8 @@
                             Name
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Role
-                        </th>
+                            Watches Out
+                        </th>     
                         <th scope="col" class="px-6 py-3">
                             Watches Sold
                         </th>              
@@ -40,8 +40,8 @@
                             <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">
                                 {{ $user->name }}
                             </td>
-                            <td class="px-6 py-4 uppercase">
-                                {{ ucfirst($user->role) }}
+                            <td class="px-6 py-4">
+                                {{ $user->shipped_quantity }}
                             </td>
                             <td class="px-6 py-4">
                                 {{ $user->total_quantity }}

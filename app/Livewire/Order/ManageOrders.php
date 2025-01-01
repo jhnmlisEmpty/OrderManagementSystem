@@ -132,7 +132,7 @@ class ManageOrders extends Component
         $this->reprocessCount = $reprocessQuery->count();
     }
 
-       public function render()
+    public function render()
     {
         $user = auth()->user();
         

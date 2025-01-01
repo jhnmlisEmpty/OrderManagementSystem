@@ -110,13 +110,16 @@
                         Platform
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Payment
+                        Payment Method
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Order Items
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Order Total
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Payment
+                        Payment 
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Shipping Price
@@ -169,6 +172,18 @@
                             <td class="w-4 p-4">
                                 {{ $order->paymentMethod->method }}
                             </td>
+                            <td class="px-6 py-4 w-24">
+                                <table class="w-full">
+                                    @foreach($order->orderItems as $item)
+                                        <tr>
+                                            <td class="px-4 py-2">{{ $item->product->name }}</td>
+                                            <td class="px-4 py-2">₱{{ number_format($item->price, 2) }}</td>
+                                            <td class="px-4 py-2">{{ $item->quantity }}</td>
+                                            <td class="px-4 py-2">{{ $item->total_amount }}</td>
+                                        </tr>
+                                    @endforeach
+                                </table>
+                            </td>
                             <td class="px-6 py-4">
                                 ₱{{ number_format($order->total_from_items, 2) }}
                             </td>
@@ -195,7 +210,7 @@
                                     </button>
                                 @endif
                                 
-                                <a href="{{ route('view.order', ['orderId' => $order->id]) }}" target="_blank" class="font-medium text-blue-600 dark:text-red-500 hover:underline">
+                                <a href="{{ route('view.order', ['orderId' => $order->id]) }}" target="_blank" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                                     View
                                 </a>
                             </td>

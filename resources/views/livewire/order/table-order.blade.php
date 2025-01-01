@@ -145,7 +145,7 @@
                                 <button wire:click="deleteOrder({{ $order->id }})" class="font-medium text-red-600 dark:text-red-500 hover:underline">
                                     Delete
                                 </button>
-                                <a href="{{ route('view.order', ['orderId' => $order->id]) }}" class="font-medium text-blue-600 dark:text-red-500 hover:underline">
+                                <a href="{{ route('view.order', ['orderId' => $order->id]) }}" class="font-medium text-blue-600 dark:text-blue-600 hover:underline">
                                     View
                                 </a>
                             </td>

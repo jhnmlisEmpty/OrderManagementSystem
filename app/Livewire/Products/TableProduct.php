@@ -4,16 +4,12 @@ namespace App\Livewire\Products;
 
 use App\Models\Product;
 use Livewire\Component;
-use Livewire\WithPagination;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class TableProduct extends Component
 {
-    use WithPagination;
     use LivewireAlert;
     
-
-    public $perPage = 10;  
     public $search = '';  
     public $isModalOpen = false;
     public $product;
@@ -80,7 +76,7 @@ class TableProduct extends Component
                   ->orWhere('code', 'like', '%' . $this->search . '%');
         })
         ->orderBy('stocks','asc')
-        ->paginate($this->perPage);
+        ->get();
 
         return view('livewire.products.table-product', [
             'products' => $products,

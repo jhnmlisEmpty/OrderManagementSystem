@@ -25,6 +25,9 @@ class Order extends Model
         'note',
         'total_from_items',
         'full_amount',
+        'order_reprocess_date',
+        'order_ship_date',
+        'order_returned_date',
     ];
 
     public function user()

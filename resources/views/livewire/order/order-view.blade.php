@@ -4,7 +4,7 @@
             <h3 class="text-2xl font-medium leading-6 text-gray-900">Order Details (ID: {{ $order->id }})</h3>
             <p class="mt-1 max-w-2xl text-sm text-gray-500">Agent: {{ $order->user->name }}</p>
         </div>
-        <div class="border-t border-gray-200">
+        <div class="overflow-y-auto border-t border-gray-200">
             <dl>
                 <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-6">
                    <div>
@@ -55,11 +55,12 @@
                     <div>
                         <dt class="text-sm font-medium text-gray-500">Note</dt>
                         <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ $order->note }}</dd>
-                   </div>
-                   <div>
-                        <dt class="text-sm font-medium text-gray-500">Status</dt>
-                        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{$order->status}}</dd>
-                   </div>
+                    </div>
+                    <div>
+                            <dt class="text-sm font-medium text-gray-500">Status</dt>
+                            <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{$order->status}}</dd>
+                    </div>
+                   
                 </div>
                 <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-6">
                     <div>
@@ -86,7 +87,6 @@
                         </dd>
                     </div>
 
-
                     <div>
                         <dt class="text-sm font-medium text-gray-500">Payment Proof</dt>
                         <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
@@ -97,7 +97,43 @@
                             @endif
                         </dd>
                     </div>
+
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Shipped Date</dt>
+                        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                            {{ $order->order_ship_date ?? 'Waiting to ship' }}
+                        </dd>
+                    </div>
+
+                    <!-- Delivered Date -->
+                    @if(in_array($order->status, ['delivered', 'reprocess', 'returned']))
+                        <div>
+                            <dt class="text-sm font-medium text-gray-500">
+                                @if($order->status === 'delivered')
+                                    Delivered Date
+                                @elseif($order->status === 'reprocess')
+                                    Reprocessed Date
+                                @elseif($order->status === 'returned')
+                                    Returned Date
+                                @else
+                                    N/A
+                                @endif
+                            </dt>
+                            <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                                @if($order->status === 'delivered')
+                                    {{ $order->date_received ?? 'Not yet delivered' }}
+                                @elseif($order->status === 'reprocess')
+                                    {{ $order->order_reprocess_date ?? 'Not yet reprocessed' }}
+                                @elseif($order->status === 'returned')
+                                    {{ $order->order_returned_date ?? 'Not yet returned' }}
+                                @else
+                                    N/A
+                                @endif
+                            </dd>
+                        </div>
+                    @endif
                 </div>
+
                 <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-6">
                     <!-- Full Amount -->
                     <div>
@@ -105,31 +141,18 @@
                         <dd class="mt-1 text-xl text-gray-900 sm:col-span-2 sm:mt-0">{{ $order->full_amount }}</dd>
                     </div>
 
-                    @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin' || auth()->user()->role === 'logistics')
-                        @if ($order->status == 'ready_to_ship')
-                            <div class="col-span-2">
-                                <div class="flex items-center space-x-2">
-                                    <input type="text" wire:model="tracking" class="block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="Enter tracking number">
-                                    <button wire:click="saveTracking" class="w-3/4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Ship Order</button>
-                                </div>
-                                @error('tracking') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                            </div>
-                        @endif        
-                    @endif
-                    
-
-                    <div>
+                    <div class="flex space-x-4 col-span-2">
+                     
                         @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin' || auth()->user()->role === 'production')
                             @if($order->status == 'pending')
                             <div >
                                 <div>
-                                    <button wire:click="acceptOrder"  class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                    <button wire:click="updateStatus('on_prod')"  class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                                         Accept Order
                                     </button>
                                 </div>
                             </div>
                             @endif
-
                             @if($order->status == 'on_prod')
                             <div >
                                 <div>
@@ -139,10 +162,15 @@
                                 </div>
                             </div>
                             @endif
-                        @endif
-                        <!-- Update Status Button -->
-                       
+                        @endif                   
                         @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin' || auth()->user()->role === 'logistics' || auth()->user()->role === 'osr' || auth()->user()->role === 'affiliate')
+                            @if($order->status == 'pending')
+                                <div>
+                                    <button wire:click="updateStatus('canceled')" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                        Cancel Order
+                                    </button>
+                                </div>
+                            @endif
                             @if($order->status == 'created')
                             <div class="col-span-">
                                 <div class="flex items-center space-x-4">
@@ -153,33 +181,39 @@
                             </div>
                             @endif
                         @endif
-                        
                         @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin' || auth()->user()->role === 'logistics')
+                            @if ($order->status == 'ready_to_ship')
+                                <div class="col-span-2">
+                                    <div class="flex items-center space-x-2">
+                                        <input type="text" wire:model="tracking" class="block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="Enter tracking number">
+                                        <button wire:click="updateStatus('shipped')" class="w-3/4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Ship Order</button>
+                                    </div>
+                                    @error('tracking') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                                </div>
+                            @endif
                             @if($order->status == 'shipped')
                                 <div class="flex space-x-4">
                                     <div>
-                                        <button wire:click="updateStatus('delivered')" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                            Order Delivered
-                                        </button>
+                                        <input type="date" id="statusDate" wire:model="statusDate" class=" block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                        @error('statusDate') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                                     </div>
                                     <div>
-                                        <button wire:click="updateStatus('canceled')" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                            Order Canceled
+                                        <button wire:click="updateStatus('delivered')" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                            Delivered
                                         </button>
                                     </div>
                                     <div>
                                         <button wire:click="updateStatus('returned')" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                            Order Returned
+                                            Returned
                                         </button>
                                     </div>
                                     <div>
                                         <button wire:click="updateStatus('reprocess')" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                            Order Reprocess
+                                            Reprocess
                                         </button>
                                     </div>
                                 </div>
                             @endif
-
                             @if($order->status == 'reprocess')
                                 <div class="flex space-x-4">
                                     <div>
@@ -222,7 +256,7 @@
                                     <div class="flex flex-wrap gap-2 justify-center"> <!-- Added flex-wrap and gap -->
                                         @foreach(json_decode($item->layout) as $layout)
                                             <div class="mb-2">
-                                                <img src="{{ Storage::url($layout) }}" alt="Order Item Layout" class="w-24 h-24 object-cover rounded">
+                                                <img src="{{ Storage::url($layout) }}" alt="Order Item Layout" class="w-12 h-12 object-cover rounded">
                                             </div>
                                         @endforeach
                                     </div>

@@ -31,14 +31,44 @@ class FinanceStatus extends Component
         $this->calculate();
     }
 
+    // public function calculate()
+    // {
+    //     $orders = Order::where('user_id', $this->user->id)
+    //         ->whereBetween('created_at', [$this->startDate, $this->endDate])
+    //         ->get();
+
+    //     $shippedOrders = $orders->where('status', 'shipped');
+    //     $deliveredOrders = $orders->where('status', 'delivered');
+
+    //     $this->shippedCount = (float) $shippedOrders->sum(function ($order) {
+    //         return $order->orderItems->sum('quantity');
+    //     });
+    //     $this->shippedAmount = (float) $shippedOrders->sum(function ($order) {
+    //         return $order->orderItems->sum('total_amount');
+    //     });
+
+    //     $this->deliveredCount = (float) $deliveredOrders->sum(function ($order) {
+    //         return $order->orderItems->sum('quantity');
+    //     });
+    //     $this->deliveredAmount = (float) $deliveredOrders->sum(function ($order) {
+    //         return $order->orderItems->sum('total_amount');
+    //     });
+
+    //     $this->totalIncentive = $this->deliveredAmount * ((float) $this->incentivePercentage / 100);
+    //     $this->deliveredOrders = $deliveredOrders;
+    // }
+
     public function calculate()
     {
-        $orders = Order::where('user_id', $this->user->id)
-            ->whereBetween('created_at', [$this->startDate, $this->endDate])
+        $shippedOrders = Order::where('user_id', $this->user->id)
+            ->whereNotNull('order_ship_date') 
+            ->whereBetween('order_ship_date', [$this->startDate, $this->endDate])
             ->get();
 
-        $shippedOrders = $orders->where('status', 'shipped');
-        $deliveredOrders = $orders->where('status', 'delivered');
+        $deliveredOrders = Order::where('user_id', $this->user->id)
+            ->whereNotNull('date_received') 
+            ->whereBetween('date_received', [$this->startDate, $this->endDate])
+            ->get();
 
         $this->shippedCount = (float) $shippedOrders->sum(function ($order) {
             return $order->orderItems->sum('quantity');
@@ -55,6 +85,7 @@ class FinanceStatus extends Component
         });
 
         $this->totalIncentive = $this->deliveredAmount * ((float) $this->incentivePercentage / 100);
+
         $this->deliveredOrders = $deliveredOrders;
     }
 
@@ -69,7 +100,8 @@ class FinanceStatus extends Component
     {
         $deliveredOrders = Order::where('user_id', $this->user->id)
         ->where('status', 'delivered')
-        ->whereBetween('created_at', [$this->startDate, $this->endDate])
+        ->whereNotNull('date_received')
+        ->whereBetween('date_received', [$this->startDate, $this->endDate])
         ->paginate(10); 
 
         return view('livewire.finance.finance-status',[
