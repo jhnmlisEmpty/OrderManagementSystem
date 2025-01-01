@@ -215,8 +215,8 @@
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-center">
                             <td class="px-6 py-4">{{ $item->product->name }}</td>
                             <td class="px-6 py-4">{{ $item->quantity }}</td>
-                            <td class="px-6 py-4">${{ number_format($item->price, 2) }}</td>
-                            <td class="px-6 py-4">${{ number_format($item->total_amount, 2) }}</td>
+                            <td class="px-6 py-4">₱{{ number_format($item->price, 2) }}</td>
+                            <td class="px-6 py-4">₱{{ number_format($item->total_amount, 2) }}</td>
                             <td class="px-6 py-4">
                                 @if($item->layout)
                                     <div class="flex flex-wrap gap-2 justify-center"> <!-- Added flex-wrap and gap -->
