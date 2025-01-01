@@ -6,53 +6,52 @@
             </h3>
         </div>
     </div>
-
-    <div class="mt-8">
-        <h2 class="text-xl font-bold text-black mb-4">Top Rank Agent</h2>
-    </div>
-
-    <div class=" shadow-lg mt-4 rounded-lg overflow-y-auto overflow-x-auto">
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 sticky top-0 z-10">
-                <tr>
-                    <th scope="col" class="px-6 py-3">
-                        Rank
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Name
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Role
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Watches Sold
-                    </th>              
-                </tr>
-            </thead>
-
-            <tbody>
-                @foreach ($rankedUsers as $index => $user)
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-center">
-                        <td class="px-6 py-4">
-                            {{ $index + 1 }}
-                        </td>
-                        <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">
-                            {{ $user->name }}
-                        </td>
-                        <td class="px-6 py-4 uppercase">
-                            {{ ucfirst($user->role) }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $user->total_quantity }}
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
     
-
     @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin' || auth()->user()->role === 'affiliate' || auth()->user()->role === 'osr')
+        <div class="mt-8">
+            <h2 class="text-xl font-bold text-black mb-4">Top Rank Agent</h2>
+        </div>
+
+        <div class=" shadow-lg mt-4 rounded-lg overflow-y-auto overflow-x-auto">
+            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 sticky top-0 z-10">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Rank
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Name
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Role
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Watches Sold
+                        </th>              
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach ($rankedUsers as $index => $user)
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-center">
+                            <td class="px-6 py-4">
+                                {{ $index + 1 }}
+                            </td>
+                            <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">
+                                {{ $user->name }}
+                            </td>
+                            <td class="px-6 py-4 uppercase">
+                                {{ ucfirst($user->role) }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $user->total_quantity }}
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    
         <div class="mt-8">
             <h2 class="text-xl font-bold text-black mb-4">Sales Overview</h2>
         </div>
