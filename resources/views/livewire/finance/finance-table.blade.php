@@ -32,7 +32,7 @@
     </div>
 
     <div class="mt-8 shadow-md p-2 m-2 rounded-lg overflow-y-auto">
-        <div class="mt-8">
+        <div class="mt-2>
             <h2 class="text-xl font-bold text-black mb-4">OSR Users</h2>
         </div>
         @if ($osrUsers->isEmpty())
@@ -71,7 +71,7 @@
     
     <!-- Affiliate Users Section -->
     <div class="mt-8 shadow-md p-2 m-2 rounded-lg overflow-y-auto">
-        <div class="mt-8">
+        <div class="mt-2">
             <h2 class="text-xl font-bold text-black mb-4">Affiliate Users</h2>
         </div>
         @if ($affiliateUsers->isEmpty())
@@ -110,7 +110,7 @@
     
     <!-- Other Users Section -->
     <div class="mt-8 shadow-md p-2 m-2 rounded-lg overflow-y-auto">
-        <div class="mt-8">
+        <div class="mt-2">
             <h2 class="text-xl font-bold text-black mb-4">Other Users</h2>
         </div>
         @if ($otherUsers->isEmpty())
