@@ -8,7 +8,7 @@
     </div>
 
     <div class="mt-8">
-        <h2 class="text-xl font-bold text-black mb-4">Top Rank Agent </h2>
+        <h2 class="text-xl font-bold text-black mb-4">Top Rank Agent (Monthly Basis)</h2>
     </div>
 
     <div class=" shadow-lg mt-4 rounded-lg overflow-y-auto overflow-x-auto">
