@@ -61,13 +61,15 @@ class FinanceStatus extends Component
     public function calculate()
     {
         $shippedOrders = Order::where('user_id', $this->user->id)
-            ->whereNotNull('order_ship_date') 
+            ->whereNotNull('order_ship_date')
             ->whereBetween('order_ship_date', [$this->startDate, $this->endDate])
+            ->where('order_status', 'shipped') // Filter by shipped status
             ->get();
 
         $deliveredOrders = Order::where('user_id', $this->user->id)
-            ->whereNotNull('date_received') 
+            ->whereNotNull('date_received')
             ->whereBetween('date_received', [$this->startDate, $this->endDate])
+            ->where('order_status', 'delivered') // Filter by delivered status
             ->get();
 
         $this->shippedCount = (float) $shippedOrders->sum(function ($order) {
