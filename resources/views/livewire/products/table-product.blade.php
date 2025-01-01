@@ -3,7 +3,7 @@
         <div class="flex flex-column sm:flex-row flex-wrap space-y-2 sm:space-y-0 items-center justify-between pl-4">
             <div>
                 <h3 class="text-3xl font-bold text-gray-900 mt-4">
-                    Products
+                    Inventory
                 </h3>
             </div>
         </div>
@@ -86,15 +86,17 @@
                                     {{ $product->stocks }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    <a href="{{ route('update.product', ['id' => $product->id]) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                                        Edit
-                                    </a> | 
+                                    @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin' || auth()->user()->role === 'production')
+                                        <a href="{{ route('update.product', ['id' => $product->id]) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                            Edit
+                                        </a> |
+                                        <button wire:click="deleteProduct({{ $product->id }})" class="font-medium text-red-600 dark:text-red-500 hover:underline">
+                                            Delete
+                                        </button> |
+                                    @endif
                                     <button wire:click="openModal({{ $product->id }})" class="text-green-600 hover:underline">
                                         View
-                                    </button> |
-                                    <button wire:click="deleteProduct({{ $product->id }})" class="font-medium text-red-600 dark:text-red-500 hover:underline">
-                                        Delete
-                                    </button>
+                                    </button> 
                                 </td>
                             </tr>
                         @endforeach

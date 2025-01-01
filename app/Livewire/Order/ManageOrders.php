@@ -136,13 +136,16 @@ class ManageOrders extends Component
     {
         $user = auth()->user();
         
-        $ordersQuery = Order::with('orderItems')
+        $ordersQuery = Order::with('customer', 'user')
             ->where('status', $this->currentTab)
             ->where(function($query) {
                 $query->where('id', 'like', '%' . $this->search . '%')
-                      ->orWhereHas('orderItems', function($query) {
-                          $query->where('id', 'like', '%' . $this->search . '%');
-                      });
+                      ->orWhereHas('customer', function($query) {
+                          $query->where('name', 'like', '%' . $this->search . '%');
+                      })
+                      ->orWhereHas('user', function ($query) {
+                        $query->where('name', 'like', '%' . $this->search . '%');
+                    });
             });
     
         if ($user->role === 'osr' || $user->role === 'affiliate') {

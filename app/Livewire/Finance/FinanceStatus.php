@@ -5,13 +5,17 @@ namespace App\Livewire\Finance;
 use App\Models\User;
 use App\Models\Order;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class FinanceStatus extends Component
 {
+    use WithPagination;
+    
     public $user;
     public $startDate;
     public $endDate;
     public $incentivePercentage;
+    public $deliveredOrders;
     public $shippedCount;
     public $shippedAmount;
     public $deliveredCount;
@@ -36,17 +40,22 @@ class FinanceStatus extends Component
         $shippedOrders = $orders->where('status', 'shipped');
         $deliveredOrders = $orders->where('status', 'delivered');
 
-        $this->shippedCount = $shippedOrders->count();
+        $this->shippedCount = (float) $shippedOrders->sum(function ($order) {
+            return $order->orderItems->sum('quantity');
+        });
         $this->shippedAmount = (float) $shippedOrders->sum(function ($order) {
             return $order->orderItems->sum('total_amount');
         });
 
-        $this->deliveredCount = $deliveredOrders->count();
+        $this->deliveredCount = (float) $deliveredOrders->sum(function ($order) {
+            return $order->orderItems->sum('quantity');
+        });
         $this->deliveredAmount = (float) $deliveredOrders->sum(function ($order) {
             return $order->orderItems->sum('total_amount');
         });
 
         $this->totalIncentive = $this->deliveredAmount * ((float) $this->incentivePercentage / 100);
+        $this->deliveredOrders = $deliveredOrders;
     }
 
     public function updated($propertyName)
@@ -58,6 +67,11 @@ class FinanceStatus extends Component
 
     public function render()
     {
+        $deliveredOrders = Order::where('user_id', $this->user->id)
+        ->where('status', 'delivered')
+        ->whereBetween('created_at', [$this->startDate, $this->endDate])
+        ->paginate(10); 
+
         return view('livewire.finance.finance-status',[
             'user' => $this->user,
             'shippedCount' => $this->shippedCount,
@@ -65,6 +79,7 @@ class FinanceStatus extends Component
             'deliveredCount' => $this->deliveredCount,
             'deliveredAmount' => $this->deliveredAmount,
             'totalIncentive' => $this->totalIncentive,
+             'deliveredOrders' => $deliveredOrders,
         ]);
     }
 }

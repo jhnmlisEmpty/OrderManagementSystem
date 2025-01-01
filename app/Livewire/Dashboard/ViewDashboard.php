@@ -3,6 +3,7 @@
 namespace App\Livewire\Dashboard;
 
 use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Order;
 use Livewire\Component;
 use App\Models\OrderItem;
@@ -59,6 +60,19 @@ class ViewDashboard extends Component
             $query->where('status', 'delivered');
             })->whereMonth('created_at', Carbon::now()->month)->sum('quantity'),
         ];
+
+        $this->rankedUsers = User::whereIn('role', ['osr', 'affiliate']) // Filter by role
+            ->with(['orders' => function ($query) {
+                $query->where('status', 'delivered') // Only delivered orders
+                    ->whereMonth('created_at', Carbon::now()->month); // Orders from the current month
+            }])
+            ->withCount(['orders as total_quantity' => function ($query) {
+                $query->where('status', 'delivered') // Filter delivered orders
+                    ->whereMonth('created_at', Carbon::now()->month) // Filter by current month
+                    ->withSum('orderItems', 'quantity'); // Sum order items quantity
+            }])
+            ->orderBy('total_quantity', 'desc') // Rank by total quantity in descending order
+            ->get();
     }
 
 
@@ -68,6 +82,7 @@ class ViewDashboard extends Component
             'orderStats' => $this->orderStats,
             'salesStats' => $this->salesStats,
             'productStats' => $this->productStats,
+            'rankedUsers' => $this->rankedUsers,
         ]);
     }
 }
