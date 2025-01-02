@@ -269,16 +269,30 @@ class Cart extends Component
 
     public function removeItem($index)
     {
+        // Remove the item from the cart
         unset($this->cartItems[$index]);
+
+        // Reindex the cart items array
         $this->cartItems = array_values($this->cartItems);
 
+        // Prepare cart items for serialization (remove unnecessary data like 'layout')
         $serializableCart = collect($this->cartItems)->map(function ($cartItem) {
-            unset($cartItem['layout']);
+            if (isset($cartItem['layout'])) {
+                unset($cartItem['layout']);
+            }
             return $cartItem;
-        });
+        })->toArray(); // Convert to array for session storage
 
+        // Check if the cart is empty
+        if (count($this->cartItems) === 0) {
+            session()->forget('cart_items'); // Clear cart session if empty
+            return redirect()->route('create.order'); // Redirect to the desired route
+        }
+
+        // Update the session with the updated cart items
         session()->put('cart_items', $serializableCart);
     }
+
 
     public function render()
     {

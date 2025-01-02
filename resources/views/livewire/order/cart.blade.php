@@ -119,9 +119,7 @@
                </div>
                <div class="flex justify-center items-center">
                     <button type="button" wire:click="removeItem({{ $index }})" 
-                        class="mt-2 bg-red-500 text-white px-3 py-1 rounded 
-                        {{ count($cartItems) == 1 ? 'opacity-50 cursor-not-allowed' : '' }}" 
-                        {{ count($cartItems) == 1 ? 'disabled' : '' }}>
+                        class="mt-2 bg-red-500 text-white px-3 py-1 rounded">
                         Remove
                     </button>
                 </div>
