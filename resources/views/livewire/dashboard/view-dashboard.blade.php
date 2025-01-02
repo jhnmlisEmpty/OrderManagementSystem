@@ -23,10 +23,10 @@
                             Name
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Watches Out
+                            Watches Sold
                         </th>     
                         <th scope="col" class="px-6 py-3">
-                            Watches Sold
+                            Watches Delivered
                         </th>              
                     </tr>
                 </thead>
