@@ -40,7 +40,7 @@
     </div>
 
     <!-- Table -->
-    <div class="overflow-y-auto max-h-96 shadow-lg mt-4 rounded-lg">
+    <div class="overflow-y-auto max-h-full shadow-lg mt-4 rounded-lg">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 sticky top-0 z-10">
                 <tr>
