@@ -17,8 +17,6 @@ class TableEmployee extends Component
 
     public $search = '';  
 
-    protected $paginationTheme = 'bootstrap';
-
     protected $listeners = [
         'confirmDelete',
         'cancelDelete'
