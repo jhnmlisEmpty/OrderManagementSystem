@@ -84,6 +84,9 @@
                                     <a href="{{ route('assign.products', $user->id) }}" class="text-blue-500 underline">Assign Products</a>
                                 @endif
                                 <a href="{{ route('edit.employee', $user->id) }}" class="text-green-500 underline ml-2">Edit</a>
+                                <button wire:click="deleteUser({{ $user->id }})" class="text-red-500 underline ml-2">
+                                    Delete
+                                </button>
                             </td>
                         </tr>
                     @endforeach
