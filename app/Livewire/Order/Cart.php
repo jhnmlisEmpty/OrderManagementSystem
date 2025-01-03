@@ -158,15 +158,15 @@ class Cart extends Component
                 return;
             }
     
-            if ($productQuantities[$productId] > (int)$product->stocks) {
-                $this->addError('cartItems.' . $index . '.quantity', 'Insufficient stock for product: ' . $product->name);
-                return;
-            }
+            // if ($productQuantities[$productId] > (int)$product->stocks) {
+            //     $this->addError('cartItems.' . $index . '.quantity', 'Insufficient stock for product: ' . $product->name);
+            //     return;
+            // }
 
-            if ($quantity > (int)$packaging->quantity) {
-                $this->addError('cartItems.' . $index . '.quantity', 'Insufficient packaging quantity for packaging: ' . $packaging->name);
-                return;
-            }
+            // if ($quantity > (int)$packaging->quantity) {
+            //     $this->addError('cartItems.' . $index . '.quantity', 'Insufficient packaging quantity for packaging: ' . $packaging->name);
+            //     return;
+            // }
     
             $totalFromItems += $price * $quantity;
         }
