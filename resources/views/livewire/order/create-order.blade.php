@@ -56,7 +56,7 @@
     @else
         <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             @foreach ($products as $product)
-                <div class="overflow-y-auto mt-4 max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex">
+                <div class="overflow-y-hidden mt-4 max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex">
                     <img src="{{ asset('storage/' . $product->image) }}" alt="Image" class="w-24 h-24 object-cover rounded-lg mr-4">
                     <div>
                         <a href="#">
