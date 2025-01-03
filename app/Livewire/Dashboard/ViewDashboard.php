@@ -86,7 +86,9 @@ class ViewDashboard extends Component
             ->orderByDesc('delivered_quantity')
             ->get();
 
-        $this->lowStockProducts = Product::where('stocks', '<', 30)->get();;
+        $this->lowStockProducts = Product::where('stocks', '<', 30)
+            ->orderBy('stocks', 'asc')
+            ->get();
     }
 
     public function render()
