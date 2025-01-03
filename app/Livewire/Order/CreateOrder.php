@@ -13,8 +13,6 @@ class CreateOrder extends Component
 {
     use LivewireAlert;
 
-    public $perPage = 10;  
-
     public $search = '';
     
     public $cartCount;
@@ -56,7 +54,7 @@ class CreateOrder extends Component
                       ->orWhere('code', 'like', '%' . $this->search . '%');
             })
             ->where('stocks', '>', 0) 
-            ->paginate($this->perPage);
+            ->get();
         }
 
         return view('livewire.order.create-order', [
