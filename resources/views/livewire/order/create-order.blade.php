@@ -7,7 +7,7 @@
         </div>
     </div>
     
-    <div class="relative overflow-x-auto overflow-y-auto shadow-lg sm:rounded-lg p-4">
+    <div class="relative overflow-x-auto shadow-lg sm:rounded-lg p-4">
         <div class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between py-4">
             <div>
                 <label for="table-search" class="sr-only">Search</label>
@@ -56,7 +56,7 @@
     @else
         <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             @foreach ($products as $product)
-                <div class="mt-4 max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex">
+                <div class="overflow-y-auto mt-4 max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex">
                     <img src="{{ asset('storage/' . $product->image) }}" alt="Image" class="w-24 h-24 object-cover rounded-lg mr-4">
                     <div>
                         <a href="#">
