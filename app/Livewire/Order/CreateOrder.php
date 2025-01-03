@@ -46,12 +46,14 @@ class CreateOrder extends Component
                     $query->where('name', 'like', '%' . $this->search . '%')
                           ->orWhere('code', 'like', '%' . $this->search . '%');
                 })
+                ->orderBy('stocks', 'asc')
                 ->get();
         } else {
             $products = Product::where(function ($query) {
                 $query->where('name', 'like', '%' . $this->search . '%')
                       ->orWhere('code', 'like', '%' . $this->search . '%');
             })
+            ->orderBy('stocks', 'asc')
             ->get();
         }
 
