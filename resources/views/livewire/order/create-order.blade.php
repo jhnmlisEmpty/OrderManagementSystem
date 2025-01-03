@@ -7,7 +7,7 @@
         </div>
     </div>
     
-    <div class="relative overflow-x-auto shadow-lg sm:rounded-lg p-4">
+    <div class="relative overflow-x-auto overflow-y-auto shadow-lg sm:rounded-lg p-4">
         <div class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between py-4">
             <div>
                 <label for="table-search" class="sr-only">Search</label>
