@@ -58,5 +58,10 @@ class User extends Authenticatable
         return $this->belongsToMany(Product::class);
     }
 
+    public function orderItems()
+{
+    return $this->hasManyThrough(OrderItem::class, Order::class);
+}
+
 
 }

@@ -5,6 +5,7 @@ namespace App\Livewire\Dashboard;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Order;
+use App\Models\Product;
 use Livewire\Component;
 use App\Models\OrderItem;
 
@@ -52,38 +53,40 @@ class ViewDashboard extends Component
         $this->productStats = [
             'dailyProductsOut' => (clone $orderItemsQuery)->whereHas('order', function ($query) {
                 $query->whereIn('status', ['shipped', 'delivered']) // Check for either shipped or delivered status
-                      ->whereDate('date_received', Carbon::today()); // Apply date_received filter on orders table
+                      ->whereDate('order_ship_date', Carbon::today()); // Apply date_received filter on orders table
             })->sum('quantity'),
             'weeklyProductsOut' => (clone $orderItemsQuery)->whereHas('order', function ($query) {
                 $query->whereIn('status', ['shipped', 'delivered']) // Check for either shipped or delivered status
-                      ->whereBetween('date_received', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]); // Apply date_received filter on orders table
+                      ->whereBetween('order_ship_date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]); // Apply date_received filter on orders table
             })->sum('quantity'),
             'monthlyProductsOut' => (clone $orderItemsQuery)->whereHas('order', function ($query) {
                 $query->whereIn('status', ['shipped', 'delivered']) // Check for either shipped or delivered status
-                      ->whereMonth('date_received', Carbon::now()->month); // Apply date_received filter on orders table
+                      ->whereMonth('order_ship_date', Carbon::now()->month); // Apply date_received filter on orders table
             })->sum('quantity'),
         ];        
         
-
-        $this->rankedUsers = User::whereIn('role', ['osr', 'affiliate']) // Filter by role
-            ->with(['orders' => function ($query) {
-                $query->whereIn('status', ['shipped', 'delivered']) // Only shipped and delivered orders
-                    ->whereMonth('date_received', Carbon::now()->month); // Orders from the current month
-            }])
-            ->withCount([
-                'orders as total_quantity' => function ($query) {
-                    $query->where('status', 'delivered') // Filter delivered orders
-                        ->whereMonth('date_received', Carbon::now()->month) // Filter by current month
-                        ->withSum('orderItems', 'quantity'); // Sum order items quantity for delivered orders
+        $currentMonth = Carbon::now()->month;
+        $currentYear = Carbon::now()->year;
+        
+        $this->rankedUsers = User::whereIn('role', ['osr', 'affiliate'])
+            ->withSum([
+                // Calculate the sum of delivered items
+                'orderItems as delivered_quantity' => function ($query) use ($currentMonth, $currentYear) {
+                    $query->where('status', 'delivered')
+                        ->whereMonth('date_received', $currentMonth)
+                        ->whereYear('date_received', $currentYear);
                 },
-                'orders as shipped_quantity' => function ($query) {
-                    $query->where('status', 'shipped') // Filter shipped orders
-                        ->whereMonth('date_received', Carbon::now()->month) // Filter by current month
-                        ->withSum('orderItems', 'quantity'); // Sum order items quantity for shipped orders
+                // Calculate the sum of shipped items
+                'orderItems as shipped_quantity' => function ($query) use ($currentMonth, $currentYear) {
+                    $query->where('status', 'shipped')
+                        ->whereMonth('order_ship_date', $currentMonth)
+                        ->whereYear('order_ship_date', $currentYear);
                 }
-            ])
-            ->orderByDesc('total_quantity') // Rank by total quantity of delivered orders in descending order
+            ], 'quantity')
+            ->orderByDesc('delivered_quantity')
             ->get();
+
+        $this->lowStockProducts = Product::where('stocks', '<', 30)->get();;
     }
 
     public function render()
@@ -93,6 +96,7 @@ class ViewDashboard extends Component
             'salesStats' => $this->salesStats,
             'productStats' => $this->productStats,
             'rankedUsers' => $this->rankedUsers,
+            'lowStockProducts' => $this->lowStockProducts,
         ]);
     }
 }

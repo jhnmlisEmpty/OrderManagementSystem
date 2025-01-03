@@ -16,6 +16,9 @@ class FinanceStatus extends Component
     public $endDate;
     public $incentivePercentage;
     public $deliveredOrders;
+    public $returnedOrders;
+    public $returnedCount;
+    public $deductedAmount;
     public $shippedCount;
     public $shippedAmount;
     public $deliveredCount;
@@ -31,32 +34,6 @@ class FinanceStatus extends Component
         $this->calculate();
     }
 
-    // public function calculate()
-    // {
-    //     $orders = Order::where('user_id', $this->user->id)
-    //         ->whereBetween('created_at', [$this->startDate, $this->endDate])
-    //         ->get();
-
-    //     $shippedOrders = $orders->where('status', 'shipped');
-    //     $deliveredOrders = $orders->where('status', 'delivered');
-
-    //     $this->shippedCount = (float) $shippedOrders->sum(function ($order) {
-    //         return $order->orderItems->sum('quantity');
-    //     });
-    //     $this->shippedAmount = (float) $shippedOrders->sum(function ($order) {
-    //         return $order->orderItems->sum('total_amount');
-    //     });
-
-    //     $this->deliveredCount = (float) $deliveredOrders->sum(function ($order) {
-    //         return $order->orderItems->sum('quantity');
-    //     });
-    //     $this->deliveredAmount = (float) $deliveredOrders->sum(function ($order) {
-    //         return $order->orderItems->sum('total_amount');
-    //     });
-
-    //     $this->totalIncentive = $this->deliveredAmount * ((float) $this->incentivePercentage / 100);
-    //     $this->deliveredOrders = $deliveredOrders;
-    // }
 
     public function calculate()
     {
@@ -69,7 +46,13 @@ class FinanceStatus extends Component
         $deliveredOrders = Order::where('user_id', $this->user->id)
             ->whereNotNull('date_received')
             ->whereBetween('date_received', [$this->startDate, $this->endDate])
-            ->where('status', 'delivered') // Filter by delivered status
+            ->where('status', 'delivered')
+            ->get();
+
+        $returnedOrders = Order::where('user_id', $this->user->id)
+            ->whereNotNull('order_returned_date')
+            ->whereBetween('order_returned_date', [$this->startDate, $this->endDate])
+            ->where('status', 'returned')
             ->get();
 
         $this->shippedCount = (float) $shippedOrders->sum(function ($order) {
@@ -86,9 +69,21 @@ class FinanceStatus extends Component
             return $order->orderItems->sum('total_amount');
         });
 
+        $this->returnedCount = (float) $returnedOrders->sum(function ($order) {
+            return $order->orderItems->sum('quantity');
+        });
+
+       // Calculate deducted amount based on returnedCount
+        $this->deductedAmount = $this->returnedCount * 10;
+
+        // Calculate total incentive
         $this->totalIncentive = $this->deliveredAmount * ((float) $this->incentivePercentage / 100);
 
+        // Subtract deducted amount from total incentive
+        $this->totalIncentive -= $this->deductedAmount;
+
         $this->deliveredOrders = $deliveredOrders;
+        $this->returnedOrders = $returnedOrders;
     }
 
     public function updated($propertyName)
@@ -108,12 +103,15 @@ class FinanceStatus extends Component
 
         return view('livewire.finance.finance-status',[
             'user' => $this->user,
+            'returnedCount' => $this->returnedCount,
+            'deductedAmount' => $this->deductedAmount,
             'shippedCount' => $this->shippedCount,
             'shippedAmount' => $this->shippedAmount,
             'deliveredCount' => $this->deliveredCount,
             'deliveredAmount' => $this->deliveredAmount,
             'totalIncentive' => $this->totalIncentive,
-             'deliveredOrders' => $deliveredOrders,
+            'deliveredOrders' => $deliveredOrders,
+            'returnedOrders' => $this->returnedOrders,
         ]);
     }
 }

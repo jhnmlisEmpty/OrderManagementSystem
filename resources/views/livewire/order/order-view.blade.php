@@ -105,13 +105,12 @@
                         </dd>
                     </div>
 
-                    <!-- Delivered Date -->
                     @if(in_array($order->status, ['delivered', 'reprocess', 'returned']))
                         <div>
                             <dt class="text-sm font-medium text-gray-500">
                                 @if($order->status === 'delivered')
                                     Delivered Date
-                                @elseif($order->status === 'reprocess')
+                                @elseif($order->status === 'reprocess' && !empty($order->order_reprocess_date))
                                     Reprocessed Date
                                 @elseif($order->status === 'returned')
                                     Returned Date
@@ -122,8 +121,8 @@
                             <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                                 @if($order->status === 'delivered')
                                     {{ $order->date_received ?? 'Not yet delivered' }}
-                                @elseif($order->status === 'reprocess')
-                                    {{ $order->order_reprocess_date ?? 'Not yet reprocessed' }}
+                                @elseif($order->status === 'reprocess' && !empty($order->order_reprocess_date))
+                                    {{ $order->order_reprocess_date }}
                                 @elseif($order->status === 'returned')
                                     {{ $order->order_returned_date ?? 'Not yet returned' }}
                                 @else
@@ -132,6 +131,17 @@
                             </dd>
                         </div>
                     @endif
+                    <div>
+                        @if(!empty($order->order_reprocess_date))
+                            <dt class="text-sm font-medium text-gray-500">
+                                Reprocessed Date
+                            </dt>
+                            <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                                {{$order->order_reprocess_date}}
+                            </dd>
+                            
+                        @endif
+                    </div>
                 </div>
 
                 <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-6">
