@@ -1,4 +1,4 @@
-<div class="container mx-auto mt-5">
+<div class="container mx-auto mt-5  max-w-full">
     <div class="bg-white shadow overflow-hidden sm:rounded-lg">
         <div class="px-4 py-5 sm:px-6">
             <h3 class="text-2xl font-medium leading-6 text-gray-900">Order Details (ID: {{ $order->id }})</h3>

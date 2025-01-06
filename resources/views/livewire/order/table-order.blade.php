@@ -1,5 +1,5 @@
 
-<div class="container mx-auto mt-5"> 
+<div class="container mx-auto mt-5  max-w-full"> 
     <div>
         <div class="flex flex-column sm:flex-row flex-wrap space-y-2 sm:space-y-0 items-center justify-between pl-4 ">
             <div>
