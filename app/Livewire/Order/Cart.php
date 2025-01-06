@@ -114,6 +114,8 @@ class Cart extends Component
     
     public function saveOrderWithItems()
     {
+        $this->validate();
+        
         $this->alert('question', 'Are you sure you want to process this order?', [
             'showConfirmButton' => true,
             'confirmButtonText' => 'YES',
