@@ -173,7 +173,7 @@ class Cart extends Component
             $totalFromItems += $price * $quantity;
         }
 
-        if ($this->total_amount > $totalFromItems) {
+        if ($this->total_amount >= $totalFromItems) {
             $this->addError('total_amount', 'Total amount cannot be greater than the total of items.');
             return;
         }
