@@ -11,12 +11,11 @@ class TableProduct extends Component
     use LivewireAlert;
     
     public $search = '';  
-    public $isModalOpen = false;
     public $product;
 
     protected $listeners = [
         'confirmDelete',
-        'cancelDelete'
+        'cancelDelete',
     ];
     
     public function deleteProduct($id)
@@ -55,18 +54,6 @@ class TableProduct extends Component
     public function cancelDelete()
     {
         $this->alert('info', 'Product deletion canceled.');
-    }
-
-    public function openModal($productId)
-    {
-        $this->product = Product::find($productId);
-        $this->isModalOpen = true;
-    }
-
-    public function closeModal()
-    {
-        $this->isModalOpen = false;
-        $this->product = null;
     }
 
     public function render()

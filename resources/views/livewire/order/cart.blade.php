@@ -172,6 +172,7 @@
                     <option value="Bank">Bank</option>
                     <option value="Gcash">GCash</option>
                     <option value="Cod">COD</option>
+                    <option value="Pick-up">Pick-up</option>
                 </select>
                 @error('payment_method') 
                     <span class="text-red-500 text-sm">{{ $message }}</span> 

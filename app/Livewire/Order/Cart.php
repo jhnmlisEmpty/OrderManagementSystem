@@ -28,10 +28,10 @@ class Cart extends Component
     public $company;
 
     public $payment_method;
-    public $total_amount;
+    public $total_amount = 0;
     public $payment_status;
 
-    public $shipping_fee;
+    public $shipping_fee = 0;
     public $platform;
     public $tracking;
     public $status;
@@ -55,7 +55,7 @@ class Cart extends Component
 
         'payment_method' => 'required|string|max:255',
         'total_amount' => 'required|numeric|min:0',
-        'payment_status' => 'nullable|image|max:1024|required_if:payment_method,Bank,Gcash',
+        'payment_status' => 'nullable|image|max:1024|required_if:payment_method,Bank,Gcash,Pick-up',
 
         'platform' => 'required|string|max:255',
         'shipping_fee' => 'nullable|numeric|min:0',

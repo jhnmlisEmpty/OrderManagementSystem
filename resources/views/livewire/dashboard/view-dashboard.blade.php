@@ -51,6 +51,27 @@
                 </tbody>
             </table>
         </div>
+
+        <div class="mt-8">
+            <h2 class="text-xl font-bold text-black mb-4">Daily Overview</h2>
+        </div>
+        <div class="grid grid-cols-1 gap-6 pb-10 mt-6 md:grid-cols-2 lg:grid-cols-3">
+            <!-- Daily Sales Card -->
+            <div class="p-6 bg-white rounded-lg shadow-md">
+                <h3 class="mb-2 text-lg text-gray-500">Daily Orders</h3>
+                <p class="text-3xl font-bold text-black">{{ $dailyStats['dailyOrders'] }}</p>
+            </div>
+
+            <div class="p-6 bg-white rounded-lg shadow-md">
+                <h3 class="mb-2 text-lg text-gray-500">Daily Order Quantity</h3>
+                <p class="text-3xl font-bold text-black">{{ $dailyStats['dailyOrderQuantity'] }}</p>
+            </div>
+
+            <div class="p-6 bg-white rounded-lg shadow-md">
+                <h3 class="mb-2 text-lg text-gray-500">Daily Amount</h3>
+                <p class="text-3xl font-bold text-black">{{ number_format($dailyStats['totalOrderAmount'], 2) }} PHP</p>
+            </div>
+        </div>
     
         <div class="mt-8">
             <h2 class="text-xl font-bold text-black mb-4">Sales Overview</h2>

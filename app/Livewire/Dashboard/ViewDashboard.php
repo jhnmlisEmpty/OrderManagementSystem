@@ -63,7 +63,23 @@ class ViewDashboard extends Component
                 $query->whereIn('status', ['shipped', 'delivered']) // Check for either shipped or delivered status
                       ->whereMonth('order_ship_date', Carbon::now()->month); // Apply date_received filter on orders table
             })->sum('quantity'),
-        ];        
+        ];
+        
+        $this->dailyStats = [
+            'dailyOrders' => (clone $ordersQuery)
+                ->whereDate('created_at', Carbon::today())
+                ->count(),
+        
+            'dailyOrderQuantity' => (clone $orderItemsQuery)
+                ->whereHas('order', function ($query) {
+                    $query->whereDate('created_at', Carbon::today());
+                })
+                ->sum('quantity'),
+        
+            'totalOrderAmount' => (clone $ordersQuery)
+                ->whereDate('created_at', Carbon::today())
+                ->sum('total_from_items'),
+        ];
         
         $currentMonth = Carbon::now()->month;
         $currentYear = Carbon::now()->year;
@@ -94,6 +110,7 @@ class ViewDashboard extends Component
     public function render()
     {
         return view('livewire.dashboard.view-dashboard', [
+            'dailyStats' => $this->dailyStats,
             'orderStats' => $this->orderStats,
             'salesStats' => $this->salesStats,
             'productStats' => $this->productStats,

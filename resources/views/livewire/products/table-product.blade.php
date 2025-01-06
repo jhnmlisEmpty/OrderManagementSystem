@@ -92,65 +92,13 @@
                                         </a> |
                                         <button wire:click="deleteProduct({{ $product->id }})" class="font-medium text-red-600 dark:text-red-500 hover:underline">
                                             Delete
-                                        </button> |
+                                        </button>
                                     @endif
-                                    <button wire:click="openModal({{ $product->id }})" class="text-green-600 hover:underline">
-                                        View
-                                    </button> 
                                 </td>
                             </tr>
                         @endforeach
                     @endif
                 </tbody>
             </table>
-        </div>
-
-        <div>
-            <!-- Modal Background -->
-            <div 
-                x-data="{ isOpen: @entangle('isModalOpen') }" 
-                x-show="isOpen" 
-                class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
-                x-cloak
-            >
-                <!-- Modal Content -->
-                <div class="bg-white rounded-lg shadow-lg max-w-lg w-full p-6">
-                    <div class="flex justify-between items-center border-b pb-3">
-                        <h3 class="text-lg font-semibold text-gray-800">
-                            Product Details
-                        </h3>
-                        <button @click="isOpen = false" wire:click="closeModal" class="text-2xl text-gray-500 hover:text-gray-700">
-                            &times;
-                        </button>
-                    </div>
-        
-                    <!-- Modal Body -->
-                    <div class="mt-4">
-                        @if($product)
-                            <img 
-                                src="{{ asset('storage/' . $product->image) }}" 
-                                alt="Product Image" 
-                                class="w-48 h-48 object-cover mx-auto mb-4"
-                            >
-                            <p><strong>Name:</strong> {{ $product->name }}</p>
-                            <p><strong>Code:</strong> {{ $product->code }}</p>
-                            <p><strong>Stock:</strong> {{ $product->stocks }}</p>
-                        @else
-                            <p class="text-gray-500">No product details available.</p>
-                        @endif
-                    </div>
-        
-                    <!-- Modal Footer -->
-                    <div class="flex justify-end mt-4">
-                        <button 
-                            @click="isOpen = false" 
-                            wire:click="closeModal" 
-                            class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
-                        >
-                            Close
-                        </button>
-                    </div>
-                </div>
-            </div>
         </div>
 </div>
