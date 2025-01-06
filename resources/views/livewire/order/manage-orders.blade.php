@@ -90,7 +90,7 @@
     </ul>
 
     <!-- Table -->
-    <div class="shadow-lg mt-4 rounded-lg overflow-y-auto overflow-x-auto w-full">
+    <div class="shadow-lg mt-4 rounded-lg overflow-y-auto overflow-x-auto">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 overflow-x-auto">
             <thead class="text-xs text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 sticky top-0 z-10">
                 <tr>
