@@ -19,6 +19,7 @@ class OrderView extends Component
     public function mount($orderId)
     {
         $this->order = Order::findOrFail($orderId);
+        $this->shippingFee = $this->order->shipping_price;
     }
 
     public function updateStatus($status)
@@ -70,17 +71,20 @@ class OrderView extends Component
                     'shippingFee' => 'numeric|min:0',
                 ]);
 
-                $paidAmount = $order->paymentMethod->amount ?? 0;
+                // Access the related paid amount from the PaymentMethod relationship
+                $paidAmount = (float) ($order->paymentMethod->amount ?? 0);
+
+                // Ensure total_from_items is a number (it might be a string in the database)
+                $totalFromItems = (float) $order->total_from_items;
+
+                // Ensure shipping fee is a number (it should be a numeric value)
+                $shippingFee = (float) $this->shippingFee;
             
                 $order->tracking = $this->tracking;
                 $order->status = $status;
                 $order->shipping_price = $this->shippingFee; // Save the shipping fee
                 $order->order_ship_date = now();
-                $order->full_amount = $order->total_from_items + $this->shippingFee - $paidAmount;
-                if ($order->full_amount < 0) {
-                    $this->addError('shippingFee', 'Full amount cannot be negative. ('.'$order->full_amount'.')');
-                    return;
-                }
+                $order->full_amount = $totalFromItems + $shippingFee - $paidAmount;
                 $order->save(); // Save the changes to the database
                 break;
                 
