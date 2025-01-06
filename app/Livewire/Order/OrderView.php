@@ -12,6 +12,7 @@ class OrderView extends Component
 
     public $order;
     public $tracking;
+    public $shippingFee;
     public $statusDate;
 
     // Load the order details when the component is mounted
@@ -65,13 +66,24 @@ class OrderView extends Component
 
             case 'shipped':
                 $this->validate([
-                    'tracking' => 'required|string|max:255',
+                    'tracking' => 'required|string',
+                    'shippingFee' => 'numeric|min:0',
                 ]);
 
+                $paidAmount = $order->paymentMethod->amount ?? 0;
+            
                 $order->tracking = $this->tracking;
                 $order->status = $status;
+                $order->shipping_price = $this->shippingFee; // Save the shipping fee
                 $order->order_ship_date = now();
+                $order->full_amount = $order->total_from_items + $this->shippingFee - $paidAmount;
+                if ($order->full_amount < 0) {
+                    $this->addError('shippingFee', 'Full amount cannot be negative. ('.'$order->full_amount'.')');
+                    return;
+                }
+                $order->save(); // Save the changes to the database
                 break;
+                
 
             case 'delivered':
                 $this->validate([

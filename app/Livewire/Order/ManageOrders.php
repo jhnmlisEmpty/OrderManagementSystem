@@ -152,7 +152,7 @@ class ManageOrders extends Component
             $ordersQuery->where('user_id', $user->id);
         }
     
-        $orders = $ordersQuery->paginate(10);
+        $orders = $ordersQuery->get();
     
         return view('livewire.order.manage-orders', [
             'orders' => $orders,

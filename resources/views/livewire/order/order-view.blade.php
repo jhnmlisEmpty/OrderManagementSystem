@@ -105,13 +105,11 @@
                         </dd>
                     </div>
 
-                    @if(in_array($order->status, ['delivered', 'reprocess', 'returned']))
+                    @if(in_array($order->status, ['delivered', 'returned']))
                         <div>
                             <dt class="text-sm font-medium text-gray-500">
                                 @if($order->status === 'delivered')
                                     Delivered Date
-                                @elseif($order->status === 'reprocess' && !empty($order->order_reprocess_date))
-                                    Reprocessed Date
                                 @elseif($order->status === 'returned')
                                     Returned Date
                                 @else
@@ -121,8 +119,6 @@
                             <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                                 @if($order->status === 'delivered')
                                     {{ $order->date_received ?? 'Not yet delivered' }}
-                                @elseif($order->status === 'reprocess' && !empty($order->order_reprocess_date))
-                                    {{ $order->order_reprocess_date }}
                                 @elseif($order->status === 'returned')
                                     {{ $order->order_returned_date ?? 'Not yet returned' }}
                                 @else
@@ -195,17 +191,22 @@
                             @if ($order->status == 'ready_to_ship')
                                 <div class="col-span-2">
                                     <div class="flex items-center space-x-2">
-                                        <input type="text" wire:model="tracking" class="block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="Enter tracking number">
+                                        <input type="text" wire:model="tracking" class="block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="Tracking Number">
+                                        <input type="number" step="0.01" wire:model="shippingFee" class="block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="Shipping Fee">
                                         <button wire:click="updateStatus('shipped')" class="w-3/4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Ship Order</button>
                                     </div>
                                     @error('tracking') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                                    @error('shippingFee') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                                 </div>
                             @endif
                             @if($order->status == 'shipped')
                                 <div class="flex space-x-4">
+
                                     <div>
                                         <input type="date" id="statusDate" wire:model="statusDate" class=" block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                         @error('statusDate') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                                        
+                                       
                                     </div>
                                     <div>
                                         <button wire:click="updateStatus('delivered')" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
