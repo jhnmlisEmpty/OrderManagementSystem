@@ -40,6 +40,8 @@ class Cart extends Component
     public $full_amount;
     public  $totalFromItems;
 
+    public $amount;
+
     public $cartItems = [];
     public $packagings = [];
 
@@ -160,28 +162,22 @@ class Cart extends Component
                 return;
             }
     
-            // if ($productQuantities[$productId] > (int)$product->stocks) {
-            //     $this->addError('cartItems.' . $index . '.quantity', 'Insufficient stock for product: ' . $product->name);
-            //     return;
-            // }
-
-            // if ($quantity > (int)$packaging->quantity) {
-            //     $this->addError('cartItems.' . $index . '.quantity', 'Insufficient packaging quantity for packaging: ' . $packaging->name);
-            //     return;
-            // }
-    
             $totalFromItems += $price * $quantity;
         }
 
-        if ($this->total_amount >= $totalFromItems) {
-            $this->addError('total_amount', 'Total amount cannot be greater than the total of items.');
+        //Validation to check if the total amount is correct and not zero
+        $amount = $totalFromItems - $this->total_amount + $this->shipping_fee;
+
+        if ($amount < 0) {
+            $this->addError('amount', 'Full amount cannot be negative. (Kindly check if the total amount is correct.)');
             return;
         }
+
        
         DB::transaction(function () use ($totalFromItems) {
 
             $full_amount = $totalFromItems - $this->total_amount + $this->shipping_fee;
-
+            
             $customer = Customer::create([
                 'user_id' => auth()->id(),
                 'name' => $this->customer_name,

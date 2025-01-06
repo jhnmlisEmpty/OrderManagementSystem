@@ -213,8 +213,12 @@
                         return (float) $item['price'] * (int) $item['quantity'];
                     }) + (float) $shipping_fee - (float) $total_amount, 2)
                 }}
+               
             </span>
-
+            
+        </div>
+        <div class="text-center">
+            <span> @error('amount') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror</span>
         </div>
 
         <!-- Submit Button -->
