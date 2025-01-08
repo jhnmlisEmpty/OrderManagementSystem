@@ -106,6 +106,7 @@ class ViewDashboard extends Component
             ->selectRaw('SUM(order_items.quantity) as order_items_sum_quantity')
             ->leftJoin('order_items', 'orders.id', '=', 'order_items.order_id')
             ->whereNotNull('orders.page') // Exclude null values for page
+            ->where('orders.status', 'delivered') // Add condition for delivered status
             ->whereMonth('orders.created_at', Carbon::now()->month) // Specify `orders.created_at`
             ->whereYear('orders.created_at', Carbon::now()->year) // Specify `orders.created_at`
             ->groupBy('orders.page') // Specify `orders.page`
@@ -139,12 +140,22 @@ class ViewDashboard extends Component
         });
         $this->chartData = $chartData; 
 
-        $this->barChart = Order::select('page') // Select the `page` column from the `orders` table
-            ->selectRaw('SUM(total_from_items) as total_froms_items_sum') // Calculate the sum of `total_froms_items`
-            ->whereNotNull('page') // Exclude rows where `page` is null
-            ->whereMonth('created_at', Carbon::now()->month) // Filter by the current month
-            ->whereYear('created_at', Carbon::now()->year) // Filter by the current year
-            ->groupBy('page') // Group the results by the `page` column
+        // $this->barChart = Order::select('page') // Select the `page` column from the `orders` table
+        //     ->selectRaw('SUM(total_from_items) as total_froms_items_sum') // Calculate the sum of `total_froms_items`
+        //     ->whereNotNull('page') // Exclude rows where `page` is null
+        //     ->whereMonth('created_at', Carbon::now()->month) // Filter by the current month
+        //     ->whereYear('created_at', Carbon::now()->year) // Filter by the current year
+        //     ->groupBy('page') // Group the results by the `page` column
+        //     ->get();
+
+        $this->pieChart = Order::select('orders.page') // Specify the table for `page`
+            ->selectRaw('SUM(order_items.quantity) as total_froms_items_sum')
+            ->leftJoin('order_items', 'orders.id', '=', 'order_items.order_id')
+            ->whereNotNull('orders.page') // Exclude null values for page
+            ->where('orders.status', 'delivered') // Add condition for delivered status
+            ->whereMonth('orders.created_at', Carbon::now()->month) // Specify `orders.created_at`
+            ->whereYear('orders.created_at', Carbon::now()->year) // Specify `orders.created_at`
+            ->groupBy('orders.page') // Specify `orders.page`
             ->get();
 
 

@@ -183,7 +183,7 @@
         <div class="grid grid-cols-1 md:grid-cols-5 gap-6 pb-10 mt-6">
             @if(count($chartData) > 0)
                 <div class="col-span-1 md:col-span-2 lg:col-span-2 h-full shadow-lg rounded-lg bg-white p-4">
-                    <h3 class="text-xl font-semibold mb-2 text-center">Watches Quantity Ordered</h3>
+                    <h3 class="text-xl font-semibold mb-2 text-center">Total Watches Delivered</h3>
                     <canvas id="donutChart"></canvas>
                 </div>
             @else
@@ -194,7 +194,7 @@
 
             @if(count($barChartData) > 0)
                 <div class="col-span-1 md:col-span-3 lg:col-span-3 shadow-lg rounded-lg bg-white p-4">
-                    <h3 class="text-xl font-semibold mb-2 text-center">Total Amount Of Ordered</h3>
+                    <h3 class="text-xl font-semibold mb-2 text-center">Total Watches Delivered</h3>
                     <canvas id="barChart"></canvas>
                 </div>
             @else
