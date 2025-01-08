@@ -145,7 +145,7 @@
                     <option value="Lazada">Lazada</option>
                     <option value="Shopee">Shopee</option>
                     <option value="Marketplace">Marketplace</option>
-                    <option value="Facebook Page">Page</option>
+                    <option value="Facebook Page">Facebook Page</option>
                     <option value="Tiktok">TikTok</option>
                 </select>
                 @error('platform') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror

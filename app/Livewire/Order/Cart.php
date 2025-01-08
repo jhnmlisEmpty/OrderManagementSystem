@@ -61,7 +61,7 @@ class Cart extends Component
         'payment_status.*' => 'nullable|image|max:1024|required_if:payment_method,Bank,Gcash,Pick-up',
 
         'platform' => 'required|string|max:255',
-        'page' => 'nullable|string|max:255',
+        'page' => 'required_if:platform,Facebook Page|nullable|string|max:255',
         'shipping_fee' => 'nullable|numeric|min:0',
         'note' => 'nullable|string|max:1000',
 
