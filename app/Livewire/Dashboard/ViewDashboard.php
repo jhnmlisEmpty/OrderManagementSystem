@@ -148,7 +148,7 @@ class ViewDashboard extends Component
         //     ->groupBy('page') // Group the results by the `page` column
         //     ->get();
 
-        $this->pieChart = Order::select('orders.page') // Specify the table for `page`
+        $this->barChart = Order::select('orders.page') // Specify the table for `page`
             ->selectRaw('SUM(order_items.quantity) as total_froms_items_sum')
             ->leftJoin('order_items', 'orders.id', '=', 'order_items.order_id')
             ->whereNotNull('orders.page') // Exclude null values for page
