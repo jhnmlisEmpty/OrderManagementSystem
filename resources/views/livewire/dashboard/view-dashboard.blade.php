@@ -215,11 +215,6 @@
                 return item.value;
             });
         
-            // Array of colors for each bar
-            var backgroundColors = barChartData.map(function(item, index) {
-                return colors[index % colors.length]; // Cycle through the colors if there are more bars than colors
-            });
-        
             var ctx = document.getElementById('barChart').getContext('2d');
             var barChart = new Chart(ctx, {
                 type: 'bar', // Bar chart type
