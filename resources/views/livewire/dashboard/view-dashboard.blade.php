@@ -188,7 +188,7 @@
                 </div>
             @else
                 <div class="col-span-1 md:col-span-2 lg:col-span-2 shadow-lg rounded-lg bg-white p-4">
-                    <h3 class="text-xl font-semibold mb-2 text-center">No data available for Watches Quantity Ordered</h3>
+                    <h3 class="text-xl font-semibold mb-2 text-center">No data available for Watches Delivered</h3>
                 </div>
             @endif
 
@@ -199,7 +199,7 @@
                 </div>
             @else
                 <div class="col-span-1 md:col-span-3 lg:col-span-3 h-full shadow-lg rounded-lg bg-white p-4">
-                    <h3 class="text-xl font-semibold mb-2 text-center">No data available for Total Amount Of Ordered</h3>
+                    <h3 class="text-xl font-semibold mb-2 text-center">No data available for Watches Delivered</h3>
                 </div>
             @endif
         </div>
