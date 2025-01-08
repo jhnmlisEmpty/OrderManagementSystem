@@ -112,12 +112,31 @@ class ViewDashboard extends Component
             ->get();
 
         $chartData = $this->pieChart->map(function ($item) {
+            $label = $item->page;
+            if ($label === 'G7 Global Corporate Giveaways') {
+            $label = 'G7Global Corporate Giveaway Supplier (James)';
+            } elseif ($label === 'Customized Watch Co.') {
+            $label = 'Customized Watch Co. (Armella & Dhenelyn)';
+            } elseif ($label === 'Customized Watch Premium') {
+            $label = 'Customized Watch Premium (Geo)';
+            } elseif ($label === 'Premium Corporate Wristwatch Supplier') {
+            $label = 'Premium Corporate Wristwatch Supplier (Sheana & Eula)';
+            } elseif ($label === 'Personalized Gift Wristwatch') {
+            $label = 'Personalized Gift Wristwatch Supplier (Jerico)';
+            } elseif ($label === 'Personalized Watch Supplier') {
+            $label = 'Personalized Watch Supplier (Jeremy & Annalyn)';
+            } elseif ($label === 'WatchBoss') {
+            $label = 'WatchBoss (Admin)';
+            } elseif ($label === 'F8Watch') {
+            $label = 'F8watch (Admin)';
+            }
+
+            // Add more conditions as needed
             return [
-                'label' => $item->page,
-                'value' => $item->order_items_sum_quantity,
+            'label' => $label,
+            'value' => $item->order_items_sum_quantity,
             ];
         });
-        
         $this->chartData = $chartData; 
 
         $this->barChart = Order::select('page') // Select the `page` column from the `orders` table

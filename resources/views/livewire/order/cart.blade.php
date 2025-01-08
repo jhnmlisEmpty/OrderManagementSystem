@@ -166,6 +166,8 @@
                     <option value="Personalized Gift Wristwatch">Personalized Gift Wristwatch</option>
                     <option value="G7 Global Corporate Giveaways">G7 Global Corporate Giveaways</option>
                     <option value="Personalized Watch Supplier">Personalized Watch Supplier</option>
+                    <option value="WatchBoss">WatchBoss</option>
+                    <option value="F8Watch">F8Watch</option>
                 </select>
                 @error('page') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
