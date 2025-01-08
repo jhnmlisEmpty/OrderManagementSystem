@@ -196,15 +196,7 @@
                                     </button>
                                 </div>
                             @endif
-                            @if($order->status == 'created')
-                            <div class="col-span-">
-                                <div class="flex items-center space-x-4">
-                                    <button wire:click="updateStatus('ready_to_ship')" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                        Ready to Ship
-                                    </button>   
-                                </div>
-                            </div>
-                            @endif
+                           
                         @endif
                         @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin' || auth()->user()->role === 'logistics')
                             @if ($order->status == 'ready_to_ship')
@@ -252,6 +244,15 @@
                                         </button>
                                     </div>
                                 </div>
+                            @endif
+                            @if($order->status == 'created')
+                            <div class="col-span-">
+                                <div class="flex items-center space-x-4">
+                                    <button wire:click="updateStatus('ready_to_ship')" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                        Ready to Ship
+                                    </button>   
+                                </div>
+                            </div>
                             @endif
                         @endif
                     </div>
