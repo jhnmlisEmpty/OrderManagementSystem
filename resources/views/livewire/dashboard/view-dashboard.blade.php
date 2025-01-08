@@ -217,8 +217,6 @@
         
             // Array of colors for each bar
             var backgroundColors = barChartData.map(function(item, index) {
-                // You can customize this based on any condition, here it's a simple example with predefined colors
-                var colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A1', '#57FF33', '#FF5733', '#3357FF'];
                 return colors[index % colors.length]; // Cycle through the colors if there are more bars than colors
             });
         
@@ -229,7 +227,6 @@
                     labels: labels,
                     datasets: [{
                         data: data,
-                        backgroundColor: backgroundColors, // Assign different color for each bar
                         borderColor: '#28a745',
                         borderWidth: 1,
                     }]
