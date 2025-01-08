@@ -98,7 +98,7 @@
 
                             <td class="px-6 py-4">
                                 @foreach($customer->orders as $order)
-                                    {{ $order->full_amount }}<br>
+                                    {{ $order->total_from_items }}<br>
                                 @endforeach
                             </td>
                             <td class="px-6 py-4">

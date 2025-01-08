@@ -77,7 +77,7 @@ class TableCustomer extends Component
         });
     
         $customers = $customersQuery->with(['orders' => function ($query) {
-            $query->select('customer_id', 'full_amount', 'created_at', 'note');
+            $query->select('customer_id', 'total_from_items', 'created_at', 'note');
         }])->paginate($this->perPage);
     
         return view('livewire.customer.table-customer', [
