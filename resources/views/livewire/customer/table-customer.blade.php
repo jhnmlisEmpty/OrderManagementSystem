@@ -61,6 +61,11 @@
                     <th scope="col" class="px-6 py-3">
                         Date Ordered
                     </th>
+                    @if(auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin')
+                        <th>
+                            Actions
+                        </th>
+                    @endif
                 </tr>
             </thead>
     
@@ -106,6 +111,13 @@
                                     {{ $order->created_at->format('Y-m-d') }}<br>
                                 @endforeach
                             </td>
+                            @if(auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin')
+                                <td class="px-6 py-4">
+                                    <button wire:click="deleteCustomer({{ $customer->id }})" class="font-medium text-red-600 dark:text-red-500 hover:underline">
+                                        Delete
+                                    </button>
+                                </td>
+                            @endif
                         </tr>
                     @endforeach
                 @endif
