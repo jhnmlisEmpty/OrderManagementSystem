@@ -33,6 +33,7 @@ class Cart extends Component
 
     public $shipping_fee = 0;
     public $platform;
+    public $page;
     public $tracking;
     public $status;
     public $date_received;
@@ -57,9 +58,10 @@ class Cart extends Component
 
         'payment_method' => 'required|string|max:255',
         'total_amount' => 'required|numeric|min:0',
-        'payment_status' => 'nullable|image|max:1024|required_if:payment_method,Bank,Gcash,Pick-up',
+        'payment_status.*' => 'nullable|image|max:1024|required_if:payment_method,Bank,Gcash,Pick-up',
 
         'platform' => 'required|string|max:255',
+        'page' => 'nullable|string|max:255',
         'shipping_fee' => 'nullable|numeric|min:0',
         'note' => 'nullable|string|max:1000',
 
@@ -189,14 +191,18 @@ class Cart extends Component
                 'company' => $this->company,
             ]);
 
-            if ($this->payment_status) {
-                $path = $this->payment_status->store('payment_statuses', 'public');
+            $paths = [];
+            if ($this->payment_status && is_array($this->payment_status)) {
+                foreach ($this->payment_status as $file) {
+                    $paths[] = $file->store('payment_statuses', 'public');
+                }
             }
     
             $payment = PaymentMethod::create([
                 'method' => $this->payment_method,
                 'amount' => $this->total_amount,
                 'image' => $path ?? null,
+                'image' => json_encode($paths),
             ]);
 
 
@@ -205,6 +211,7 @@ class Cart extends Component
                 'customer_id' => $customer->id,
                 'payment_method_id' => $payment->id,
                 'platform' => $this->platform,
+                'page' => $this->page,
                 'note' => $this->note,
                 'shipping_price' => $this->shipping_fee,
                 'total_from_items' => $totalFromItems,
@@ -235,16 +242,6 @@ class Cart extends Component
                     'total_amount' => $totalAmount,
                     'layout' => json_encode($storedLayouts),
                 ]);
-            
-                // if ($product) {
-                //     $product->stocks -= $quantity;
-                //     $product->save();
-                // }
-
-                // if ($packaging) {
-                //     $packaging->quantity -= $quantity;
-                //     $packaging->save();
-                // }
             }
 
         });

@@ -150,10 +150,24 @@
                 </select>
                 @error('platform') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
+            
             <div>
                 <label for="shipping_fee" class="block font-medium">Shipping Fee</label>
                 <input type="number" id="shipping_fee" wire:model.live="shipping_fee" class="border rounded w-full p-2">
                 @error('shipping_fee') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
+            <div>
+                <label for="page" class="block font-medium">Page</label>
+                <select id="page" wire:model="page" class="border rounded w-full p-2">
+                    <option value="">Select a page</option>
+                    <option value="Customized Watch Premium">Customized Watch Premium</option>
+                    <option value="Customized Watch Co.">Customized Watch Co.</option>
+                    <option value="Premium Corporate Wristwatch Supplier">Premium Corporate Wristwatch Supplier</option>
+                    <option value="Personalized Gift Wristwatch">Personalized Gift Wristwatch</option>
+                    <option value="G7 Global Corporate Giveaways">G7 Global Corporate Giveaways</option>
+                    <option value="Personalized Watch Supplier">Personalized Watch Supplier</option>
+                </select>
+                @error('page') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
             <div>
                 <label for="note" class="block font-medium">Note</label>
@@ -186,13 +200,7 @@
             </div>
             <div class="col-span-2">
                 <label for="payment_status" class="block font-medium">Payment Proof</label>
-                <input type="file" id="payment_status" wire:model="payment_status" class="border rounded w-full p-2" accept="image/*">
-                
-                {{-- @if ($payment_status)
-                    <div class="mt-2">
-                        <img src="{{ $payment_status->temporaryUrl() }}" alt="Payment Status Preview" class="w-32 h-32 object-cover border rounded">
-                    </div>
-                @endif --}}
+                <input type="file" id="payment_status" wire:model="payment_status" class="border rounded w-full p-2" multiple accept="image/*">
                 
                 @error('payment_status') 
                     <span class="text-red-500 text-sm">{{ $message }}</span> 
@@ -203,11 +211,6 @@
         <div class="mt-4 text-2xl font-semibold text-center">
             <span>Total: </span>
             <span>
-                {{-- {{ number_format(
-                    collect($cartItems)->sum(function($item) {
-                        return (float) $item['price'] * (int) $item['quantity'];
-                    }) - ($total_amount), 2)
-                }} --}}
                 {{ number_format(
                     collect($cartItems)->sum(function($item) {
                         return (float) $item['price'] * (int) $item['quantity'];

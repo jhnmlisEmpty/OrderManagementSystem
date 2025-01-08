@@ -19,6 +19,7 @@ class Order extends Model
         'payment_method_id',
         'shipping_price',
         'platform',
+        'page',
         'tracking',
         'status',
         'date_received',

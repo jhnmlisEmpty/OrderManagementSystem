@@ -110,6 +110,9 @@
                         Platform
                     </th>
                     <th scope="col" class="px-6 py-3">
+                        Page
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                         Payment Method
                     </th>
                     <th scope="col" class="px-6 py-3">
@@ -169,6 +172,8 @@
                             <td class="w-4 p-4">
                                 {{ $order->platform }}
                             </td>
+                            <td class="w-4 p-4">
+                                {{ $order->page ?? 'Not set' }}
                             <td class="w-4 p-4">
                                 {{ $order->paymentMethod->method }}
                             </td>

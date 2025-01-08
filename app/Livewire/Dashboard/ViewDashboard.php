@@ -102,6 +102,43 @@ class ViewDashboard extends Component
             ->orderByDesc('delivered_quantity')
             ->get();
 
+        $this->pieChart = Order::select('orders.page') // Specify the table for `page`
+            ->selectRaw('SUM(order_items.quantity) as order_items_sum_quantity')
+            ->leftJoin('order_items', 'orders.id', '=', 'order_items.order_id')
+            ->whereNotNull('orders.page') // Exclude null values for page
+            ->whereMonth('orders.created_at', Carbon::now()->month) // Specify `orders.created_at`
+            ->whereYear('orders.created_at', Carbon::now()->year) // Specify `orders.created_at`
+            ->groupBy('orders.page') // Specify `orders.page`
+            ->get();
+
+        $chartData = $this->pieChart->map(function ($item) {
+            return [
+                'label' => $item->page,
+                'value' => $item->order_items_sum_quantity,
+            ];
+        });
+        
+        $this->chartData = $chartData; 
+
+        $this->barChart = Order::select('page') // Select the `page` column from the `orders` table
+            ->selectRaw('SUM(total_from_items) as total_froms_items_sum') // Calculate the sum of `total_froms_items`
+            ->whereNotNull('page') // Exclude rows where `page` is null
+            ->whereMonth('created_at', Carbon::now()->month) // Filter by the current month
+            ->whereYear('created_at', Carbon::now()->year) // Filter by the current year
+            ->groupBy('page') // Group the results by the `page` column
+            ->get();
+
+
+        $barChartData = $this->barChart->map(function ($item) {
+            return [
+                'label' => $item->page,
+                'value' => $item->total_froms_items_sum,
+            ];
+        });
+
+        $this->barChartData = $barChartData;
+
+
         $this->lowStockProducts = Product::where('stocks', '<', 30)
             ->orderBy('stocks', 'asc')
             ->get();
@@ -110,11 +147,15 @@ class ViewDashboard extends Component
     public function render()
     {
         return view('livewire.dashboard.view-dashboard', [
+            'chartData' => $this->chartData,
+            'barChartData' => $this->barChartData,
+            'barChart' => $this->barChart,
             'dailyStats' => $this->dailyStats,
             'orderStats' => $this->orderStats,
             'salesStats' => $this->salesStats,
             'productStats' => $this->productStats,
             'rankedUsers' => $this->rankedUsers,
+            'pieChart' => $this->pieChart,
             'lowStockProducts' => $this->lowStockProducts,
         ]);
     }

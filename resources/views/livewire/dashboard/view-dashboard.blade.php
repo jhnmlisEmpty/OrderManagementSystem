@@ -23,7 +23,7 @@
                             Name
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Watches Sold
+                            Watches Undelivered
                         </th>     
                         <th scope="col" class="px-6 py-3">
                             Watches Delivered
@@ -175,6 +175,127 @@
         </div>
     </div>
 
+    @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin')
+        <div class="mt-8">
+            <h2 class="text-xl font-bold text-black mb-4">Page Performance</h2>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-6 pb-10 mt-6">
+            @if(count($chartData) > 0)
+                <div class="col-span-1 md:col-span-2 lg:col-span-2 h-full shadow-lg rounded-lg bg-white p-4">
+                    <h3 class="text-xl font-semibold mb-2 text-center">Watches Quantity Ordered</h3>
+                    <canvas id="donutChart"></canvas>
+                </div>
+            @else
+                <div class="col-span-1 md:col-span-2 lg:col-span-2 shadow-lg rounded-lg bg-white p-4">
+                    <h3 class="text-xl font-semibold mb-2 text-center">No data available for Watches Quantity Ordered</h3>
+                </div>
+            @endif
+
+            @if(count($barChartData) > 0)
+                <div class="col-span-1 md:col-span-3 lg:col-span-3 shadow-lg rounded-lg bg-white p-4">
+                    <h3 class="text-xl font-semibold mb-2 text-center">Total Amount Of Ordered</h3>
+                    <canvas id="barChart"></canvas>
+                </div>
+            @else
+                <div class="col-span-1 md:col-span-3 lg:col-span-3 h-full shadow-lg rounded-lg bg-white p-4">
+                    <h3 class="text-xl font-semibold mb-2 text-center">No data available for Total Amount Of Ordered</h3>
+                </div>
+            @endif
+        </div>
+        
+        <script>
+            var barChartData = @json($barChartData);
+        
+            var labels = barChartData.map(function(item) {
+                return item.label;
+            });
+        
+            var data = barChartData.map(function(item) {
+                return item.value;
+            });
+        
+            // Array of colors for each bar
+            var backgroundColors = barChartData.map(function(item, index) {
+                // You can customize this based on any condition, here it's a simple example with predefined colors
+                var colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A1', '#57FF33', '#FF5733', '#3357FF'];
+                return colors[index % colors.length]; // Cycle through the colors if there are more bars than colors
+            });
+        
+            var ctx = document.getElementById('barChart').getContext('2d');
+            var barChart = new Chart(ctx, {
+                type: 'bar', // Bar chart type
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: backgroundColors, // Assign different color for each bar
+                        borderColor: '#28a745',
+                        borderWidth: 1,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    return tooltipItem.label + ': ' + tooltipItem.raw + ' PHP';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+        
+        <script>
+            // Get the chart data passed from Livewire
+            var chartData = @json($chartData);
+        
+            // Prepare the labels and values for the chart
+            var labels = chartData.map(function(item) {
+                return item.label;
+            });
+        
+            var data = chartData.map(function(item) {
+                return item.value;
+            });
+        
+            // Create the donut chart
+            var ctx = document.getElementById('donutChart').getContext('2d');
+            var donutChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: ['#FF5733', '#33FF57', '#3357FF', '#57FF33', '#FF33A1'], // Customize colors
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'right', // Position the legend
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    return tooltipItem.label + ': ' + tooltipItem.raw + ' items';
+                                }
+                            }
+                        }
+                    },
+                    cutoutPercentage: 90,
+                }
+            });
+        </script>
+    @endif
+    
     <div class="mt-8">
         <h2 class="text-xl font-bold text-black mb-4">Low Stock Products</h2>
     </div>

@@ -16,21 +16,28 @@
                         <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ $order->customer->contact_number }}</dd>
                    </div>
                    <div>
-                        <dt class="text-sm font-medium text-gray-500">Customer Address</dt>
-                        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                            <p>
-                                {{ 
-                                    ($order->customer->landmark ?? '') . 
-                                    ($order->customer->street ? ', ' . $order->customer->street : '') . 
-                                    ($order->customer->city ? ', ' . $order->customer->city : '') . 
-                                    ($order->customer->province ? ', ' . $order->customer->province : '') 
-                                }}
-                            </p>
-                        </dd>
-                    </div>
-                    <div>
                         <dt class="text-sm font-medium text-gray-500">Platform</dt>
                         <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ $order->platform }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Page</dt>
+                        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ $order->page ?? 'Not set' }}</dd>
+                   </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Landmark</dt>
+                        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ $order->customer->landmark ?? '' }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Street</dt>
+                        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ $order->customer->street ?? '' }}</dd>
+                   </div>
+                   <div>
+                        <dt class="text-sm font-medium text-gray-500">City</dt>
+                        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ $order->customer->city ?? '' }}</dd>
+                   </div>
+                   <div>
+                        <dt class="text-sm font-medium text-gray-500">Province</dt>
+                        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ $order->customer->province ?? '' }}</dd>
                    </div>
                 </div>
                 <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-6">
@@ -54,7 +61,7 @@
                     </div>
                     <div>
                         <dt class="text-sm font-medium text-gray-500">Note</dt>
-                        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ $order->note }}</dd>
+                        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ $order->note ?? 'No Note' }}</dd>
                     </div>
                     <div>
                             <dt class="text-sm font-medium text-gray-500">Status</dt>
@@ -91,7 +98,19 @@
                         <dt class="text-sm font-medium text-gray-500">Payment Proof</dt>
                         <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                             @if ($order->paymentMethod->image)
-                                <img src="{{ asset('storage/' . $order->paymentMethod->image) }}" alt="Payment Proof" class="w-20 h-20 rounded-md shadow-md">
+                                <div class="flex flex-wrap gap-2">
+                                    @if (is_array(json_decode($order->paymentMethod->image)))
+                                        @foreach (json_decode($order->paymentMethod->image) as $image)
+                                            <img src="{{ asset('storage/' . $image) }}" alt="Payment Proof" class="w-20 h-20 rounded-md shadow-md">
+                                        @endforeach
+                                    @else
+                                        {{-- Accept string as image --}}
+                                        @php
+                                            $imagePath = json_decode($order->paymentMethod->image, true);
+                                        @endphp
+                                        <img src="{{ asset('storage/' . $imagePath) }}" alt="Payment Proof" class="w-20 h-20 rounded-md shadow-md">
+                                    @endif
+                                </div>
                             @else
                                 <span class="text-gray-500">No payment proof uploaded.</span>
                             @endif
