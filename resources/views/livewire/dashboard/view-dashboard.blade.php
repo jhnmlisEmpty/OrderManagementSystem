@@ -285,7 +285,7 @@
                         tooltip: {
                             callbacks: {
                                 label: function(tooltipItem) {
-                                    return tooltipItem.label + ': ' + tooltipItem.raw + ' items';
+                                    return tooltipItem.raw + ' items';
                                 }
                             }
                         }
