@@ -243,7 +243,7 @@
                         tooltip: {
                             callbacks: {
                                 label: function(tooltipItem) {
-                                    return tooltipItem.label + ': ' + tooltipItem.raw + ' PHP';
+                                    return tooltipItem.raw + ' PHP';
                                 }
                             }
                         }
