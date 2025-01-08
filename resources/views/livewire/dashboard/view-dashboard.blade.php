@@ -273,7 +273,6 @@
                     labels: labels,
                     datasets: [{
                         data: data,
-                        backgroundColor: ['#FF5733', '#33FF57', '#3357FF', '#57FF33', '#FF33A1'], // Customize colors
                     }]
                 },
                 options: {
