@@ -41,7 +41,7 @@
         </div>
     </div>
 
-    <ul class="overflow-y-hidden overflow-x-hidden flex border-b mt-4">
+    <ul class="overflow-y-hidden overflow-x-auto flex border-b mt-4">
         <li class="-mb-px mr-1">
             <a wire:click.prevent="switchTab('pending')" class="cursor-pointer bg-white inline-block py-2 px-4 {{ $currentTab === 'pending' ? 'text-blue-700 border-l border-t border-r rounded-t' : 'text-blue-500 hover:text-blue-800' }} font-semibold">
                 Pending ({{ $pendingCount }})
