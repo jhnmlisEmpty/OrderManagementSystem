@@ -80,19 +80,19 @@
             <!-- Daily Sales Card -->
             <div class="p-6 bg-white rounded-lg shadow-md">
                 <h3 class="mb-2 text-lg text-gray-500">Daily Sales</h3>
-                <p class="text-3xl font-bold text-black">{{ $salesStats['dailySales'] }}</p>
+                <p class="text-3xl font-bold text-black">{{ number_format($salesStats['dailySales'], 2) }}</p>
             </div>
 
             <!-- Weekly Sales Card -->
             <div class="p-6 bg-white rounded-lg shadow-md">
                 <h3 class="mb-2 text-lg text-gray-500">Weekly Sales</h3>
-                <p class="text-3xl font-bold text-black">{{ $salesStats['weeklySales'] }}</p>
+                <p class="text-3xl font-bold text-black">{{ number_format($salesStats['weeklySales'], 2) }}</p>
             </div>
 
             <!-- Monthly Sales Card -->
             <div class="p-6 bg-white rounded-lg shadow-md">
                 <h3 class="mb-2 text-lg text-gray-500">Monthly Sales</h3>
-                <p class="text-3xl font-bold text-black">{{ $salesStats['monthlySales'] }}</p>
+                <p class="text-3xl font-bold text-black">{{ number_format($salesStats['monthlySales'], 2) }}</p>
             </div>
 
             <!-- Daily Products Out Card -->
