@@ -37,9 +37,9 @@ class ViewDashboard extends Component
         ];
 
         $this->salesStats = [
-            'dailySales' => (clone $ordersQuery)->where('status', 'delivered')->whereDate('date_received', Carbon::today())->sum('full_amount'),
-            'weeklySales' => (clone $ordersQuery)->where('status', 'delivered')->whereBetween('date_received', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->sum('full_amount'),
-            'monthlySales' => (clone $ordersQuery)->where('status', 'delivered')->whereMonth('date_received', Carbon::now()->month)->sum('full_amount'),
+            'dailySales' => (clone $ordersQuery)->where('status', 'delivered')->whereDate('date_received', Carbon::today())->sum('total_from_items'),
+            'weeklySales' => (clone $ordersQuery)->where('status', 'delivered')->whereBetween('date_received', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->sum('total_from_items'),
+            'monthlySales' => (clone $ordersQuery)->where('status', 'delivered')->whereMonth('date_received', Carbon::now()->month)->sum('total_from_items'),
         ];
 
         $orderItemsQuery = OrderItem::query();
