@@ -75,9 +75,9 @@ class ViewDashboard extends Component
             //         $query->whereDate('created_at', Carbon::today());
             //     })
             //     ->sum('quantity'),
-            
-            'dailyOrderQuantity' =>(clone $orderItemsQuery)->whereHas('order', function ($query) {
-                $query->whereDate('created_at', Carbon::today()); // Apply date_received filter on orders table
+
+            'dailyOrderQuantity' => OrderItem::whereHas('order', function ($query) {
+                $query->whereDate('created_at', Carbon::today());
             })->sum('quantity'),
         
             'totalOrderAmount' => (clone $ordersQuery)
