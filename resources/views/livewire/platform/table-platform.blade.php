@@ -70,7 +70,7 @@
                 <!-- Display No Products Message if Empty -->
                 @if($platformOrders->isEmpty())
                     <tr>
-                        <td colspan="5" class="p-4 text-center text-gray-500">
+                        <td colspan="7" class="p-4 text-center text-gray-500">
                             No products found matching your search criteria.
                         </td>
                     </tr>
