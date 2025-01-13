@@ -254,7 +254,7 @@
                         tooltip: {
                             callbacks: {
                                 label: function(tooltipItem) {
-                                    return tooltipItem.raw + ' PHP';
+                                    return tooltipItem.raw + ' items';
                                 }
                             }
                         }
