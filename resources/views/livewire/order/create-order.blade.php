@@ -30,13 +30,22 @@
 
             <div>
                 @if ($cartCount > 0)
-                    <a href="{{ route('cart.order') }}" 
+                    <a href="{{ auth()->user()->role === 'production' ? route('create.orderPlatform') : route('cart.order') }}" 
                     class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                         Go to Cart
                         <span class="ml-2 bg-red-600 text-white font-bold rounded-full text-xs px-2 py-1">
                             {{ $cartCount }}
                         </span>
                     </a>
+                    @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin')
+                        <a href="{{ route('create.orderPlatform') }}" 
+                        class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 focus:outline-none dark:focus:ring-green-800">
+                            Create Order for Platform
+                            <span class="ml-2 bg-red-600 text-white font-bold rounded-full text-xs px-2 py-1">
+                                {{ $cartCount }}
+                            </span>
+                        </a>
+                    @endif
                 @else
                     <button class="text-white bg-blue-700 cursor-not-allowed opacity-50 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" disabled>
                         Go to Cart
@@ -44,6 +53,15 @@
                             {{ $cartCount }}
                         </span>
                     </button>
+                    @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin')
+                        <a href="{{ route('create.orderPlatform') }}" 
+                        class="text-white bg-green-700 cursor-not-allowed opacity-50 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 focus:outline-none dark:focus:ring-green-800" disabled>
+                            Create Order for Platform
+                            <span class="ml-2 bg-red-600 text-white font-bold rounded-full text-xs px-2 py-1">
+                                {{ $cartCount }}
+                            </span>
+                        </a>
+                    @endif
                 @endif
             </div>
 

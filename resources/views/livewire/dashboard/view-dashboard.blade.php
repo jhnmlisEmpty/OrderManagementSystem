@@ -175,7 +175,7 @@
         </div>
     </div>
 
-    @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin')
+    @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin' || auth()->user()->role === 'affiliate' || auth()->user()->role === 'osr')
         <div class="mt-8">
             <h2 class="text-xl font-bold text-black mb-4">Page Performance</h2>
         </div>

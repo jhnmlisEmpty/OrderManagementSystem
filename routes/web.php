@@ -23,6 +23,8 @@ use App\Livewire\Customer\TableCustomer;
 
 use App\Livewire\Employee\TableEmployee;
 
+use App\Livewire\Platform\OrderPlatform;
+use App\Livewire\Platform\TablePlatform;
 use App\Livewire\Products\UpdateProduct;
 use App\Livewire\Dashboard\ViewDashboard;
 use App\Livewire\Employee\AssignProducts;
@@ -61,6 +63,10 @@ Route::middleware(['auth'])->group(function () {
 
     // Packaging Route
     Route::get('/packaging', PackagingManager::class)->name('packaging.manager');
+
+    //Platform Route
+      Route::get('/platform', TablePlatform::class)->name('platform.table');
+      Route::get('/platform/order', OrderPlatform::class)->name('create.orderPlatform');
 
     // Finance Route
    Route::get('/finance', FinanceTable::class)->name('finance.table');
