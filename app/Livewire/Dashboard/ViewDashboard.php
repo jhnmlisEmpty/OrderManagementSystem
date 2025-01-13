@@ -33,7 +33,7 @@ class ViewDashboard extends Component
             'cancelledOrders' => (clone $ordersQuery)->where('status', 'canceled')->count(),
             'returnedOrders' => (clone $ordersQuery)->where('status', 'returned')->count(),
             'reprocessOrders' => (clone $ordersQuery)->where('status', 'reprocess')->count(),
-            'totalSales' => (clone $ordersQuery)->where('status', 'delivered')->sum('full_amount'),
+            'totalSales' => (clone $ordersQuery)->where('status', 'delivered')->sum('total_from_items'),
         ];
 
         $this->salesStats = [
