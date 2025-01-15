@@ -7,7 +7,7 @@
                 </h3>
             </div>
         </div>
-        
+
         <div class="mt-8">
             <h2 class="text-xl font-bold text-black mb-4">Running Monthly Sales</h2>
         </div>
@@ -20,7 +20,7 @@
                 @foreach($pages as $page)
                     <div class="p-6 bg-white rounded-lg shadow-md">
                         <h3 class="mb-2 text-lg text-gray-500">{{ $page->page }}</h3>
-                        <p class="text-3xl font-bold text-black">{{ number_format($page->total_sales, 2) }}</p>
+                        <p class="text-3xl font-bold text-black">{{ number_format($page->total_sales, 2) }} PHP</p>
                     </div>
                 @endforeach
             </div>
