@@ -98,9 +98,13 @@
                 <label for="page" class="block font-medium">Page</label>
                 <select id="page" wire:model="page" class="border rounded w-full p-2">
                     <option value="">Select a page</option>
-                    <option value="F8watch">F8Watch</option>
+                    <option value="F8watch">BYF8</option>
                     <option value="Brotherhood">Brotherhood</option>
                     <option value="Alfacharlie">AlfaCharlie</option>
+                    <option value="MusangX">MusangX</option>
+                    <option value="WatchBoss">WatchBoss</option>
+                    <option value="Club1979">Club1978</option>
+                    <option value="F8Watch">F8Watch</option>
                     <option value="Others">Others</option>
                 </select>
                 @error('page') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror

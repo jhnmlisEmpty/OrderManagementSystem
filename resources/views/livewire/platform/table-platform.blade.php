@@ -7,6 +7,24 @@
                 </h3>
             </div>
         </div>
+        
+        <div class="mt-8">
+            <h2 class="text-xl font-bold text-black mb-4">Running Monthly Sales</h2>
+        </div>
+    
+        @foreach($salesData as $platform => $pages)
+            <div class="mt-8">
+                <h2 class="text-xl text-black mb-4">{{ $platform }}</h2>
+            </div>
+            <div class="grid grid-cols-1 gap-6 pb-10 mt-6 md:grid-cols-2 lg:grid-cols-3">
+                @foreach($pages as $page)
+                    <div class="p-6 bg-white rounded-lg shadow-md">
+                        <h3 class="mb-2 text-lg text-gray-500">{{ $page->page }}</h3>
+                        <p class="text-3xl font-bold text-black">{{ number_format($page->total_sales, 2) }}</p>
+                    </div>
+                @endforeach
+            </div>
+        @endforeach
 
         <div class="relative overflow-x-auto shadow-lg sm:rounded-lg p-4">
             <div class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between py-4">

@@ -4,6 +4,7 @@ namespace App\Livewire\Platform;
 
 use Livewire\Component;
 use App\Models\PlatformOrder;
+use Illuminate\Support\Facades\DB;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class TablePlatform extends Component
@@ -49,6 +50,12 @@ class TablePlatform extends Component
 
     public function render()
     {
+        $salesData = PlatformOrder::select('platform', 'page', DB::raw('SUM(full_amount) as total_sales'))
+            ->groupBy('platform', 'page')
+            ->get()
+            ->groupBy('platform');
+
+
         $platformOrders = PlatformOrder::where('platform', 'like', '%' . $this->search . '%')
             ->orWhereHas('platformOrderItems.product', function ($query) {
                 $query->where('name', 'like', '%' . $this->search . '%');
@@ -57,6 +64,6 @@ class TablePlatform extends Component
             ->orWhere('platform', 'like', '%' . $this->search . '%')
             ->get();
 
-        return view('livewire.platform.table-platform', compact('platformOrders'));
+        return view('livewire.platform.table-platform', compact('platformOrders','salesData'));
     }
 }
