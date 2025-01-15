@@ -51,6 +51,7 @@ class TablePlatform extends Component
     public function render()
     {
         $salesData = PlatformOrder::select('platform', 'page', DB::raw('SUM(full_amount) as total_sales'))
+            ->where('created_at', '>=', \Carbon\Carbon::now()->subMonth())
             ->groupBy('platform', 'page')
             ->get()
             ->groupBy('platform');
