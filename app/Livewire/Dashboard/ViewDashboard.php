@@ -12,6 +12,7 @@ use App\Models\OrderItem;
 class ViewDashboard extends Component
 {
     public $orderStats = [];
+    public $assignedProductIds;
 
     public function mount()
     {
@@ -169,9 +170,17 @@ class ViewDashboard extends Component
         $this->barChartData = $barChartData;
 
 
-        $this->lowStockProducts = Product::where('stocks', '<', 30)
-            ->orderBy('stocks', 'asc')
-            ->get();
+        if ($user->role === 'affiliate') {
+            $assignedProductIds = $user->products->pluck('id')->toArray();
+            $this->lowStockProducts = Product::whereIn('id', $assignedProductIds)
+                ->where('stocks', '<', 30)
+                ->orderBy('stocks', 'asc')
+                ->get();
+        } else {
+            $this->lowStockProducts = Product::where('stocks', '<', 30)
+                ->orderBy('stocks', 'asc')
+                ->get();
+        }
     }
 
     public function render()
