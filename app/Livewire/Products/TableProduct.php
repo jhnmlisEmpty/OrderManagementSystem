@@ -22,25 +22,7 @@ class TableProduct extends Component
 
     public function mount()
     {
-        $user = auth()->user();
-
-        if ($user->role === 'affiliate') {
-            $assignedProductIds = $user->products->pluck('id')->toArray();
-            $this->products = Product::whereIn('id', $assignedProductIds)
-                ->where(function ($query) {
-                    $query->where('name', 'like', '%' . $this->search . '%')
-                          ->orWhere('code', 'like', '%' . $this->search . '%');
-                })
-                ->orderBy('stocks', 'asc')
-                ->get();
-        } else {
-            $this->products = Product::where(function ($query) {
-                $query->where('name', 'like', '%' . $this->search . '%')
-                      ->orWhere('code', 'like', '%' . $this->search . '%');
-            })
-            ->orderBy('stocks', 'asc')
-            ->get();
-        }
+        $this->user = auth()->user();
     }
     
     public function deleteProduct($id)
@@ -56,7 +38,6 @@ class TableProduct extends Component
                     'id' => $id
                 ]
         ]);
-       
     }
 
     public function confirmDelete($data)
@@ -83,10 +64,26 @@ class TableProduct extends Component
 
     public function render()
     {
-        
+        if ($this->user->role === 'affiliate') {
+            $assignedProductIds = $this->user->products->pluck('id')->toArray();
+            $products = Product::whereIn('id', $assignedProductIds)
+                ->where(function ($query) {
+                    $query->where('name', 'like', '%' . $this->search . '%')
+                          ->orWhere('code', 'like', '%' . $this->search . '%');
+                })
+                ->orderBy('stocks', 'asc')
+                ->get();
+        } else {
+            $products = Product::where(function ($query) {
+                $query->where('name', 'like', '%' . $this->search . '%')
+                      ->orWhere('code', 'like', '%' . $this->search . '%');
+            })
+            ->orderBy('stocks', 'asc')
+            ->get();
+        }
+
         return view('livewire.products.table-product', [
-            'products' => $this->products,
+            'products' => $products,
         ]);
     }
-
 }
