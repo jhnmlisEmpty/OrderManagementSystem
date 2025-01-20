@@ -21,6 +21,7 @@ class AssignProducts extends Component
     public function mount(User $user)
     {
         $this->user = $user;
+        $this->selectedProducts = $this->user->products->pluck('id')->toArray();
     }
 
     public function updatedSearch()
@@ -34,6 +35,7 @@ class AssignProducts extends Component
             unset($this->selectedProducts[$key]);
         }
         $this->user->products()->sync($this->selectedProducts);
+        $this->selectedProducts = $this->user->products->pluck('id')->toArray(); // Update the selectedProducts array
         $this->alert('info', 'Product unassigned successfully!');
     }
 
@@ -43,6 +45,7 @@ class AssignProducts extends Component
             $this->selectedProducts[] = $productId;
         }
         $this->user->products()->sync($this->selectedProducts);
+        $this->selectedProducts = $this->user->products->pluck('id')->toArray(); // Update the selectedProducts array
         $this->alert('success', 'Product assigned successfully!');
     }
 
