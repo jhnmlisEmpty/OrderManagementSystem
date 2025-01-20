@@ -29,75 +29,128 @@
                         />
                     </div>                
                 </div>
-                <div>
-                    <button wire:click="toggleSelectAll" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                        {{ $selectAll ? 'Deselect All' : 'Select All' }}
-                    </button>
-                </div>
             </div>
         </div>
     </div>
-
-    <form wire:submit.prevent="assignProducts">
-        <div class="shadow-lg mt-4 rounded-lg overflow-y-auto overflow-x-auto">
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead class="text-xs text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 sticky top-0 z-10">
+    <div class="shadow-lg mt-4 rounded-lg overflow-y-auto overflow-x-auto">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 sticky top-0 z-10">
+                <tr>
+                   
+                    <th scope="col" class="px-6 py-3">
+                        Image
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Name
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Code
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Stocks
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if($products->isEmpty())
                     <tr>
-                        <th scope="col" class="px-6 py-3">
-                            Select
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Image
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Name
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Code
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Stocks
-                        </th>
+                        <td colspan="5" class="p-4 text-center text-gray-500">
+                            No products found matching your search criteria.
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @if($products->isEmpty())
-                        <tr>
-                            <td colspan="5" class="p-4 text-center text-gray-500">
-                                No products found matching your search criteria.
+                @else
+                    @foreach($products as $product)
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-center">
+                           
+                            <td class="px-6 py-4">
+                                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="h-12 w-12 object-cover">
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $product->name }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $product->code }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $product->stocks }}
+                            </td>
+                            <td class="px-6 py-4">
+                                <button type="button" wire:click="assignProduct({{ $product->id }})" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                    Assign
+                                </button>
                             </td>
                         </tr>
-                    @else
-                        @foreach($products as $product)
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-center">
-                                <td class="px-6 py-4">
-                                    <input type="checkbox" wire:model="selectedProducts" value="{{ $product->id }}" class="form-checkbox h-4 w-4 text-blue-600 transition duration-150 ease-in-out"
-                                        {{ in_array($product->id, $selectedProducts) ? 'checked' : '' }}>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="h-12 w-12 object-cover">
-                                </td>
-                                <td class="px-6 py-4">
-                                    {{ $product->name }}
-                                </td>
-                                <td class="px-6 py-4">
-                                    {{ $product->code }}
-                                </td>
-                                <td class="px-6 py-4">
-                                    {{ $product->stocks }}
-                                </td>
-                            </tr>
-                        @endforeach
-                    @endif
-                </tbody>
-            </table>
-        </div>
+                    @endforeach
+                @endif
+            </tbody>
+        </table>
+    </div>
 
-        <!-- Pagination Links -->
-        <div class="mt-4 px-4">
-            {{ $products->links() }} 
-        </div>
+    <!-- Pagination Links -->
+    <div class="mt-4 px-4">
+        {{ $products->links() }} 
+    </div>
 
-        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md mt-4">Assign Products</button>
-    </form>
+
+    <!-- Assigned Product -->
+<div class="shadow-lg mt-4 rounded-lg overflow-y-auto overflow-x-auto">
+    <h3 class="text-2xl font-bold text-gray-900 mt-4 mb-2 pl-2">
+        Assigned Products to {{ $user->name }}
+    </h3>
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 sticky top-0 z-10">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Image
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Name
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Code
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Stocks
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Action
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if($assignedProducts->isEmpty())
+                <tr>
+                    <td colspan="5" class="p-4 text-center text-gray-500">
+                        No products assigned.
+                    </td>
+                </tr>
+            @else
+                @foreach($assignedProducts as $product)
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-center">
+                        <td class="px-6 py-4">
+                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="h-12 w-12 object-cover">
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ $product->name }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ $product->code }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ $product->stocks }}
+                        </td>
+                        <td class="px-6 py-4">
+                            <button type="button" wire:click="unassignProduct({{ $product->id }})" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                Unassign
+                            </button>
+                        </td>
+                    </tr>
+                @endforeach
+            @endif
+        </tbody>
+    </table>
+</div>
 </div>
