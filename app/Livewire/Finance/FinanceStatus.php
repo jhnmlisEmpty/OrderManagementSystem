@@ -14,8 +14,11 @@ class FinanceStatus extends Component
     public $user;
     public $startDate;
     public $endDate;
-    public $incentivePercentage;
+    public $pageIncentivePercentage;
+    public $marketIncentivePercentage;
     public $deliveredOrders;
+    public $shippedIncentive;
+    public $deliveredIncentive;
     public $returnedOrders;
     public $returnedCount;
     public $deductedAmount;
@@ -30,7 +33,8 @@ class FinanceStatus extends Component
         $this->user = User::findOrFail($user);
         $this->startDate = now()->subMonth()->format('Y-m-d'); // Default start date to one month ago
         $this->endDate = now()->format('Y-m-d'); // Default end date to today
-        $this->incentivePercentage = 0;
+        $this->marketIncentivePercentage = 0;
+        $this->pageIncentivePercentage = 0;
         $this->calculate();
     }
 
@@ -38,15 +42,17 @@ class FinanceStatus extends Component
     public function calculate()
     {
         $shippedOrders = Order::where('user_id', $this->user->id)
-            ->whereNotNull('order_ship_date')
-            ->whereBetween('order_ship_date', [$this->startDate, $this->endDate])
-            ->where('status', 'shipped') // Filter by shipped status
+            ->whereNotNull('date_received')
+            ->whereBetween('date_received', [$this->startDate, $this->endDate])
+            ->where('status', 'delivered')
+            ->where('platform', '!=', 'Facebook Page')
             ->get();
 
         $deliveredOrders = Order::where('user_id', $this->user->id)
             ->whereNotNull('date_received')
             ->whereBetween('date_received', [$this->startDate, $this->endDate])
             ->where('status', 'delivered')
+            ->where('platform','Facebook Page')
             ->get();
 
         $returnedOrders = Order::where('user_id', $this->user->id)
@@ -73,22 +79,80 @@ class FinanceStatus extends Component
             return $order->orderItems->sum('quantity');
         });
 
-       // Calculate deducted amount based on returnedCount
+        // Calculate deducted amount based on returnedCount
         $this->deductedAmount = $this->returnedCount * 10;
 
+        // Calculate total incentive for shipped and delivered orders separately
+        $this->shippedIncentive = $this->shippedAmount * ((float) $this->pageIncentivePercentage / 100);
+        $this->deliveredIncentive = $this->deliveredAmount * ((float) $this->marketIncentivePercentage / 100);
+
         // Calculate total incentive
-        $this->totalIncentive = $this->deliveredAmount * ((float) $this->incentivePercentage / 100);
+        $this->totalIncentive = $this->shippedIncentive + $this->deliveredIncentive;
 
         // Subtract deducted amount from total incentive
         $this->totalIncentive -= $this->deductedAmount;
 
         $this->deliveredOrders = $deliveredOrders;
+        $this->shippedOrders = $shippedOrders;
         $this->returnedOrders = $returnedOrders;
     }
 
+    // public function calculate()
+    // {
+    //     $shippedOrders = Order::where('user_id', $this->user->id)
+    //         ->whereNotNull('date_received')
+    //         ->whereBetween('date_received', [$this->startDate, $this->endDate])
+    //         ->where('status', 'delivered')
+    //         ->where('platform', '!=', 'Facebook Page')
+    //         ->get();
+
+    //     $deliveredOrders = Order::where('user_id', $this->user->id)
+    //         ->whereNotNull('date_received')
+    //         ->whereBetween('date_received', [$this->startDate, $this->endDate])
+    //         ->where('status', 'delivered')
+    //         ->where('platform','Facebook Page')
+    //         ->get();
+
+    //     $returnedOrders = Order::where('user_id', $this->user->id)
+    //         ->whereNotNull('order_returned_date')
+    //         ->whereBetween('order_returned_date', [$this->startDate, $this->endDate])
+    //         ->where('status', 'returned')
+    //         ->get();
+
+    //     $this->shippedCount = (float) $shippedOrders->sum(function ($order) {
+    //         return $order->orderItems->sum('quantity');
+    //     });
+    //     $this->shippedAmount = (float) $shippedOrders->sum(function ($order) {
+    //         return $order->orderItems->sum('total_amount');
+    //     });
+
+    //     $this->deliveredCount = (float) $deliveredOrders->sum(function ($order) {
+    //         return $order->orderItems->sum('quantity');
+    //     });
+    //     $this->deliveredAmount = (float) $deliveredOrders->sum(function ($order) {
+    //         return $order->orderItems->sum('total_amount');
+    //     });
+
+    //     $this->returnedCount = (float) $returnedOrders->sum(function ($order) {
+    //         return $order->orderItems->sum('quantity');
+    //     });
+
+    //    // Calculate deducted amount based on returnedCount
+    //     $this->deductedAmount = $this->returnedCount * 10;
+
+    //     // Calculate total incentive
+    //     $this->totalIncentive = $this->deliveredAmount * ((float) $this->incentivePercentage / 100);
+
+    //     // Subtract deducted amount from total incentive
+    //     $this->totalIncentive -= $this->deductedAmount;
+
+    //     $this->deliveredOrders = $deliveredOrders;
+    //     $this->returnedOrders = $returnedOrders;
+    // }
+
     public function updated($propertyName)
     {
-        if (in_array($propertyName, ['startDate', 'endDate', 'incentivePercentage'])) {
+        if (in_array($propertyName, ['startDate', 'endDate', 'pageIncentivePercentage', 'marketIncentivePercentage'])) {
             $this->calculate();
         }
     }
@@ -111,6 +175,9 @@ class FinanceStatus extends Component
             'deliveredAmount' => $this->deliveredAmount,
             'totalIncentive' => $this->totalIncentive,
             'deliveredOrders' => $deliveredOrders,
+            'shippedIncentive' => $this->shippedIncentive,
+            'deliveredIncentive' => $this->deliveredIncentive,
+            'shippedOrders' =>$this->shippedOrders,
             'returnedOrders' => $this->returnedOrders,
         ]);
     }

@@ -167,7 +167,13 @@
                     <option value="G7 Global Corporate Giveaways">G7 Global Corporate Giveaways</option>
                     <option value="Personalized Watch Supplier">Personalized Watch Supplier</option>
                     <option value="WatchBoss">WatchBoss</option>
+                    <option value="Brotherhood">Brotherhood</option>
+                    <option value="AlfaCharlie">AlfaCharlie</option>
+                    <option value="BYF8">BYF8</option>
+                    <option value="MusangX">MusangX</option>
+                    <option value="Club1979">Club1979</option>
                     <option value="F8Watch">F8Watch</option>
+                    <option value="PixWatch">PixWatch</option>
                 </select>
                 @error('page') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
