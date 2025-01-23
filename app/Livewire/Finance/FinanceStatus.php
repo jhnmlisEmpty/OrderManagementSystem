@@ -17,6 +17,7 @@ class FinanceStatus extends Component
     public $pageIncentivePercentage;
     public $marketIncentivePercentage;
     public $deliveredOrders;
+    public $shippedOrders;
     public $shippedIncentive;
     public $deliveredIncentive;
     public $returnedOrders;
@@ -33,9 +34,23 @@ class FinanceStatus extends Component
         $this->user = User::findOrFail($user);
         $this->startDate = now()->subMonth()->format('Y-m-d'); // Default start date to one month ago
         $this->endDate = now()->format('Y-m-d'); // Default end date to today
-        $this->marketIncentivePercentage = 0;
-        $this->pageIncentivePercentage = 0;
         $this->calculate();
+        $this->loadIncentives();
+    }
+
+    public function loadIncentives()
+    {
+
+        $incentive = $this->user->incentive;
+
+        if ($incentive) {
+            $this->pageIncentivePercentage = $incentive->page_incentive_percentage;
+            $this->marketIncentivePercentage = $incentive->market_incentive_percentage;
+            $this->calculate();
+        } else {
+            $this->pageIncentivePercentage = 0;
+            $this->marketIncentivePercentage = 0;
+        }
     }
 
 
@@ -97,63 +112,33 @@ class FinanceStatus extends Component
         $this->returnedOrders = $returnedOrders;
     }
 
-    // public function calculate()
-    // {
-    //     $shippedOrders = Order::where('user_id', $this->user->id)
-    //         ->whereNotNull('date_received')
-    //         ->whereBetween('date_received', [$this->startDate, $this->endDate])
-    //         ->where('status', 'delivered')
-    //         ->where('platform', '!=', 'Facebook Page')
-    //         ->get();
-
-    //     $deliveredOrders = Order::where('user_id', $this->user->id)
-    //         ->whereNotNull('date_received')
-    //         ->whereBetween('date_received', [$this->startDate, $this->endDate])
-    //         ->where('status', 'delivered')
-    //         ->where('platform','Facebook Page')
-    //         ->get();
-
-    //     $returnedOrders = Order::where('user_id', $this->user->id)
-    //         ->whereNotNull('order_returned_date')
-    //         ->whereBetween('order_returned_date', [$this->startDate, $this->endDate])
-    //         ->where('status', 'returned')
-    //         ->get();
-
-    //     $this->shippedCount = (float) $shippedOrders->sum(function ($order) {
-    //         return $order->orderItems->sum('quantity');
-    //     });
-    //     $this->shippedAmount = (float) $shippedOrders->sum(function ($order) {
-    //         return $order->orderItems->sum('total_amount');
-    //     });
-
-    //     $this->deliveredCount = (float) $deliveredOrders->sum(function ($order) {
-    //         return $order->orderItems->sum('quantity');
-    //     });
-    //     $this->deliveredAmount = (float) $deliveredOrders->sum(function ($order) {
-    //         return $order->orderItems->sum('total_amount');
-    //     });
-
-    //     $this->returnedCount = (float) $returnedOrders->sum(function ($order) {
-    //         return $order->orderItems->sum('quantity');
-    //     });
-
-    //    // Calculate deducted amount based on returnedCount
-    //     $this->deductedAmount = $this->returnedCount * 10;
-
-    //     // Calculate total incentive
-    //     $this->totalIncentive = $this->deliveredAmount * ((float) $this->incentivePercentage / 100);
-
-    //     // Subtract deducted amount from total incentive
-    //     $this->totalIncentive -= $this->deductedAmount;
-
-    //     $this->deliveredOrders = $deliveredOrders;
-    //     $this->returnedOrders = $returnedOrders;
-    // }
 
     public function updated($propertyName)
     {
         if (in_array($propertyName, ['startDate', 'endDate', 'pageIncentivePercentage', 'marketIncentivePercentage'])) {
             $this->calculate();
+            $this->saveIncentives();
+        }
+    }
+
+    public function saveIncentives()
+    {
+        // Ensure the values are set to 0 if they are empty
+        $this->pageIncentivePercentage = $this->pageIncentivePercentage !== '' ? $this->pageIncentivePercentage : 0;
+        $this->marketIncentivePercentage = $this->marketIncentivePercentage !== '' ? $this->marketIncentivePercentage : 0;
+
+        $incentive = $this->user->incentive;
+
+        if ($incentive) {
+            $incentive->update([
+                'page_incentive_percentage' => $this->pageIncentivePercentage,
+                'market_incentive_percentage' => $this->marketIncentivePercentage,
+            ]);
+        } else {
+            $this->user->incentive()->create([
+                'page_incentive_percentage' => $this->pageIncentivePercentage,
+                'market_incentive_percentage' => $this->marketIncentivePercentage,
+            ]);
         }
     }
 

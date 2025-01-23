@@ -59,9 +59,14 @@ class User extends Authenticatable
     }
 
     public function orderItems()
-{
-    return $this->hasManyThrough(OrderItem::class, Order::class);
-}
+    {
+        return $this->hasManyThrough(OrderItem::class, Order::class);
+    }
+
+    public function incentive()
+    {
+        return $this->hasOne(Incentive::class);
+    }
 
 
 }

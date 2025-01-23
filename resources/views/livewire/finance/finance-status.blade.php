@@ -2,9 +2,15 @@
     <div class="bg-white shadow overflow-hidden sm:rounded-lg">
         <div class="flex flex-column sm:flex-row flex-wrap space-y-2 sm:space-y-0 items-center justify-between pl-4">
             <div>
-                <h3 class="text-3xl font-bold text-gray-900 mt-4">
-                    Finance Details
-                </h3>
+                @if(auth()->user()->role === 'osr' || auth()->user()->role === 'affiliate')
+                    <h3 class="text-3xl font-bold text-gray-900 mt-4">
+                        Incentives
+                    </h3>
+                @else
+                    <h3 class="text-3xl font-bold text-gray-900 mt-4">
+                        Finance Details
+                    </h3>
+                @endif
             </div>
         </div>
         <div class="px-4 py-5 sm:px-6">
@@ -22,21 +28,19 @@
                 <label for="endDate" class="block text-sm font-medium text-gray-700">End Date</label>
                 <input type="date" id="endDate" wire:model.live="endDate" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
             </div>
-    
-            
             <div>
-                <label for="incentivePercentage" class="block text-sm font-medium text-gray-700">Market Incentive Percentage (%)</label>
-                <input type="number" id="incentivePercentage" wire:model.live="pageIncentivePercentage" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <label for="incentivePercentage" class="block text-sm font-medium text-gray-700">Marketplace and others Incentive Percentage (%)</label>
+                <input type="number" id="incentivePercentage" wire:model.live.debounce.500ms="pageIncentivePercentage" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" @if(auth()->user()->role === 'osr' || auth()->user()->role === 'affiliate') disabled @endif>
             </div>
             <div>
-                <label for="incentivePercentage" class="block text-sm font-medium text-gray-700">Page Incentive Percentage (%)</label>
-                <input type="number" id="incentivePercentage" wire:model.live="marketIncentivePercentage" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <label for="incentivePercentage" class="block text-sm font-medium text-gray-700">Page, Lazada, Shopee and Tiktok Incentive Percentage (%)</label>
+                <input type="number" id="incentivePercentage" wire:model.live.debounce.500ms="marketIncentivePercentage" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"  @if(auth()->user()->role === 'osr' || auth()->user()->role === 'affiliate') disabled @endif>
             </div>
         </div>
     
         <div class="grid grid-cols-2 gap-4 p-2">
             <div class="p-4 bg-gray-100 rounded-lg">
-                <h3 class="text-sm font-medium">Market and Others Delivered Watches</h3>
+                <h3 class="text-sm font-medium">Marketplace and Others Delivered Watches</h3>
                 <p class="text-lg font-semibold">{{ $shippedCount }}</p>
                 <h3 class="text-sm font-medium">Total Amount</h3>
                 <p class="text-lg font-semibold">₱{{ number_format($shippedAmount, 2) }}</p>
@@ -46,7 +50,7 @@
             </div>
     
             <div class="p-4 bg-gray-100 rounded-lg">
-                <h3 class="text-sm font-medium">Page Delivered Watches</h3>
+                <h3 class="text-sm font-medium">Page, Lazada, Shopee and Tiktok Delivered Watches</h3>
                 <p class="text-lg font-semibold">{{ $deliveredCount }}</p>
                 <h3 class="text-sm font-medium">Total Amount</h3>
                 <p class="text-lg font-semibold">₱{{ number_format($deliveredAmount, 2) }}</p>
@@ -68,7 +72,7 @@
         </div>
 
         <div class="mt-8">
-            <h2 class="text-xl font-bold text-black mb-4">Page Delivered Orders</h2>
+            <h2 class="text-xl font-bold text-black mb-4">Page, Lazada, Shopee and Tiktok Delivered Orders</h2>
         </div>
 
         <div class="shadow-lg mt-4 rounded-lg overflow-y-auto overflow-x-auto">
@@ -197,7 +201,7 @@
         </div>
 
         <div class="mt-8">
-            <h2 class="text-xl font-bold text-black mb-4">Market and Others Delivered Orders</h2>
+            <h2 class="text-xl font-bold text-black mb-4">Marketplace and Others Delivered Orders</h2>
         </div>
 
         <div class="shadow-lg mt-4 rounded-lg overflow-y-auto overflow-x-auto">
