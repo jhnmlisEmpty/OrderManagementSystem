@@ -21,12 +21,12 @@
         <div class="grid grid-cols-2 gap-4 mb-6 p-2">
             <div>
                 <label for="startDate" class="block text-sm font-medium text-gray-700">Start Date</label>
-                <input type="date" id="startDate" wire:model.live="startDate" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <input type="date" id="startDate" wire:model.live="startDate" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" @if(auth()->user()->role === 'osr' || auth()->user()->role === 'affiliate') disabled @endif>
             </div>
     
             <div>
                 <label for="endDate" class="block text-sm font-medium text-gray-700">End Date</label>
-                <input type="date" id="endDate" wire:model.live="endDate" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <input type="date" id="endDate" wire:model.live="endDate" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" @if(auth()->user()->role === 'osr' || auth()->user()->role === 'affiliate') disabled @endif>
             </div>
             <div>
                 <label for="incentivePercentage" class="block text-sm font-medium text-gray-700">Marketplace and others Incentive Percentage (%)</label>
@@ -57,6 +57,32 @@
                 <h3 class="text-sm font-medium">Incentive In Page</h3>
                 <p class="text-lg font-semibold">₱{{ number_format($deliveredIncentive, 2) }}</p>
             </div>
+    
+            <div class="p-4 bg-gray-100 rounded-lg col-span-2">
+                <h3 class="text-sm font-medium">Total Incentive</h3>
+                <p class="text-lg font-semibold text-green-500">₱{{ number_format($totalIncentive, 2) }}</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-4 gap-4 p-2">
+            <div class="p-4 bg-gray-100 rounded-lg">
+                <h3 class="text-xl font-medium">Note Order Incentive Scheme : </h3>
+                <h3 class="text-md font-medium">150 PCS & UP : 100%</h3>
+                <h3 class="text-md font-medium">100 PCS & 149 : 75%</h3>
+                <h3 class="text-md font-medium">50 PCS & 99 : 50%</h3>
+                <h3 class="text-md font-medium">30 PCS & 49 : 15%</h3>
+                <h3 class="text-md font-medium">1 PCS & 29 : 5%</h3>
+            </div>
+    
+            <div class="p-4 bg-gray-100 rounded-lg">
+                <h3 class="text-sm font-medium">Total Recieved Watches</h3>
+                <p class="text-lg font-semibold">{{ $totalCount }}</p>
+            </div>
+
+            <div class="p-4 bg-gray-100 rounded-lg">
+                <h3 class="text-sm font-medium">Current Percentage</h3>
+                <p class="text-lg font-semibold">{{ $Percent }}%</p>
+            </div>
 
             <div class="p-4 bg-gray-100 rounded-lg">
                 <h3 class="text-sm font-medium">Returned Watches</h3>
@@ -64,10 +90,12 @@
                 <h3 class="text-sm font-medium">Total Deducted Amount</h3>
                 <p class="text-lg font-semibold">₱{{ number_format($deductedAmount, 2) }}</p>
             </div>
-    
-            <div class="p-4 bg-gray-100 rounded-lg col-span-2">
-                <h3 class="text-sm font-medium">Total Incentive</h3>
-                <p class="text-lg font-semibold text-green-500">₱{{ number_format($totalIncentive, 2) }}</p>
+
+
+
+            <div class="p-4 bg-gray-100 rounded-lg col-span-4">
+                <h3 class="text-sm font-medium">Final Total Incentive Payout</h3>
+                <p class="text-3xl font-semibold text-red-500">₱{{ number_format($finalTotalIncentive, 2) }}</p>
             </div>
         </div>
 

@@ -124,9 +124,4 @@
             </tbody>
         </table>
     </div>
-
-    <!-- Pagination Links -->
-    <div class="mt-4 px-4">
-        {{ $customers->links('pagination::tailwind') }} 
-    </div>
 </div>

@@ -9,13 +9,9 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class TableCustomer extends Component
 {
-    use WithPagination;
     use LivewireAlert;
 
-    public $perPage = 10;  
     public $search = '';  
-
-    protected $paginationTheme = 'bootstrap';
 
     protected $listeners = [
         'confirmDelete',
@@ -78,7 +74,7 @@ class TableCustomer extends Component
     
         $customers = $customersQuery->with(['orders' => function ($query) {
             $query->select('customer_id', 'total_from_items', 'created_at', 'note');
-        }])->paginate($this->perPage);
+        }])->get();
     
         return view('livewire.customer.table-customer', [
             'customers' => $customers,

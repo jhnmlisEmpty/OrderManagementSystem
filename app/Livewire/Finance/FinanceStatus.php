@@ -28,12 +28,12 @@ class FinanceStatus extends Component
     public $deliveredCount;
     public $deliveredAmount;
     public $totalIncentive;
+    public $finalTotalIncentive;
+    public $Percent;
 
     public function mount($user)
     {
         $this->user = User::findOrFail($user);
-        $this->startDate = now()->subMonth()->format('Y-m-d'); // Default start date to one month ago
-        $this->endDate = now()->format('Y-m-d'); // Default end date to today
         $this->calculate();
         $this->loadIncentives();
     }
@@ -46,10 +46,14 @@ class FinanceStatus extends Component
         if ($incentive) {
             $this->pageIncentivePercentage = $incentive->page_incentive_percentage;
             $this->marketIncentivePercentage = $incentive->market_incentive_percentage;
+            $this->startDate = $incentive->startDate;
+            $this->endDate = $incentive->endDate;
             $this->calculate();
         } else {
             $this->pageIncentivePercentage = 0;
             $this->marketIncentivePercentage = 0;
+            $this->startDate = now()->subMonth()->format('Y-m-d'); // Default start date to one month ago
+            $this->endDate = now()->format('Y-m-d');
         }
     }
 
@@ -104,8 +108,37 @@ class FinanceStatus extends Component
         // Calculate total incentive
         $this->totalIncentive = $this->shippedIncentive + $this->deliveredIncentive;
 
-        // Subtract deducted amount from total incentive
-        $this->totalIncentive -= $this->deductedAmount;
+        
+
+        $percentage = 0;
+        $totalCount = $this->deliveredCount + $this->shippedCount;
+
+        switch (true) {
+            case $totalCount >= 150:
+                $percentage = 1.00;
+                $this->Percent=100;
+                break;
+            case $totalCount >= 100:
+                $percentage = 0.75;
+                $this->Percent=75;
+                break;
+            case $totalCount >= 50:
+                $percentage = 0.50;
+                $this->Percent=50;
+                break;
+            case $totalCount >= 30:
+                $percentage = 0.15;
+                $this->Percent=15;
+                break;
+            case $totalCount >= 1:
+                $percentage = 0.05;
+                $this->Percent=5;
+                break;
+        }
+
+        $this->finalTotalIncentive = $this->totalIncentive * $percentage;
+
+        $this->finalTotalIncentive = $this->finalTotalIncentive - $this->deductedAmount;
 
         $this->deliveredOrders = $deliveredOrders;
         $this->shippedOrders = $shippedOrders;
@@ -133,11 +166,15 @@ class FinanceStatus extends Component
             $incentive->update([
                 'page_incentive_percentage' => $this->pageIncentivePercentage,
                 'market_incentive_percentage' => $this->marketIncentivePercentage,
+                'startDate' => $this->startDate,
+                'endDate' => $this->endDate,
             ]);
         } else {
             $this->user->incentive()->create([
                 'page_incentive_percentage' => $this->pageIncentivePercentage,
                 'market_incentive_percentage' => $this->marketIncentivePercentage,
+                'startDate' => $this->startDate,
+                'endDate' => $this->endDate,
             ]);
         }
     }
@@ -164,6 +201,9 @@ class FinanceStatus extends Component
             'deliveredIncentive' => $this->deliveredIncentive,
             'shippedOrders' =>$this->shippedOrders,
             'returnedOrders' => $this->returnedOrders,
+            'totalCount' => $this->deliveredCount + $this->shippedCount,
+            'finalTotalIncentive' => $this->finalTotalIncentive,
+            'Percent' => $this->Percent,
         ]);
     }
 }
