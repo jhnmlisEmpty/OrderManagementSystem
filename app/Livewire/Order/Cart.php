@@ -66,7 +66,7 @@ class Cart extends Component
         'note' => 'nullable|string|max:1000',
 
         'cartItems.*.layout' => 'required|array',
-        'cartItems.*.layout.*' => 'image|max:2048',
+        'cartItems.*.layout.*' => 'image',
         'cartItems.*.price' => 'required|numeric|min:0',
         'cartItems.*.quantity' => 'required|integer|min:1',
         'cartItems.*.packaging_id' => 'required|exists:packagings,id',
