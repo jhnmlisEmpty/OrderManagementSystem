@@ -106,7 +106,7 @@ class FinanceStatus extends Component
         $this->deliveredIncentive = $this->deliveredAmount * ((float) $this->marketIncentivePercentage / 100);
 
         // Calculate total incentive
-        $this->totalIncentive = $this->shippedIncentive + $this->deliveredIncentive;
+        $this->totalIncentive =  $this->deliveredIncentive;
 
         
 
@@ -137,8 +137,9 @@ class FinanceStatus extends Component
         }
 
         $this->finalTotalIncentive = $this->totalIncentive * $percentage;
-
-        $this->finalTotalIncentive = $this->finalTotalIncentive - $this->deductedAmount;
+        
+        $this->finalTotalIncentive += $this->shippedIncentive;
+        $this->finalTotalIncentive -= $this->deductedAmount;
 
         $this->deliveredOrders = $deliveredOrders;
         $this->shippedOrders = $shippedOrders;
