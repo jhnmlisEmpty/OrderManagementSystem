@@ -94,7 +94,7 @@
                         <td class="px-6 py-4 text-gray-500 uppercase dark:text-gray-400">{{ $user->role }}</td>
                         <td class="px-6 py-4">
                             <a 
-                                href="{{ route('finance.status', ['user' => $user->id]) }}" 
+                                href="{{ route('affiliate.incentives', ['user' => $user->id]) }}" 
                                 target="_blank" 
                                 class="inline-block px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300"
                             >
@@ -122,7 +122,7 @@
                         <th scope="col" class="px-6 py-3">Name</th>
                         <th scope="col" class="px-6 py-3">Email</th>
                         <th scope="col" class="px-6 py-3">Role</th>
-                        <th scope="col" class="px-6 py-3">Actions</th>
+                        {{-- <th scope="col" class="px-6 py-3">Actions</th> --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -131,7 +131,7 @@
                         <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">{{ $user->name }}</td>
                         <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">{{ $user->email }}</td>
                         <td class="px-6 py-4 text-gray-500 uppercase dark:text-gray-400">{{ $user->role }}</td>
-                        <td class="px-6 py-4">
+                        {{-- <td class="px-6 py-4">
                             <a 
                                 href="{{ route('finance.status', ['user' => $user->id]) }}" 
                                 target="_blank" 
@@ -139,7 +139,7 @@
                             >
                                 Status
                             </a>
-                        </td>
+                        </td> --}}
                     </tr>
                     @endforeach
                 </tbody>

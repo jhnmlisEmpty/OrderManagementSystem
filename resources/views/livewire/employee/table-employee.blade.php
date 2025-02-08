@@ -39,64 +39,119 @@
         </div>
     </div>
 
-    <!-- Table -->
-    <div class="overflow-y-auto max-h-full shadow-lg mt-4 rounded-lg">
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 sticky top-0 z-10">
-                <tr>
-                    <th scope="col" class="px-6 py-3">
-                        Name
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Email
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Role
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Action
-                    </th>
-                </tr>
-            </thead>
-    
-            <tbody>
-                <!-- Display No Users Message if Empty -->
-                @if($users->isEmpty())
+    <div class="mt-8 shadow-md p-2 m-2 rounded-lg overflow-y-auto">
+        <div class="mt-2">
+            <h2 class="text-xl font-bold text-black mb-4">OSR Users</h2>
+        </div>
+        @if ($osrUsers->isEmpty())
+            <p class="text-gray-500 text-center text-sm mt-4">No OSR users found.</p>
+        @else
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-center text-gray-700 uppercase bg-blue-100 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                        <td colspan="4" class="p-4 text-center text-gray-500">
-                            No users found matching your search criteria.
+                        <th scope="col" class="px-6 py-3">Name</th>
+                        <th scope="col" class="px-6 py-3">Email</th>
+                        <th scope="col" class="px-6 py-3">Role</th>
+                        <th scope="col" class="px-6 py-3">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($osrUsers as $user)
+                    <tr class="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">{{ $user->name }}</td>
+                        <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">{{ $user->email }}</td>
+                        <td class="px-6 py-4 text-gray-500 uppercase dark:text-gray-400">{{ $user->role }}</td>
+                        <td class="px-6 py-4">
+                            @if($user->role === 'affiliate')
+                                <a href="{{ route('assign.products', $user->id) }}" class="text-blue-500 underline">Assign Products</a>
+                            @endif
+                            <a href="{{ route('edit.employee', $user->id) }}" class="text-green-500 underline ml-2">Edit</a>
+                            <button wire:click="deleteUser({{ $user->id }})" class="text-red-500 underline ml-2">
+                                Delete
+                            </button>
                         </td>
                     </tr>
-                @else
-                    @foreach ($users as $user)
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-center">
-                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ $user->name }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $user->email }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ ucfirst($user->role) }}
-                            </td>
-                            <td class="px-6 py-4">
-                                @if($user->role === 'affiliate')
-                                    <a href="{{ route('assign.products', $user->id) }}" class="text-blue-500 underline">Assign Products</a>
-                                @endif
-                                <a href="{{ route('edit.employee', $user->id) }}" class="text-green-500 underline ml-2">Edit</a>
-                                <button wire:click="deleteUser({{ $user->id }})" class="text-red-500 underline ml-2">
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
                     @endforeach
-                @endif
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        @endif
     </div>
-
-    <!-- Pagination Links -->
-    <div class="mt-4 px-4">
-        {{ $users->links() }} 
+    
+    <!-- Affiliate Users Section -->
+    <div class="mt-8 shadow-md p-2 m-2 rounded-lg overflow-y-auto">
+        <div class="mt-2">
+            <h2 class="text-xl font-bold text-black mb-4">Affiliate Users</h2>
+        </div>
+        @if ($affiliateUsers->isEmpty())
+            <p class="text-gray-500 text-center text-sm mt-4">No Affiliate users found.</p>
+        @else
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-center text-gray-700 uppercase bg-blue-100 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">Name</th>
+                        <th scope="col" class="px-6 py-3">Email</th>
+                        <th scope="col" class="px-6 py-3">Role</th>
+                        <th scope="col" class="px-6 py-3">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($affiliateUsers as $user)
+                    <tr class="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">{{ $user->name }}</td>
+                        <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">{{ $user->email }}</td>
+                        <td class="px-6 py-4 text-gray-500 uppercase dark:text-gray-400">{{ $user->role }}</td>
+                        <td class="px-6 py-4">
+                            @if($user->role === 'affiliate')
+                                <a href="{{ route('assign.products', $user->id) }}" class="text-blue-500 underline">Assign Products</a>
+                            @endif
+                            <a href="{{ route('edit.employee', $user->id) }}" class="text-green-500 underline ml-2">Edit</a>
+                            <button wire:click="deleteUser({{ $user->id }})" class="text-red-500 underline ml-2">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
+    </div>
+    
+    <!-- Other Users Section -->
+    <div class="mt-8 shadow-md p-2 m-2 rounded-lg overflow-y-auto">
+        <div class="mt-2">
+            <h2 class="text-xl font-bold text-black mb-4">Other Users</h2>
+        </div>
+        @if ($otherUsers->isEmpty())
+            <p class="text-gray-500 text-center text-sm mt-4">No Other users found.</p>
+        @else
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-center text-gray-700 uppercase bg-blue-100 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">Name</th>
+                        <th scope="col" class="px-6 py-3">Email</th>
+                        <th scope="col" class="px-6 py-3">Role</th>
+                        <th scope="col" class="px-6 py-3">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($otherUsers as $user)
+                    <tr class="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">{{ $user->name }}</td>
+                        <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">{{ $user->email }}</td>
+                        <td class="px-6 py-4 text-gray-500 uppercase dark:text-gray-400">{{ $user->role }}</td>
+                        <td class="px-6 py-4">
+                            @if($user->role === 'affiliate')
+                                <a href="{{ route('assign.products', $user->id) }}" class="text-blue-500 underline">Assign Products</a>
+                            @endif
+                            <a href="{{ route('edit.employee', $user->id) }}" class="text-green-500 underline ml-2">Edit</a>
+                            <button wire:click="deleteUser({{ $user->id }})" class="text-red-500 underline ml-2">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
     </div>
 </div>

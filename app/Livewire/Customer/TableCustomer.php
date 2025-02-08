@@ -10,7 +10,7 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 class TableCustomer extends Component
 {
     use LivewireAlert;
-
+    use WithPagination;
     public $search = '';  
 
     protected $listeners = [

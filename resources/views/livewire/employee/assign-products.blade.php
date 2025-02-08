@@ -78,7 +78,7 @@
                                 {{ $product->stocks }}
                             </td>
                             <td class="px-6 py-4">
-                                <button type="button" wire:click="assignProduct({{ $product->id }})" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                <button type="button" wire:click="assignProduct({{ $product->id }}, {{ $price[$product->id] ?? 0 }})" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                     Assign
                                 </button>
                             </td>
@@ -116,6 +116,13 @@
                     Stocks
                 </th>
                 <th scope="col" class="px-6 py-3">
+                    Wholesale Price
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Input Wholesale Price
+                </th>
+                
+                <th scope="col" class="px-6 py-3">
                     Action
                 </th>
             </tr>
@@ -143,6 +150,15 @@
                             {{ $product->stocks }}
                         </td>
                         <td class="px-6 py-4">
+                            {{ $product->price }}
+                        </td>
+                        <td class="px-6 py-4">
+                            <input type="number" wire:model.defer="price.{{ $product->id }}" class="form-input" placeholder="Enter price" value="{{ $price[$product->id] ?? '' }}">
+                        </td>
+                        <td class="px-6 py-4">
+                            <button type="button" wire:click="updatePrice({{ $product->id }})" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                                Update
+                            </button>
                             <button type="button" wire:click="unassignProduct({{ $product->id }})" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                                 Unassign
                             </button>

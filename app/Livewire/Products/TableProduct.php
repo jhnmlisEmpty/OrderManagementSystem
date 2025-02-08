@@ -5,10 +5,12 @@ namespace App\Livewire\Products;
 use App\Models\Product;
 use Livewire\Component;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Livewire\WithPagination;
 
 class TableProduct extends Component
 {
     use LivewireAlert;
+    use WithPagination;
     
     public $search = '';  
     public $product;

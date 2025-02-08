@@ -55,9 +55,16 @@
                         </th>
                         <th scope="col" class="px-6 py-3">
                             Stock
-                        </th>              
+                        </th>   
+                        @if($user->role === 'affiliate')
+                            <th scope="col" class="px-6 py-3">
+                                Wholesale Price
+                            </th>   
+                        @endif    
                         <th scope="col" class="px-6 py-3">
-                            Action
+                            @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin' || auth()->user()->role === 'production')
+                                Action
+                            @endif 
                         </th>
                     </tr>
                 </thead>
@@ -82,9 +89,15 @@
                                 <td class="px-6 py-4">
                                     {{ $product->code }}
                                 </td>
+                              
                                 <td class="px-6 py-4">
                                     {{ $product->stocks }}
                                 </td>
+
+                                @if($user->role === 'affiliate')
+                                    <td class="px-6 py-4">
+                                        {{ $product->price ?? 'N/A' }} 
+                                @endif
                                 <td class="px-6 py-4">
                                     @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin' || auth()->user()->role === 'production')
                                         <a href="{{ route('update.product', ['id' => $product->id]) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">

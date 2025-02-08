@@ -29,6 +29,7 @@ use App\Livewire\Products\UpdateProduct;
 use App\Livewire\Dashboard\ViewDashboard;
 use App\Livewire\Employee\AssignProducts;
 use App\Livewire\Packaging\PackagingManager;
+use App\Livewire\Finance\AffiliateIncentives;
 
 
 Route::middleware(['auth'])->group(function () {
@@ -71,6 +72,7 @@ Route::middleware(['auth'])->group(function () {
     // Finance Route
    Route::get('/finance', FinanceTable::class)->name('finance.table');
    Route::get('/finance/status/{user}', FinanceStatus::class)->name('finance.status');
+   Route::get('/finance/affiliate/{user}', AffiliateIncentives::class)->name('affiliate.incentives');
 
 });
 

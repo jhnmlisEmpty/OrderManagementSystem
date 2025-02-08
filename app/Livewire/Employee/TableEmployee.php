@@ -10,19 +10,24 @@ use Livewire\Component;
 
 class TableEmployee extends Component
 {
-    use WithPagination;
     use LivewireAlert;
 
-    public $perPage = 10;  
+    public $osrUsers;
+    public $otherUsers;
+    public $affiliateUsers;
+    public $search = '';
 
-    public $search = '';  
+    public function mount()
+    {
+        $this->updateUsers();
+    }
 
     protected $listeners = [
         'confirmDelete',
         'cancelDelete'
     ];
 
-    // Function to trigger delete confirmation
+   
     public function deleteUser($id)
     {
         $this->alert('question', 'Are you sure you want to delete this user?', [
@@ -54,18 +59,42 @@ class TableEmployee extends Component
         $this->alert('info', 'User deletion canceled.');
     }
 
+    public function updatedSearch()
+    {
+        $this->updateUsers();
+    }
+
+    private function updateUsers()
+    {
+        $searchTerm = '%' . $this->search . '%';
+        
+        $this->osrUsers = User::where('role', 'osr')
+            ->where('name', 'like', $searchTerm)
+            ->get();
+    
+        $this->affiliateUsers = User::where('role', 'affiliate')
+            ->where('name', 'like', $searchTerm)
+            ->get();
+    
+        $this->otherUsers = User::whereNotIn('role', ['osr', 'affiliate', 'super_admin'])
+            ->where('name', 'like', $searchTerm)
+            ->get();
+    }
+
     public function render()
     {
-        $users = User::where(function ($query) {
-            $query->where('name', 'like', '%' . $this->search . '%')
-                  ->orWhere('email', 'like', '%' . $this->search . '%');
-        })
-        ->where('role', '!=', 'super_admin')
-        ->paginate($this->perPage);
+        // $users = User::where(function ($query) {
+        //     $query->where('name', 'like', '%' . $this->search . '%')
+        //           ->orWhere('email', 'like', '%' . $this->search . '%');
+        // })
+        // ->where('role', '!=', 'super_admin')
+        // ->paginate($this->perPage);
 
-        return view('livewire.employee.table-employee', [
-            'users' => $users,
-        ]);
+        // return view('livewire.employee.table-employee', [
+        //     'users' => $users,
+        // ]);
+
+        return view('livewire.employee.table-employee');
     }
 
 }

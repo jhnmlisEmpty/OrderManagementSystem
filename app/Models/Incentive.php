@@ -14,6 +14,9 @@ class Incentive extends Model
         'user_id',
         'page_incentive_percentage',
         'market_incentive_percentage',
+        'status',
+        'image',
+        'release_date',
         'startDate',
         'endDate',
     ];

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Livewire\Employee;
 
 use App\Models\User;
@@ -17,11 +16,13 @@ class AssignProducts extends Component
     public $selectedProducts = [];
     public $search = '';
     public $selectAll = false;
+    public $price = [];
 
     public function mount(User $user)
     {
         $this->user = $user;
         $this->selectedProducts = $this->user->products->pluck('id')->toArray();
+        $this->price = $this->user->products->pluck('pivot.price', 'id')->toArray(); // Load existing prices
     }
 
     public function updatedSearch()
@@ -44,9 +45,16 @@ class AssignProducts extends Component
         if (!in_array($productId, $this->selectedProducts)) {
             $this->selectedProducts[] = $productId;
         }
-        $this->user->products()->sync($this->selectedProducts);
+        $this->user->products()->attach($productId);
         $this->selectedProducts = $this->user->products->pluck('id')->toArray(); // Update the selectedProducts array
         $this->alert('success', 'Product assigned successfully!');
+    }
+
+    public function updatePrice($productId)
+    {
+        $price = $this->price[$productId] ?? 0; // Get the updated price for the product
+        Product::where('id', $productId)->update(['price' => $price]); // Update the price in the products table
+        $this->alert('success', 'Price updated successfully!');
     }
 
     public function render()
@@ -54,19 +62,21 @@ class AssignProducts extends Component
         $assignedProductIds = $this->user->products->pluck('id')->toArray();
         $products = Product::whereNotIn('id', $assignedProductIds)
             ->where(function ($query) {
-            $query->where('name', 'like', '%' . $this->search . '%')
-                  ->orWhere('code', 'like', '%' . $this->search . '%');
+                $query->where('name', 'like', '%' . $this->search . '%')
+                      ->orWhere('code', 'like', '%' . $this->search . '%');
             })
             ->paginate(10);
             
-        $assignedProducts = Product::whereIn('id', $assignedProductIds)
+        $assignedProducts = $this->user->products()
             ->where(function ($query) {
-            $query->where('name', 'like', '%' . $this->search . '%')
-                    ->orWhere('code', 'like', '%' . $this->search . '%');
+                $query->where('name', 'like', '%' . $this->search . '%')
+                      ->orWhere('code', 'like', '%' . $this->search . '%');
             })
-            ->get();
+            ->paginate(10);
 
-        return view('livewire.employee.assign-products', compact('products', 'assignedProducts'));
+        return view('livewire.employee.assign-products', [
+            'products' => $products,
+            'assignedProducts' => $assignedProducts,
+        ]);
     }
-    
 }

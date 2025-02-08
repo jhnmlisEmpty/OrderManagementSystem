@@ -186,7 +186,7 @@ class FinanceStatus extends Component
         ->where('status', 'delivered')
         ->whereNotNull('date_received')
         ->whereBetween('date_received', [$this->startDate, $this->endDate])
-        ->paginate(10); 
+        ->get(); 
 
         return view('livewire.finance.finance-status',[
             'user' => $this->user,

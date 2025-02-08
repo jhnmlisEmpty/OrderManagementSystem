@@ -141,14 +141,6 @@ class ViewDashboard extends Component
         });
         $this->chartData = $chartData; 
 
-        // $this->barChart = Order::select('page') // Select the `page` column from the `orders` table
-        //     ->selectRaw('SUM(total_from_items) as total_froms_items_sum') // Calculate the sum of `total_froms_items`
-        //     ->whereNotNull('page') // Exclude rows where `page` is null
-        //     ->whereMonth('created_at', Carbon::now()->month) // Filter by the current month
-        //     ->whereYear('created_at', Carbon::now()->year) // Filter by the current year
-        //     ->groupBy('page') // Group the results by the `page` column
-        //     ->get();
-
         $this->barChart = Order::select('orders.page') // Specify the table for `page`
             ->selectRaw('SUM(order_items.quantity) as total_froms_items_sum')
             ->leftJoin('order_items', 'orders.id', '=', 'order_items.order_id')
