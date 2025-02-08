@@ -96,7 +96,7 @@
                 </p>
             </div>
 
-            <div class="p-4 bg-gray-100 rounded-lg sm:col-span-4 md:col-span-2 lg:col-span-1">
+            <div class="p-4 bg-gray-100 rounded-lg col-span-4 md:col-span-2 lg:col-span-1">
                 <h3 class="text-sm font-medium">Status</h3>
 
                 <!-- Add Save Button -->
