@@ -51,39 +51,39 @@
         </div>
 
         <div class="grid grid-cols-4 gap-4 p-2">
-            <div class="p-4 bg-gray-100 rounded-lg sm:col-span-4 md:col-span-2 lg:col-span-1">
+            <div class="p-4 bg-gray-100 rounded-lg col-span-4 md:col-span-2 lg:col-span-1">
                 <h3 class="text-xl font-medium">Total Amount Recieved : </h3>
                 <p class="text-lg font-semibold">{{ $deliveredIncentive }}</p>
             </div>
     
-            <div class="p-4 bg-gray-100 rounded-lg sm:col-span-4 md:col-span-2 lg:col-span-1">
+            <div class="p-4 bg-gray-100 rounded-lg col-span-4 md:col-span-2 lg:col-span-1">
                 <h3 class="text-sm font-medium">Total Returned Amount</h3>
                 <p class="text-lg font-semibold">{{ $deductedAmount }}</p>
             </div>
 
-            <div class="p-4 bg-gray-100 rounded-lg sm:col-span-4 md:col-span-2 lg:col-span-1">
+            <div class="p-4 bg-gray-100 rounded-lg col-span-4 md:col-span-2 lg:col-span-1">
                 <h3 class="text-sm font-medium">Total Shipping Fee</h3>
                 <p class="text-lg font-semibold">{{ $shippingAmount }}</p>
             </div>
 
-            <div class="p-4 bg-gray-100 rounded-lg sm:col-span-4 md:col-span-2 lg:col-span-1">
+            <div class="p-4 bg-gray-100 rounded-lg col-span-4 md:col-span-2 lg:col-span-1">
                 <h3 class="text-sm font-medium">Total Wholesale Price</h3>
                 <p class="text-lg font-semibold">{{ $wholesaleAmount }}</p>
             </div>
 
-            <div class="p-4 bg-gray-100 rounded-lg sm:col-span-4 md:col-span-2 lg:col-span-1">
+            <div class="p-4 bg-gray-100 rounded-lg col-span-4 md:col-span-2 lg:col-span-1">
                 <h3 class="text-md font-medium">Running Payout: </h3>
                 <p class="text-3xl font-semibold text-green-500">{{ $totalIncentive }}</p>
             </div>
             
-            <div class="p-4 bg-gray-100 rounded-lg sm:col-span-4 md:col-span-2 lg:col-span-1">
+            <div class="p-4 bg-gray-100 rounded-lg col-span-4 md:col-span-2 lg:col-span-1">
                 <h3 class="text-sm font-medium">Release Date</h3>
                 <input type="date" wire:model="releaseDate" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                 @error('releaseDate') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 <p class="mt-2 text-sm text-gray-500">Current: {{ $releaseDate ?? 'N/A' }}</p>
             </div>
             
-            <div class="p-4 bg-gray-100 rounded-lg sm:col-span-4 md:col-span-2 lg:col-span-1">
+            <div class="p-4 bg-gray-100 rounded-lg col-span-4 md:col-span-2 lg:col-span-1">
                 <h3 class="text-sm font-medium">Payout Proof</h3>
                 <input type="file" wire:model="payoutProof" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
                 @error('payoutProof') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
