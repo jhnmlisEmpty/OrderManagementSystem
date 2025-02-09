@@ -62,7 +62,7 @@ class Cart extends Component
 
         'platform' => 'required|string|max:255',
         'page' => 'required_if:platform,Facebook Page|nullable|string|max:255',
-        'shipping_fee' => 'nullable|numeric|min:0',
+        'shipping_fee' => 'required|numeric|min:0',
         'note' => 'nullable|string|max:1000',
 
         'cartItems.*.layout' => 'required|array',
@@ -168,7 +168,7 @@ class Cart extends Component
         }
 
         //Validation to check if the total amount is correct and not zero
-        $amount = $totalFromItems - $this->total_amount + $this->shipping_fee;
+        $amount = $totalFromItems - (float) $this->total_amount + (float) $this->shipping_fee;
 
         if ($amount < 0) {
             $this->addError('amount', 'Full amount cannot be negative. (Kindly check if the total amount is correct.)');
@@ -178,7 +178,7 @@ class Cart extends Component
        
         DB::transaction(function () use ($totalFromItems) {
 
-            $full_amount = $totalFromItems - $this->total_amount + $this->shipping_fee;
+            $full_amount = $totalFromItems - (float) $this->total_amount + (float) $this->shipping_fee;
             
             $customer = Customer::create([
                 'user_id' => auth()->id(),
