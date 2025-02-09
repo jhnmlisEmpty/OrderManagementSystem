@@ -102,10 +102,12 @@ class Cart extends Component
                 $cartItem['product_name'] = $product->name;
                 $cartItem['product_image'] = $product->image;
                 $cartItem['product_stock'] = $product->stocks;
+                $cartItem['price'] = $product->price;
             } else {
                 $cartItem['product_name'] = 'Product not found';
                 $cartItem['product_image'] = null;
                 $cartItem['product_stock'] = 0;
+                $cartItem['price'] = 0;
             }
 
             if ($packaging) {
