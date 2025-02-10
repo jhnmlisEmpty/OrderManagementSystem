@@ -19,6 +19,7 @@ class UpdateProduct extends Component
     public $image;
     public $newImage;
     public $stocks;
+    public $price = 0;
 
     protected $rules = [
         'name' => 'required|string|max:255',
@@ -75,6 +76,7 @@ class UpdateProduct extends Component
             'code' => $this->code,
             'stocks' => $this->stocks,
             'image' => $product->image,
+            'price' => $this->price,
         ]);
 
         $this->alert('success', 'New Product Added Successfully', [

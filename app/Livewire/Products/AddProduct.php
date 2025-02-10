@@ -17,6 +17,7 @@ class AddProduct extends Component
     public $code;
     public $image;
     public $stocks;
+    public $price = 0;
 
     protected $rules = [
         'name' => 'required|string|max:255',
@@ -37,6 +38,7 @@ class AddProduct extends Component
             'code' => $this->code,
             'image' => $imagePath,
             'stocks' => $this->stocks,
+            'price' => $this->price,
         ]);
 
         $this->reset();
