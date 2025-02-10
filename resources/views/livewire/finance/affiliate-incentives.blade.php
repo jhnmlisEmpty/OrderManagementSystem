@@ -72,21 +72,25 @@
             </div>
 
             <div class="p-4 bg-gray-100 rounded-lg col-span-4 md:col-span-2 lg:col-span-1">
-                <h3 class="text-md font-medium">Running Payout: </h3>
-                <p class="text-3xl font-semibold text-green-500">{{ $totalIncentive }}</p>
+                <h3 class="text-md font-medium">Running Payout This Week: </h3>
+                <p class="text-3xl font-semibold text-red-500">{{ $totalIncentive }}</p>
             </div>
             
             <div class="p-4 bg-gray-100 rounded-lg col-span-4 md:col-span-2 lg:col-span-1">
                 <h3 class="text-sm font-medium">Release Date</h3>
-                <input type="date" wire:model="releaseDate" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                @error('releaseDate') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                <p class="mt-2 text-sm text-gray-500">Current: {{ $releaseDate ?? 'N/A' }}</p>
+                @if(auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin')
+                    <input type="date" wire:model="releaseDate" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    @error('releaseDate') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                @endif
+                <p class="mt-2 text-sm text-gray-500"> {{ $releaseDate ?? 'N/A' }}</p>
             </div>
             
             <div class="p-4 bg-gray-100 rounded-lg col-span-4 md:col-span-2 lg:col-span-1">
                 <h3 class="text-sm font-medium">Payout Proof</h3>
-                <input type="file" wire:model="payoutProof" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
-                @error('payoutProof') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                @if(auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin')
+                    <input type="file" wire:model="payoutProof" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+                    @error('payoutProof') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                @endif
                 <p class="mt-2 text-sm text-gray-500">Current: 
                     @if ($payoutProof)
                     <img src="{{ asset('storage/' . $payoutProof) }}" class="h-24 w-24 object-cover">
@@ -98,16 +102,16 @@
 
             <div class="p-4 bg-gray-100 rounded-lg col-span-4 md:col-span-2 lg:col-span-1">
                 <h3 class="text-sm font-medium">Status</h3>
-
-                <!-- Add Save Button -->
-                <button wire:click="save" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    Released
-                </button>
-                <!-- Add Clear Button -->
-                <button wire:click="clearFields" class="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                    Not Released
-                </button>
-
+                @if(auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin')
+                    <!-- Add Save Button -->
+                    <button wire:click="save" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Released
+                    </button>
+                    <!-- Add Clear Button -->
+                    <button wire:click="clearFields" class="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                        Not Released
+                    </button>
+                @endif
                 <p class="mt-2 text-sm text-gray-500">
                     Status: 
                     @if($releaseDate)
@@ -151,7 +155,7 @@
                             Order Total
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Payment
+                            Downpayment
                         </th>
                         <th scope="col" class="px-6 py-3">
                             Shipping Price
@@ -301,7 +305,7 @@
                             Order Total
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Payment
+                            Downpayment
                         </th>
                         <th scope="col" class="px-6 py-3">
                             Shipping Price
