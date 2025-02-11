@@ -89,7 +89,7 @@ class AffiliateIncentives extends Component
         });
 
         $this->deliveredAmount = (float) $deliveredOrders->sum(function ($order) {
-            return $order->orderItems->sum('full_amount');
+            return $order->orderItems->sum('total_amount');
         });
 
         $this->wholesaleAmount = (float) $deliveredOrders->sum(function ($order) {
