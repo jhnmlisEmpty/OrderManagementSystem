@@ -38,6 +38,7 @@ class AffiliateIncentives extends Component
     public $payoutStatus;
     public $releaseDate;
     public $payoutProof;
+    public $fullAmount;
 
     public function mount($user)
     {
@@ -92,6 +93,8 @@ class AffiliateIncentives extends Component
             return $order->orderItems->sum('total_amount');
         });
 
+        
+
         $this->wholesaleAmount = (float) $deliveredOrders->sum(function ($order) {
             return $order->orderItems->sum(function ($orderItem) {
                 return $orderItem->product->price * $orderItem->quantity;
@@ -100,6 +103,8 @@ class AffiliateIncentives extends Component
 
 
         $this->shippingAmount = (float) $deliveredOrders->sum('shipping_price');
+
+        $this->fullAmount = (float) $deliveredOrders->sum('full_amount');
 
         $this->returnedCount = (float) $returnedOrders->sum(function ($order) {
             return $order->orderItems->sum('quantity');
@@ -206,6 +211,7 @@ class AffiliateIncentives extends Component
             'returnedOrders' => $this->returnedOrders,
             'shippingAmount' => $this->shippingAmount,
             'wholesaleAmount' => $this->wholesaleAmount,
+            'fullAmount' => $this->fullAmount,
 
         ]);
     }

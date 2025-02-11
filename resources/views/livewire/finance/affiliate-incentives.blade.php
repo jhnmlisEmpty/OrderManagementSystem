@@ -53,7 +53,7 @@
         <div class="grid grid-cols-4 gap-4 p-2">
             <div class="p-4 bg-gray-100 rounded-lg col-span-4 md:col-span-2 lg:col-span-1">
                 <h3 class="text-xl font-medium">Total Amount Delivered : </h3>
-                <p class="text-lg font-semibold">{{ $deliveredIncentive }}</p>
+                <p class="text-lg font-semibold">{{ $fullAmount }}</p>
             </div>
     
             <div class="p-4 bg-gray-100 rounded-lg col-span-4 md:col-span-2 lg:col-span-1">
