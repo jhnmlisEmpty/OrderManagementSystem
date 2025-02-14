@@ -22,21 +22,16 @@ class AssignProducts extends Component
     {
         $this->user = $user;
         $this->selectedProducts = $this->user->products->pluck('id')->toArray();
-        $this->price = $this->user->products->pluck('pivot.price', 'id')->toArray(); // Load existing prices
+        $this->price = $this->user->products->pluck('pivot.price', 'id')->toArray();
     }
 
-    public function updatedSearch()
-    {
-        $this->resetPage();
-    }
-    
     public function unassignProduct($productId)
     {
         if (($key = array_search($productId, $this->selectedProducts)) !== false) {
             unset($this->selectedProducts[$key]);
         }
         $this->user->products()->sync($this->selectedProducts);
-        $this->selectedProducts = $this->user->products->pluck('id')->toArray(); // Update the selectedProducts array
+        $this->selectedProducts = $this->user->products->pluck('id')->toArray();
         $this->alert('info', 'Product unassigned successfully!');
     }
 
@@ -52,9 +47,14 @@ class AssignProducts extends Component
 
     public function updatePrice($productId)
     {
-        $price = $this->price[$productId] ?? 0; // Get the updated price for the product
-        Product::where('id', $productId)->update(['price' => $price]); // Update the price in the products table
+        $price = $this->price[$productId] ?? 0;
+        Product::where('id', $productId)->update(['price' => $price]);
         $this->alert('success', 'Price updated successfully!');
+    }
+
+    public function updatedSearch()
+    {
+        $this->resetPage();
     }
 
     public function render()
@@ -65,14 +65,14 @@ class AssignProducts extends Component
                 $query->where('name', 'like', '%' . $this->search . '%')
                       ->orWhere('code', 'like', '%' . $this->search . '%');
             })
-            ->paginate(10);
+            ->get();
             
         $assignedProducts = $this->user->products()
             ->where(function ($query) {
                 $query->where('name', 'like', '%' . $this->search . '%')
                       ->orWhere('code', 'like', '%' . $this->search . '%');
             })
-            ->paginate(10);
+            ->get();
 
         return view('livewire.employee.assign-products', [
             'products' => $products,

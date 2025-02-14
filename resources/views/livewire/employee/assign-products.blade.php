@@ -78,7 +78,7 @@
                                 {{ $product->stocks }}
                             </td>
                             <td class="px-6 py-4">
-                                <button type="button" wire:click="assignProduct({{ $product->id }}, {{ $price[$product->id] ?? 0 }})" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                <button type="button" wire:click.debounce.500ms="assignProduct({{ $product->id }}, {{ $price[$product->id] ?? 0 }})" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                     Assign
                                 </button>
                             </td>
@@ -87,11 +87,6 @@
                 @endif
             </tbody>
         </table>
-    </div>
-
-    <!-- Pagination Links -->
-    <div class="mt-4 px-4">
-        {{ $products->links() }} 
     </div>
 
 
@@ -153,7 +148,7 @@
                             {{ $product->price }}
                         </td>
                         <td class="px-6 py-4">
-                            <input type="number" wire:model.defer="price.{{ $product->id }}" class="form-input" placeholder="Enter price" value="{{ $price[$product->id] ?? '' }}">
+                            <input type="number" wire:model="price.{{ $product->id }}" class="form-input" placeholder="Enter price" value="{{ $price[$product->id] ?? '' }}">
                         </td>
                         <td class="px-6 py-4">
                             <button type="button" wire:click="updatePrice({{ $product->id }})" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
