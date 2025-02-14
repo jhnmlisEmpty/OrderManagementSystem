@@ -22,7 +22,7 @@ class AssignProducts extends Component
     {
         $this->user = $user;
         $this->selectedProducts = $this->user->products->pluck('id')->toArray();
-        $this->price = $this->user->products->pluck('pivot.price', 'id')->toArray();
+        // $this->price = $this->user->products->pluck('pivot.price', 'id')->toArray();
     }
 
     public function unassignProduct($productId)
