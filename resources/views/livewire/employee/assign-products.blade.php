@@ -78,7 +78,7 @@
                                 {{ $product->stocks }}
                             </td>
                             <td class="px-6 py-4">
-                                <button type="button" wire:click.debounce.500ms="assignProduct({{ $product->id }}, {{ $price[$product->id] ?? 0 }})" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                <button type="button" wire:click.debounce.200ms="assignProduct({{ $product->id }}, {{ $price[$product->id] ?? 0 }})" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                     Assign
                                 </button>
                             </td>
@@ -91,77 +91,77 @@
 
 
     <!-- Assigned Product -->
-<div class="shadow-lg mt-4 rounded-lg overflow-y-auto overflow-x-auto">
-    <h3 class="text-2xl font-bold text-gray-900 mt-4 mb-2 pl-2">
-        Assigned Products to {{ $user->name }}
-    </h3>
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 sticky top-0 z-10">
-            <tr>
-                <th scope="col" class="px-6 py-3">
-                    Image
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Name
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Code
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Stocks
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Wholesale Price
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Input Wholesale Price
-                </th>
-                
-                <th scope="col" class="px-6 py-3">
-                    Action
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @if($assignedProducts->isEmpty())
+    <div class="shadow-lg mt-4 rounded-lg overflow-y-auto overflow-x-auto">
+        <h3 class="text-2xl font-bold text-gray-900 mt-4 mb-2 pl-2">
+            Assigned Products to {{ $user->name }}
+        </h3>
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 sticky top-0 z-10">
                 <tr>
-                    <td colspan="5" class="p-4 text-center text-gray-500">
-                        No products assigned.
-                    </td>
+                    <th scope="col" class="px-6 py-3">
+                        Image
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Name
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Code
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Stocks
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Wholesale Price
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Input Wholesale Price
+                    </th>
+                    
+                    <th scope="col" class="px-6 py-3">
+                        Action
+                    </th>
                 </tr>
-            @else
-                @foreach($assignedProducts as $product)
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-center">
-                        <td class="px-6 py-4">
-                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="h-12 w-12 object-cover">
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $product->name }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $product->code }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $product->stocks }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $product->price }}
-                        </td>
-                        <td class="px-6 py-4">
-                            <input type="number" wire:model="price.{{ $product->id }}" class="form-input" placeholder="Enter price" value="{{ $price[$product->id] ?? '' }}">
-                        </td>
-                        <td class="px-6 py-4">
-                            <button type="button" wire:click="updatePrice({{ $product->id }})" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                                Update
-                            </button>
-                            <button type="button" wire:click="unassignProduct({{ $product->id }})" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                                Unassign
-                            </button>
+            </thead>
+            <tbody>
+                @if($assignedProducts->isEmpty())
+                    <tr>
+                        <td colspan="5" class="p-4 text-center text-gray-500">
+                            No products assigned.
                         </td>
                     </tr>
-                @endforeach
-            @endif
-        </tbody>
-    </table>
-</div>
+                @else
+                    @foreach($assignedProducts as $product)
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-center">
+                            <td class="px-6 py-4">
+                                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="h-12 w-12 object-cover">
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $product->name }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $product->code }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $product->stocks }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $product->price }}
+                            </td>
+                            <td class="px-6 py-4">
+                                <input type="number" wire:model="price.{{ $product->id }}" class="form-input" placeholder="Enter price" value="{{ $price[$product->id] ?? '' }}">
+                            </td>
+                            <td class="px-6 py-4">
+                                <button type="button" wire:click="updatePrice({{ $product->id }})" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                                    Update
+                                </button>
+                                <button type="button" wire:click="unassignProduct({{ $product->id }})" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                    Unassign
+                                </button>
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
+            </tbody>
+        </table>
+    </div>
 </div>
