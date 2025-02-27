@@ -57,7 +57,7 @@ class OrderView extends Component
                     $product->stocks -= $orderItem->quantity;
                     $product->save();
 
-                    $packaging = $orderItem->packaging;
+                    $packaging = $orderItem->packaging()->first();
                     $packaging->quantity -= $orderItem->quantity;
                     $packaging->save();
                 }
