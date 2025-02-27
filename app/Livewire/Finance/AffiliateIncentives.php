@@ -104,7 +104,7 @@ class AffiliateIncentives extends Component
 
         $this->shippingAmount = (float) $deliveredOrders->sum('shipping_price');
 
-        $this->fullAmount = (float) $deliveredOrders->sum('full_amount');
+        $this->fullAmount = (float) $deliveredOrders->sum('total_from_items');
 
         $this->returnedCount = (float) $returnedOrders->sum(function ($order) {
             return $order->orderItems->sum('quantity');
