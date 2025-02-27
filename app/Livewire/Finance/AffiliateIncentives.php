@@ -117,6 +117,7 @@ class AffiliateIncentives extends Component
 
         // Calculate total incentive
         $this->totalIncentive =  $this->deliveredIncentive;
+        $this->totalIncentive -= $this->shippingAmount;
         
         $this->totalIncentive -= $this->deductedAmount;
         $this->totalIncentive -= $this->wholesaleAmount;
