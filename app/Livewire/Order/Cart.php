@@ -70,7 +70,7 @@ class Cart extends Component
         'cartItems.*.price' => 'required|numeric|min:0',
         'cartItems.*.quantity' => 'required|integer|min:1',
         'cartItems.*.packaging_id' => 'required|exists:packagings,id',
-        'cartItems.*.additionalServices' => 'nullable|string|max:255',
+        'cartItems.*.additionalService' => 'nullable|string|max:255',
         'cartItems.*.servicePrice' => 'nullable|numeric|min:0',
     ];
 
@@ -96,7 +96,7 @@ class Cart extends Component
             $cartItem['quantity'] = $cartItem['quantity'] ?? 1; 
             $cartItem['total_amount'] = $cartItem['total_amount'] ?? 0;
             $cartItem['packaging_id'] = $cartItem['packaging_id'] ?? null;
-            $cartItem['additionalServices'] = $cartItem['additionalServices'] ?? null;
+            $cartItem['additionalServices'] = $cartItem['additionalService'] ?? null;
             $cartItem['servicePrice'] = $cartItem['servicePrice'] ?? 0;
 
             $product = Product::find($cartItem['product_id']);
