@@ -236,6 +236,8 @@
                                                 <td class="px-4 py-2">{{ $item->product->price }}</td>
                                                 <td class="px-4 py-2">₱{{ number_format($item->price, 2) }}</td>
                                                 <td class="px-4 py-2">{{ $item->quantity }}</td>
+                                                <td class="px-4 py-2">{{ $item->additionalService ?? 'N/A' }}</td>
+                                                <td class="px-4 py-2">{{ $item->servicePrice ? '₱' . number_format($item->servicePrice, 2) : 'N/A' }}</td>
                                                 <td class="px-4 py-2">{{ $item->total_amount }}</td>
                                             </tr>
                                         @endforeach
