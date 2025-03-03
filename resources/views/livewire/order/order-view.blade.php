@@ -271,6 +271,8 @@
                         <th class="px-6 py-3">Product Name</th>
                         <th class="px-6 py-3">Quantity</th>
                         <th class="px-6 py-3">Price</th>
+                        <th class="px-6 py-3">Service Price</th>
+                        <th class="px-6 py-3">Additional Service</th>
                         <th class="px-6 py-3">Total</th>
                         <th class="px-6 py-3">Layout</th>
                     </tr>
@@ -281,6 +283,8 @@
                             <td class="px-6 py-4">{{ $item->product->name }}</td>
                             <td class="px-6 py-4">{{ $item->quantity }}</td>
                             <td class="px-6 py-4">₱{{ number_format($item->price, 2) }}</td>
+                            <td class="px-4 py-2">{{ $item->additionalService ?? 'N/A' }}</td>
+                            <td class="px-4 py-2">{{ $item->servicePrice ? '₱' . number_format($item->servicePrice, 2) : 'N/A' }}</td>
                             <td class="px-6 py-4">₱{{ number_format($item->total_amount, 2) }}</td>
                             <td class="px-6 py-4">
                                 @if($item->layout)

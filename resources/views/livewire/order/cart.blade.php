@@ -99,6 +99,24 @@
                                 <input type="text" id="packaging_quantity_{{ $index }}" value="{{ $packagings->firstWhere('id', $cartItems[$index]['packaging_id'])->quantity ?? 'N/A' }}" class="border rounded w-full p-2" readonly>
                             </div>
                         </div>
+
+                        <div class="mb-2 flex space-x-4">
+                            <div class="flex-1">
+                                <label for="addittionalService_{{ $index }}" class="block font-medium">Additional Service</label>
+                                <select id="additionalService_{{ $index }}" wire:model.live="cartItems.{{ $index }}.additionalService" class="border rounded w-full p-2">
+                                    <option value="">Select Additional Service</option>
+                                    <option value="Engraving">Engraving</option>
+                                    <option value="Box Upgrade">Box Upgrade</option>      
+                                </select>
+                                @error("cartItems.{$index}.additionalService") <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                            </div>
+                        
+                            <div class="flex-1">
+                                <label for="servicePrice_{{ $index }}" class="block font-medium">Service Price</label>
+                                <input type="number" id="servicePrice_{{ $index }}" wire:model.live="cartItems.{{ $index }}.servicePrice" class="border rounded w-full p-2">
+                                @error("cartItems.{$index}.servicePrice") <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-span-2 mt-4">
@@ -118,7 +136,7 @@
                     @endif --}}
                 </div>
                <div class="text-center mt-4">
-                    <span class="text-lg font-bold">Total: {{ (float) $cartItems[$index]['price'] * (int) $cartItems[$index]['quantity'] }}</span>
+                    <span class="text-lg font-bold">Total: {{ (float) $cartItems[$index]['price'] * (int) $cartItems[$index]['quantity'] + (float) $cartItems[$index]['servicePrice'] }}</span>
                </div>
                <div class="flex justify-center items-center">
                     <button type="button" wire:click="removeItem({{ $index }})" 
@@ -134,7 +152,7 @@
         <div class="mt-4 text-xl font-semibold underline text-center">
             <span>Order Item Total: </span>
             <span>{{ number_format(collect($cartItems)->sum(function($item) {
-                return (float) $item['price'] * (int) $item['quantity'];
+                return (float) $item['price'] * (int) $item['quantity'] + (float) $item['servicePrice'];
             }), 2) }}</span>
         </div>
 
@@ -224,10 +242,9 @@
             <span>
                 {{ number_format(
                     collect($cartItems)->sum(function($item) {
-                        return (float) $item['price'] * (int) $item['quantity'];
+                        return (float) $item['price'] * (int) $item['quantity'] + (float) $item['servicePrice'];
                     }) + (float) $shipping_fee - (float) $total_amount, 2)
                 }}
-               
             </span>
             
         </div>

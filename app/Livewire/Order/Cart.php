@@ -70,6 +70,8 @@ class Cart extends Component
         'cartItems.*.price' => 'required|numeric|min:0',
         'cartItems.*.quantity' => 'required|integer|min:1',
         'cartItems.*.packaging_id' => 'required|exists:packagings,id',
+        'cartItems.*.additionalServices' => 'nullable|string|max:255',
+        'cartItems.*.servicePrice' => 'nullable|numeric|min:0',
     ];
 
     protected $casts = [
@@ -94,6 +96,8 @@ class Cart extends Component
             $cartItem['quantity'] = $cartItem['quantity'] ?? 1; 
             $cartItem['total_amount'] = $cartItem['total_amount'] ?? 0;
             $cartItem['packaging_id'] = $cartItem['packaging_id'] ?? null;
+            $cartItem['additionalServices'] = $cartItem['additionalServices'] ?? null;
+            $cartItem['servicePrice'] = $cartItem['servicePrice'] ?? 0;
 
             $product = Product::find($cartItem['product_id']);
             $packaging = Packaging::find($cartItem['packaging_id']);
@@ -144,6 +148,7 @@ class Cart extends Component
 
         foreach ($this->cartItems as $index => $cartItem) {
             $price = (float) $cartItem['price'];
+            $servicePrice = (float) $cartItem['servicePrice'];
             $quantity = (int) $cartItem['quantity'];
             $productId = $cartItem['product_id'];
             $packagingId = $cartItem['packaging_id'];
@@ -167,6 +172,7 @@ class Cart extends Component
             }
     
             $totalFromItems += $price * $quantity;
+            $totalFromItems += $servicePrice;
         }
 
         //Validation to check if the total amount is correct and not zero
@@ -223,7 +229,9 @@ class Cart extends Component
             foreach ($this->cartItems as $cartItem) {
                 $price = (float) $cartItem['price'];
                 $quantity = (int) $cartItem['quantity'];
+                $servicePrice = (float) $cartItem['servicePrice'];
                 $totalAmount = $price * $quantity;
+                $totalAmount += $servicePrice;
             
                 $product = Product::find($cartItem['product_id']);
                 $packaging = Packaging::find($cartItem['packaging_id']);
@@ -243,6 +251,9 @@ class Cart extends Component
                     'quantity' => $quantity,
                     'total_amount' => $totalAmount,
                     'layout' => json_encode($storedLayouts),
+                    'additionalService' => $cartItem['additionalService'],
+                    'servicePrice' => $cartItem['servicePrice'],
+
                 ]);
             }
 
