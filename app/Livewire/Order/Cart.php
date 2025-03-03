@@ -96,7 +96,7 @@ class Cart extends Component
             $cartItem['quantity'] = $cartItem['quantity'] ?? 1; 
             $cartItem['total_amount'] = $cartItem['total_amount'] ?? 0;
             $cartItem['packaging_id'] = $cartItem['packaging_id'] ?? null;
-            $cartItem['additionalServices'] = $cartItem['additionalService'] ?? null;
+            $cartItem['additionalService'] = $cartItem['additionalService'] ?? null;
             $cartItem['servicePrice'] = $cartItem['servicePrice'] ?? 0;
 
             $product = Product::find($cartItem['product_id']);
