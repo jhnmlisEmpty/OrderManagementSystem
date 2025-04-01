@@ -53,7 +53,7 @@ class OrderView extends Component
                 }
 
                 foreach ($order->orderItems as $orderItem) {
-                    $product = $orderItem->product;
+                    $product = $orderItem->product()->first();
                     $product->stocks -= $orderItem->quantity;
                     $product->save();
 
