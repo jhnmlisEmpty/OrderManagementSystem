@@ -23,6 +23,7 @@ class TablePlatform extends Component
     {
         $this->startDate = Carbon::now()->subMonth()->format('Y-m-d'); // Default start date to one month ago
         $this->endDate = Carbon::now()->format('Y-m-d'); // Default end date to today
+        
     }
 
     public function updated($propertyName)

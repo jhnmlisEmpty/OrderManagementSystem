@@ -28,16 +28,28 @@
                 </div>
             </div>
 
-            <div class="mb-4">
-                <label for="image" class="block text-sm font-medium text-gray-700">Product Image</label>
-                <input type="file" id="image" wire:model="image" class="mt-1 block w-full">
-                @error('image') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            <div class="grid grid-cols-1 md:grid-cols-2 mb-4">
+                <div>
+                    <label for="image" class="block text-sm font-medium text-gray-700">Product Image</label>
+                    <input type="file" id="image" wire:model="image" class="mt-1 block w-full">
+                    @error('image') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
 
                 {{-- @if ($image)
                     <div class="mt-2">
                         <img src="{{ $image->temporaryUrl() }}" class="h-24 w-24 object-cover">
                     </div>
                 @endif --}}
+
+                <div>
+                    <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+                    <select id="category" wire:model="category" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                        <option value="">Select a category</option>
+                        <option value="Watch & Apparel"> Watch & Apparel</option>
+                        <option value="Health & Beauty Product"> Health & Beauty Product</option>
+                    </select>
+                    @error('category') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
             </div>
 
             

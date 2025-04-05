@@ -19,12 +19,14 @@ class UpdateProduct extends Component
     public $image;
     public $newImage;
     public $stocks;
+    public $category;
 
     protected $rules = [
         'name' => 'required|string|max:255',
         'code' => 'required|string|max:255|unique:products,code,{id}', // Placeholder for dynamic validation
         'newImage' => 'nullable|image|max:1024',
         'stocks' => 'required|integer|min:0',
+        'category' => 'required',
     ];
 
     protected $listeners = [
@@ -41,6 +43,7 @@ class UpdateProduct extends Component
         $this->code = $product->code;
         $this->image = $product->image;
         $this->stocks = $product->stocks;
+        $this->category = $product->category;
     }
 
     public function updateProduct()
@@ -75,6 +78,7 @@ class UpdateProduct extends Component
             'code' => $this->code,
             'stocks' => $this->stocks,
             'image' => $product->image,
+            'category' => $this->category,
         ]);
 
         $this->alert('success', 'New Product Added Successfully', [

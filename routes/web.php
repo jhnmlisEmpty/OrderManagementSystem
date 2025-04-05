@@ -11,18 +11,19 @@ use App\Livewire\Order\ManageOrders;
 
 use App\Livewire\Products\AddProduct;
 
+use App\Livewire\Sales\SalesOverview;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Employee\AddEmployee;
 use App\Livewire\Finance\FinanceTable;
 use App\Livewire\Employee\EditEmployee;
-use App\Livewire\Finance\FinanceStatus;
 
+use App\Livewire\Finance\FinanceStatus;
 use App\Livewire\Logistic\SetLogistics;
 use App\Livewire\Products\TableProduct;
+
 use App\Livewire\Customer\TableCustomer;
 
 use App\Livewire\Employee\TableEmployee;
-
 use App\Livewire\Platform\OrderPlatform;
 use App\Livewire\Platform\TablePlatform;
 use App\Livewire\Products\UpdateProduct;
@@ -73,6 +74,10 @@ Route::middleware(['auth'])->group(function () {
    Route::get('/finance', FinanceTable::class)->name('finance.table');
    Route::get('/finance/status/{user}', FinanceStatus::class)->name('finance.status');
    Route::get('/finance/affiliate/{user}', AffiliateIncentives::class)->name('affiliate.incentives');
+
+   Route::get('/sales-overview', SalesOverview::class)->name('sales.overview');
+
+   
 
 });
 
