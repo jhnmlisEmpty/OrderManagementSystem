@@ -5,6 +5,7 @@ namespace App\Livewire\Sales;
 use App\Models\Order;
 use Livewire\Component;
 use App\Models\OrderItem;
+use App\Models\GlobalFilter;
 use App\Models\PlatformOrder;
 use App\Models\PlatformOrderItems;
 
@@ -38,18 +39,33 @@ class SalesOverview extends Component
 
     public function mount()
     {
-        $this->startDate = now()->subYear()->format('Y-m-d'); // One year ago
-        $this->endDate = now()->format('Y-m-d'); // Today
+        $filter = GlobalFilter::where('filter_name', 'sales_date_range')->first();
+
+        $this->startDate = $filter->start_date ?? now()->subYear()->format('Y-m-d'); // Default: one year ago
+        $this->endDate = $filter->end_date ?? now()->format('Y-m-d'); // Default: today
 
         $this->calculateTotalFullAmount();
+
+        // $this->startDate = now()->subYear()->format('Y-m-d'); // One year ago
+        // $this->endDate = now()->format('Y-m-d'); // Today
+
+        // $this->calculateTotalFullAmount();
     }
 
     public function updated($propertyName)
     {
         if (in_array($propertyName, ['startDate', 'endDate'])) {
-            $this->render();
+            // Update or create the global filter
+            GlobalFilter::updateOrCreate(
+                ['filter_name' => 'sales_date_range'],
+                [
+                    'start_date' => $this->startDate,
+                    'end_date' => $this->endDate,
+                ]
+            );
+    
+            $this->calculateTotalFullAmount();
         }
-        $this->calculateTotalFullAmount();
     }
 
     public function calculateTotalFullAmount()
