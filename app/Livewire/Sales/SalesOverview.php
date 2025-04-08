@@ -33,6 +33,9 @@ class SalesOverview extends Component
     //Page sales
     public $pageSales = [];
 
+    public $searchPlatformOrders = '';
+    public $searchOrders = '';
+
     public function mount()
     {
         $this->startDate = now()->subYear()->format('Y-m-d'); // One year ago
@@ -54,11 +57,24 @@ class SalesOverview extends Component
         if ($this->startDate && $this->endDate) {
 
             $this->platformOrders = PlatformOrder::whereBetween('created_at', [$this->startDate, $this->endDate])
-            ->get();
+                ->when($this->searchPlatformOrders, function ($query) {
+                    $query->where('page', 'like', '%' . $this->searchPlatformOrders . '%') // Adjust column name as needed
+                        ->orWhere('platform', 'like', '%' . $this->searchPlatformOrders . '%');
+                })
+                ->get();
 
-            $this->orders = Order::whereBetween('created_at', [$this->startDate, $this->endDate])
-            ->where('status', 'delivered')
-            ->get();
+            $this->orders = $ordersQuery = Order::with('customer', 'user')
+                ->whereBetween('created_at', [$this->startDate, $this->endDate])
+                ->where('status', 'delivered')
+                ->where(function($query) {
+                    $query->where('id', 'like', '%' . $this->searchOrders . '%')
+                        ->orWhereHas('customer', function($query) {
+                            $query->where('name', 'like', '%' . $this->searchOrders . '%');
+                        })
+                        ->orWhereHas('user', function ($query) {
+                            $query->where('name', 'like', '%' . $this->searchOrders . '%');
+                        });
+                })->get();
 
 
             //Computation for overall sales

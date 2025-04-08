@@ -65,7 +65,7 @@
             </div>
         </div>
 
-        <div class="overflow-y-auto max-h-56 shadow-lg mt-4 rounded-lg">
+        <div class="overflow-y-auto max-h-[420px] shadow-lg mt-4 rounded-lg">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 sticky top-0 z-10">
                     <tr>
@@ -116,7 +116,7 @@
             </div>
         </div>
 
-        <div class="overflow-y-auto max-h-56 shadow-lg mt-4 rounded-lg">
+        <div class="overflow-y-auto  shadow-max-h-[420px] lg mt-4 rounded-lg">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 sticky top-0 z-10">
                     <tr>
@@ -167,8 +167,26 @@
             </div>
         </div>
 
-
+        <div class="m-3">
+            <label for="table-search" class="sr-only">Search</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 flex items-center ps-3 pointer-events-none">
+                    <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <input 
+                    type="text" 
+                    id="search" 
+                    wire:key="search-input"
+                    class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Search for orders" 
+                    wire:model.live="searchOrders"
+                />
+            </div>  
+        </div>
         <div class="overflow-y-auto max-h-56 shadow-lg mt-4 rounded-lg">
+            
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 sticky top-0 z-10">
                     <tr>
@@ -211,12 +229,18 @@
                         <th scope="col" class="px-6 py-3">
                             Status
                         </th>
+                        <th scope="col" class="px-6 py-3">
+                            Action
+                        </th>
                     </tr>
                 </thead>
         
                 <tbody>
                     @foreach ($orders as $order)
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-center">
+                            <td class="w-4 p-4">
+                                {{ $order->user->name }}
+                            </td>
                             <td class="w-4 p-4">
                                 {{ $order->id }}
                             </td>
@@ -238,6 +262,8 @@
                                 {{ $order->platform }}
                             </td>
                             <td class="w-4 p-4">
+                                {{ $order->page ?? 'Not set' }}
+                            <td class="w-4 p-4">
                                 {{ $order->paymentMethod->method }}
                             </td>
                             <td class="px-6 py-4 w-24">
@@ -247,10 +273,9 @@
                                             <td class="px-4 py-2">{{ $item->product->name }}</td>
                                             <td class="px-4 py-2">₱{{ number_format($item->price, 2) }}</td>
                                             <td class="px-4 py-2">{{ $item->quantity }}</td>
+                                            <td class="px-4 py-2">{{ $item->total_amount }}</td>
                                             <td class="px-4 py-2">{{ $item->additionalService ?? 'N/A' }}</td>
                                             <td class="px-4 py-2">{{ $item->servicePrice ? '₱' . number_format($item->servicePrice, 2) : 'N/A' }}</td>
-                                            <td class="px-4 py-2">{{ $item->total_amount }}</td>
-
                                         </tr>
                                     @endforeach
                                 </table>
@@ -272,13 +297,10 @@
                                 ₱{{ number_format($order->full_amount, 2) }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $order->date_received }}
-                            </td>
-                            <td class="px-6 py-4">
                                 {{ $order->status }}
                             </td>
                             <td class="px-6 py-4">
-                                <a href="{{ route('view.order', ['orderId' => $order->id]) }}" target="_blank" class="font-medium text-blue-600 dark:blue-red-500 hover:underline">
+                                <a href="{{ route('view.order', ['orderId' => $order->id]) }}" target="_blank" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                                     View
                                 </a>
                             </td>
@@ -288,6 +310,25 @@
             </table>
         </div>
 
+
+        <div class="m-3">
+            <label for="table-search" class="sr-only">Search</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 flex items-center ps-3 pointer-events-none">
+                    <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <input 
+                    type="text" 
+                    id="search" 
+                    wire:key="search-input"
+                    class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Search for orders" 
+                    wire:model.live="searchPlatformOrders"
+                />
+            </div>  
+        </div>
         <div class="overflow-y-auto max-h-56 shadow-lg mt-4 rounded-lg">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 sticky top-0 z-10">
