@@ -27,13 +27,16 @@ class CheckIp
         '192.168.68.98',
         '192.168.254.104',
         '143.44.216.31',
-        '2001:fd8:b986:c700:c5c0:173f:8fc:aef8'
+        '2001:fd8:b986:c700:c5c0:173f:8fc:aef8',
+        '2001:fd8:b986:c700:b801:c40b:f4:b1c8' ,
         ];
-        $ip = request()->getClientIp();
+        // $ip = request()->getClientIp();
+        $ips = $request->getClientIps();
+        $ip = $ips[0];
 
         $user = $request->user();
         if ($user && in_array($user->role, ['admin', 'super_admin'])) {
-           
+            dd($ip);
             return $next($request);
         }
 
