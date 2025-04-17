@@ -1,5 +1,5 @@
 <div class="container mx-auto mt-5  max-w-full" >
-    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg p-5">
         <div class="flex flex-column sm:flex-row flex-wrap space-y-2 sm:space-y-0 items-center justify-between pl-4">
             <div>
                 @if(auth()->user()->role === 'osr' || auth()->user()->role === 'affiliate')
@@ -98,6 +98,8 @@
                 <p class="text-3xl font-semibold text-red-500">₱{{ number_format($finalTotalIncentive, 2) }}</p>
             </div>
         </div>
+
+        @livewire('payslip.osr-payslip', ['userId' => $user->id])
 
         <div class="mt-8">
             <h2 class="text-xl font-bold text-black mb-4">Page, Lazada, Shopee and Tiktok Delivered Orders</h2>

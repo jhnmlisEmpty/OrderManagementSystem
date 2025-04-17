@@ -15,14 +15,15 @@ use App\Livewire\Sales\SalesOverview;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Employee\AddEmployee;
 use App\Livewire\Finance\FinanceTable;
-use App\Livewire\Employee\EditEmployee;
+use App\Livewire\Attendance\Attendance;
 
+use App\Livewire\Employee\EditEmployee;
 use App\Livewire\Finance\FinanceStatus;
 use App\Livewire\Logistic\SetLogistics;
+
 use App\Livewire\Products\TableProduct;
 
 use App\Livewire\Customer\TableCustomer;
-
 use App\Livewire\Employee\TableEmployee;
 use App\Livewire\Platform\OrderPlatform;
 use App\Livewire\Platform\TablePlatform;
@@ -31,6 +32,8 @@ use App\Livewire\Dashboard\ViewDashboard;
 use App\Livewire\Employee\AssignProducts;
 use App\Livewire\Packaging\PackagingManager;
 use App\Livewire\Finance\AffiliateIncentives;
+
+use App\Http\Middleware\CheckIp;
 
 
 Route::middleware(['auth'])->group(function () {
@@ -71,11 +74,15 @@ Route::middleware(['auth'])->group(function () {
       Route::get('/platform/order', OrderPlatform::class)->name('create.orderPlatform');
 
     // Finance Route
-   Route::get('/finance', FinanceTable::class)->name('finance.table');
-   Route::get('/finance/status/{user}', FinanceStatus::class)->name('finance.status');
-   Route::get('/finance/affiliate/{user}', AffiliateIncentives::class)->name('affiliate.incentives');
+    Route::get('/finance', FinanceTable::class)->name('finance.table');
+    Route::get('/finance/status/{user}', FinanceStatus::class)->name('finance.status');
+    Route::get('/finance/affiliate/{user}', AffiliateIncentives::class)->name('affiliate.incentives');
 
-   Route::get('/sales-overview', SalesOverview::class)->name('sales.overview');
+    // Sales Route
+    Route::get('/sales-overview', SalesOverview::class)->name('sales.overview');
+
+    //Attendance Route
+    Route::get('/attendance', Attendance::class)->name('attendance.attendance')->middleware(CheckIp::class);
 
    
 
