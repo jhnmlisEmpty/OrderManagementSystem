@@ -29,6 +29,7 @@ class CheckIp
         '143.44.216.31',
         '2001:fd8:b986:c700:c5c0:173f:8fc:aef8',
         '2001:fd8:b986:c700:b801:c40b:f4:b1c8' ,
+        '2001:fd8:b986:c700:293b:b382:467a:143e',
         ];
         $ip = request()->getClientIp();
 
