@@ -30,13 +30,10 @@ class CheckIp
         '2001:fd8:b986:c700:c5c0:173f:8fc:aef8',
         '2001:fd8:b986:c700:b801:c40b:f4:b1c8' ,
         ];
-        // $ip = request()->getClientIp();
-        $ips = $request->getClientIps();
-        $ip = $ips[0];
+        $ip = request()->getClientIp();
 
         $user = $request->user();
         if ($user && in_array($user->role, ['admin', 'super_admin'])) {
-            dd($ip);
             return $next($request);
         }
 
