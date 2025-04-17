@@ -53,11 +53,11 @@ class OsrPayslip extends Component
         $this->dailySalaryRate = $this->salaryRate; // Example: ₱500/day
 
         $existingPayslip = OsrPayslipInfo::where('user_id', $this->userId)
-            ->where('start_date', $this->startDate)
-            ->where('end_date', $this->endDate)
             ->first();
 
         if ($existingPayslip) {
+            $this->startDate = $existingPayslip->start_date;
+            $this->endDate = $existingPayslip->end_date;
             $this->dailySalaryRate = $existingPayslip->base_salary;
             $this->sss = $existingPayslip->sss;
             $this->philhealth = $existingPayslip->philhealth;

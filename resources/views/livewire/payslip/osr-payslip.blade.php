@@ -6,11 +6,11 @@
     <div class="mb-4 grid grid-cols-2 gap-4">
         <div>
             <label for="startDate" class="block text-sm font-medium text-gray-700">Start Date</label>
-            <input type="date" id="startDate" wire:model.live="startDate" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            <input type="date" id="startDate" wire:model.live="startDate" @if(auth()->user()->role === 'osr') disabled @endif class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
         </div>
         <div>
             <label for="endDate" class="block text-sm font-medium text-gray-700">End Date</label>
-            <input type="date" id="endDate" wire:model.live="endDate" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            <input type="date" id="endDate" wire:model.live="endDate" @if(auth()->user()->role === 'osr') disabled @endif class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
         </div>
     </div>
 
@@ -59,24 +59,24 @@
     <div class="mt-4 grid grid-cols-1 md:grid-cols-4 gap-2 shadow-md bg-slate-200 p-4 rounded-lg">
         <div class="col-span-4 md:col-span-1">
             <label for="salaryRate" class="block text-sm font-medium text-gray-700">Salary Rate</label>
-            <input type="number" id="salaryRate" wire:model.change="dailySalaryRate" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter salary rate">
+            <input type="number" id="salaryRate" wire:model.change="dailySalaryRate" @if(auth()->user()->role === 'osr') disabled @endif class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter salary rate">
         </div>
 
-        <div class=" mt-5 col-span-4 md:col-span-1">
+        <div class=" col-span-4 md:col-span-1">
             <p class="block text-sm font-medium text-gray-700">Number of Time Present</p>
             <p class="text-xl font-bold text-blue-500">
                 {{ $totalHours }} hrs {{ $totalMinutes }} mins {{ $totalSeconds }} secs
             </p>
         </div>
 
-        <div class=" mt-5 col-span-4 md:col-span-1">
+        <div class="col-span-4 md:col-span-1">
             <p class="block text-sm font-medium text-gray-700">Number of Days Present</p>
             <p class="text-xl font-bold text-blue-500">
                 {{$presentDays}}
             </p>
         </div>
        
-        <div class="mt-5 col-span-4 md:col-span-1">
+        <div class="col-span-4 md:col-span-1">
             <p class="block text-xl font-bold text-gray-700">Based Salary</p>
             <p class="text-3xl font-bold text-red-500">
                {{$totalSalary}}
@@ -89,27 +89,27 @@
 
         <div class="col-span-4 md:col-span-1">
             <label for="sss" class="block text-sm font-medium text-gray-700">SSS</label>
-            <input type="number" id="sss" wire:model.change="sss" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter salary rate">
+            <input type="number" id="sss" wire:model.change="sss" @if(auth()->user()->role === 'osr') disabled @endif class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter salary rate">
         </div>
 
         <div class="col-span-4 md:col-span-1">
             <label for="philhealth" class="block text-sm font-medium text-gray-700">Phil Health</label>
-            <input type="number" id="philhealth" wire:model.change="philhealth" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter salary rate">
+            <input type="number" id="philhealth" wire:model.change="philhealth" @if(auth()->user()->role === 'osr') disabled @endif class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter salary rate">
         </div>
 
         <div class="col-span-4 md:col-span-1">
             <label for="pagibig" class="block text-sm font-medium text-gray-700">Pag-Ibig</label>
-            <input type="number" id="pagibig" wire:model.change="pagibig" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter salary rate">
+            <input type="number" id="pagibig" wire:model.change="pagibig" @if(auth()->user()->role === 'osr') disabled @endif class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter salary rate">
         </div>
 
         <div class="col-span-4 md:col-span-1">
             <label for="otherDeduction" class="block text-sm font-medium text-gray-700">Other Deduction</label>
-            <input type="number" id="otherDeduction" wire:model.change="otherDeduction" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter salary rate">
+            <input type="number" id="otherDeduction" wire:model.change="otherDeduction"  @if(auth()->user()->role === 'osr') disabled @endif class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter salary rate">
         </div>
 
         <div class="col-span-2 md:col-span-1">
             <label for="otherDeductionNotes" class="block text-sm font-medium text-gray-700">Notes in other deduction</label>
-            <textarea id="otherDeductionNotes" wire:model="otherDeductionNotes" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter notes for other deductions"></textarea>
+            <textarea id="otherDeductionNotes" wire:model="otherDeductionNotes"  @if(auth()->user()->role === 'osr') disabled @endif class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter notes for other deductions"></textarea>
         </div>
 
         <div class="col-span-4 md:col-span-1">
@@ -119,7 +119,7 @@
     
             <div>
                 
-                <input type="number" id="incentives" wire:model.change="incentives" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter Incentives">
+                <input type="number" id="incentives" wire:model.change="incentives" @if(auth()->user()->role === 'osr') disabled @endif  class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter Incentives">
             </div>
         </div>
 
@@ -136,82 +136,84 @@
 
         <div class="mt-8 col-span-4">
            <div class="grid grid-cols-1 md:grid-cols-4 gap-2 ">
-                <div>
-                    <label for="paymentMethod" class="block text-sm font-medium text-gray-700">Payment Method</label>
-                    <input type="text" id="paymentMethod" wire:model="paymentMethod" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter  Payment Method">
-                </div>
+            <div>
+                <label for="paymentMethod" class="block text-sm font-medium text-gray-700">Payment Method</label>
+                <input type="text" id="paymentMethod" wire:model="paymentMethod" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter Payment Method" @if(auth()->user()->role === 'osr') disabled @endif>
+            </div>
 
-                <div>
-                    <label for="accountName" class="block text-sm font-medium text-gray-700">Account Name</label>
-                    <input type="text" id="accountName" wire:model="accountName" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter Account Name">
-                </div>
+            <div>
+                <label for="accountName" class="block text-sm font-medium text-gray-700">Account Name</label>
+                <input type="text" id="accountName" wire:model="accountName" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter Account Name" @if(auth()->user()->role === 'osr') disabled @endif>
+            </div>
 
-                <div>
-                    <label for="accountNumber" class="block text-sm font-medium text-gray-700">Account Number</label>
-                    <input type="text" id="accountNumber" wire:model="accountNumber" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter Account Number">
-                </div>
+            <div>
+                <label for="accountNumber" class="block text-sm font-medium text-gray-700">Account Number</label>
+                <input type="text" id="accountNumber" wire:model="accountNumber" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter Account Number" @if(auth()->user()->role === 'osr') disabled @endif>
+            </div>
 
-                <div>
-                    <label for="releaseDate" class="block text-sm font-medium text-gray-700">Release Date</label>
-                    <input type="date" id="releaseDate" wire:model="releaseDate" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter release date">
-                </div>
+            <div>
+                <label for="releaseDate" class="block text-sm font-medium text-gray-700">Release Date</label>
+                <input type="date" id="releaseDate" wire:model="releaseDate" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter release date" @if(auth()->user()->role === 'osr') disabled @endif>
+            </div>
 
+            <div class="mt-2">
+                <label for="qrCode" class="block text-sm font-medium text-gray-700">QR Code</label>
+                <input type="file" id="qrCode" wire:model="qrCode" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" @if(auth()->user()->role === 'osr') disabled @endif>
+                @error('qrCode')
+                <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
                 <div class="mt-2">
-                    <label for="qrCode" class="block text-sm font-medium text-gray-700">QR Code</label>
-                    <input type="file" id="qrCode" wire:model="qrCode" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                    @error('qrCode')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
-                    <div class="mt-2">
-                        @if (is_string($qrCode))
-                            <p class="text-sm text-gray-500">Preview:</p>
-                            <img src="{{ asset('storage/' . $qrCode) }}" alt="QR Code Preview" class="w-32 h-32 object-cover rounded-md">
-                        @endif
-                    </div>
+                @if (is_string($qrCode))
+                    <p class="text-sm text-gray-500">Preview:</p>
+                    <img src="{{ asset('storage/' . $qrCode) }}" alt="QR Code Preview" class="w-32 h-32 object-cover rounded-md">
+                @endif
                 </div>
+            </div>
 
+            <div class="mt-2">
+                <label for="paymentProof" class="block text-sm font-medium text-gray-700">Payment Proof</label>
+                <input type="file" id="paymentProof" wire:model="paymentProof" class="mt-1 block w-full bg-blue border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" @if(auth()->user()->role === 'osr') disabled @endif>
+                @error('paymentProof')
+                <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
                 <div class="mt-2">
-                    <label for="paymentProof" class="block text-sm font-medium text-gray-700">Payment Proof</label>
-                    <input type="file" id="paymentProof" wire:model="paymentProof" class="mt-1 block w-full bg-blue border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                    @error('paymentProof')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
-                    <div class="mt-2">
-                        @if (is_string($paymentProof))
-                            <p class="text-sm text-gray-500">Preview:</p>
-                            <img src="{{ asset('storage/' . $paymentProof) }}" alt="Payment Proof Preview" class="w-32 h-32 object-cover rounded-md">
-                        @endif
-                    </div>
+                @if (is_string($paymentProof))
+                    <p class="text-sm text-gray-500">Preview:</p>
+                    <img src="{{ asset('storage/' . $paymentProof) }}" alt="Payment Proof Preview" class="w-32 h-32 object-cover rounded-md">
+                @endif
                 </div>
+            </div>
 
-                <div class="col-span-2 mt-10">
-                    <div class=" flex items-center space-x-4 mt-5">
+            <div class="col-span-2">
+                <div class=" flex items-center space-x-4 mt-5">
+                    @if(auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin')
                         <button wire:click="markAsReleased" 
-                                class="px-4 py-2 bg-green-500 text-white rounded-md shadow hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400"
-                                wire:loading.attr="disabled" wire:target="qrCode, paymentProof">
+                            class="px-4 py-2 bg-green-500 text-white rounded-md shadow hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400"
+                            wire:loading.attr="disabled" wire:target="qrCode, paymentProof" @if(auth()->user()->role === 'osr') disabled @endif>
                             Released
                         </button>
                         <button wire:click="markAsNotReleased" 
-                                class="px-4 py-2 bg-red-500 text-white rounded-md shadow hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400"
-                                wire:loading.attr="disabled" wire:target="qrCode, paymentProof">
+                            class="px-4 py-2 bg-red-500 text-white rounded-md shadow hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400"
+                            wire:loading.attr="disabled" wire:target="qrCode, paymentProof" @if(auth()->user()->role === 'osr') disabled @endif>
                             Not Released
                         </button>
                         <span wire:loading wire:target="qrCode, paymentProof" class="text-sm text-gray-500">
                             Uploading files, please wait...
                         </span>
-                        <p class="text-sm text-gray-500">Status: 
-                            <span class="font-bold">
-                                {{ $status === 'released' ? 'RELEASED' : 'NOT RELEASED' }}
-                            </span>
-                        </p>
-                    </div>
-
-                    @if (session()->has('message'))
-                        <div class="mt-2 text-green-500 font-bold">
-                            {{ session('message') }}
-                        </div>
                     @endif
+                    <p class="text-sm text-gray-500">Status: 
+                        <span class="text-bold text-3xl font-bold">
+                            {{ $status === 'released' ? 'RELEASED' : 'NOT RELEASED' }}
+                        </span>
+                    </p>
                 </div>
+
+                @if (session()->has('message'))
+                <div class="mt-2 text-green-500 font-bold">
+                    {{ session('message') }}
+                </div>
+                @endif
+            </div>
 
                
            </div>
