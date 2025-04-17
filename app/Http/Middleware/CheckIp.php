@@ -24,6 +24,7 @@ class CheckIp
         }
 
         if (!in_array($ip, $allowedIps)) {
+            dd($ip);
             abort(403, 'Unauthorized (You are not in the place to access this page)');
         }
 
