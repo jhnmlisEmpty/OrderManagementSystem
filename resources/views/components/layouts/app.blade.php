@@ -131,7 +131,7 @@
                                 <path fill-rule="evenodd" d="M2 11a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-7Zm7.5 1a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z" clip-rule="evenodd"/>
                                 <path d="M10.5 14.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/>
                               </svg>                              
-                            <span class="flex-1 ms-3 whitespace-nowrap">Salary</span>
+                            <span class="flex-1 ms-3 whitespace-nowrap">Manage Finance</span>
                         </a>
                     @endif
                 </li>
@@ -157,7 +157,7 @@
                                 <path fill-rule="evenodd" d="M2 11a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-7Zm7.5 1a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z" clip-rule="evenodd"/>
                                 <path d="M10.5 14.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/>
                               </svg>                              
-                            <span class="flex-1 ms-3 whitespace-nowrap">Incentives</span>
+                            <span class="flex-1 ms-3 whitespace-nowrap">Salary</span>
                         </a>
                     @elseif(auth()->user()->role === 'affiliate')
                         <a href="{{ route('affiliate.incentives', ['user' => auth()->user()->id]) }}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
