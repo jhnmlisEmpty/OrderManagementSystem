@@ -49,7 +49,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" class="px-6 py-4 text-center text-gray-500">No attendance records found.</td>
+                        <td colspan="7" class="px-6 py-4 text-center text-gray-500">No attendance records found.</td>
                     </tr>
                 @endforelse
             </tbody>
