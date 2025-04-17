@@ -15,6 +15,8 @@ class Attendance extends Component
     public $isAdmin = false; // Flag to check if the user is admin or super admin
     public $canTimeIn = true;
     public $canTimeOut = false;
+    public $search = ''; 
+    
 
     public function mount()
     {
@@ -103,9 +105,16 @@ class Attendance extends Component
     {
         if ($this->isAdmin) {
             // Admins can view all attendance records
-            $this->attendanceRecords = UserAttendance::whereBetween('date', [$this->startDate, $this->endDate])
-                ->with('user') // Load user relationship
-                ->get()
+            $query = UserAttendance::whereBetween('date', [$this->startDate, $this->endDate])
+                ->with('user'); // Load user relationship
+
+            if (!empty($this->search)) {
+                $query->whereHas('user', function ($q) {
+                    $q->where('name', 'like', '%' . $this->search . '%');
+                });
+            }
+
+            $this->attendanceRecords = $query->get()
                 ->sortBy(function ($record) {
                     return $record->user->name ?? ''; // Sort by user name
                 });
