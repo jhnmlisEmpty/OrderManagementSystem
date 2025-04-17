@@ -20,6 +20,7 @@ class CheckIp
 
         $user = $request->user();
         if ($user && in_array($user->role, ['admin', 'super_admin'])) {
+            dd($ip);
             return $next($request);
         }
 
