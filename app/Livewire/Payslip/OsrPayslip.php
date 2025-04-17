@@ -237,7 +237,8 @@ class OsrPayslip extends Component
             $this->filterAttendanceRecords();
             $this->computeTotalSalary();
             $this->computeTotalTimeWorked();
-            $this->computePresentDays();   
+            $this->computePresentDays(); 
+            $this->savePayslip();  
         }
     }
 
