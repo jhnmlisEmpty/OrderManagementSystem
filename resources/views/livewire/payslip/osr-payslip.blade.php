@@ -158,7 +158,7 @@
 
             <div class="mt-2">
                 <label for="qrCode" class="block text-sm font-medium text-gray-700">QR Code</label>
-                <input type="file" id="qrCode" wire:model="qrCode" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" @if(auth()->user()->role === 'osr') disabled @endif>
+                <input type="file" id="qrCode" wire:model.change="qrCode" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" @if(auth()->user()->role === 'osr') disabled @endif>
                 @error('qrCode')
                 <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
@@ -172,7 +172,7 @@
 
             <div class="mt-2">
                 <label for="paymentProof" class="block text-sm font-medium text-gray-700">Payment Proof</label>
-                <input type="file" id="paymentProof" wire:model="paymentProof" class="mt-1 block w-full bg-blue border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" @if(auth()->user()->role === 'osr') disabled @endif>
+                <input type="file" id="paymentProof" wire:model.change="paymentProof" class="mt-1 block w-full bg-blue border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" @if(auth()->user()->role === 'osr') disabled @endif>
                 @error('paymentProof')
                 <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
