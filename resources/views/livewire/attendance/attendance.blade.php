@@ -7,7 +7,7 @@
             </h3>
         </div>
 
-        <div class="relative overflow-x-auto shadow-lg sm:rounded-lg p-4">
+        <div class="relative overflow-x-auto sm:rounded-lg p-4">
             <div class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between py-4">
                 <div>
                     <label for="table-search" class="sr-only">Search</label>
@@ -26,14 +26,6 @@
                             wire:model.live="search"
                         />
                     </div>                
-                </div>
-    
-                <div>
-                    <button
-                        wire:click='resetButton'
-                        class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                        Reset
-                </button>
                 </div>
             </div>
         </div>
