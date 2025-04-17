@@ -38,7 +38,7 @@ class CheckIp
         }
 
         if (!in_array($ip, $allowedIps)) {
-            abort(403, 'Unauthorized (Your IP: ' . $ip . ' is not allowed to access this page)');
+            abort(403, 'Unauthorized (Your IP: ' . $ip . ' is not allowed to access this page) contact the developer to register your IP address');
         }
 
         return $next($request);
