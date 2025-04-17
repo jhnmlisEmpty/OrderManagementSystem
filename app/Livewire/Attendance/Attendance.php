@@ -126,6 +126,15 @@ class Attendance extends Component
         }
     }
 
+    public function deleteAttendance()
+    {
+        if ($this->isAdmin) {
+            UserAttendance::truncate(); // Deletes all records from the attendance table
+            $this->attendanceRecords = []; // Clear the local records
+            $this->checkLastAttendance(); // Reset time-in and time-out flags
+        }
+    }
+
     public function updated($propertyName)
     {
         // Refresh attendance records when startDate or endDate is updated
