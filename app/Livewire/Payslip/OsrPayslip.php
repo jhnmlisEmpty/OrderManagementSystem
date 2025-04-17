@@ -233,7 +233,7 @@ class OsrPayslip extends Component
     public function updated($propertyName)
     {
         // Refresh attendance records when startDate or endDate is updated
-        if (in_array($propertyName, ['dailySalaryRate','startDate', 'endDate','sss', 'philhealth', 'pagibig', 'otherDeduction','incentives'])) {
+        if (in_array($propertyName, ['dailySalaryRate','startDate', 'endDate','sss', 'philhealth', 'pagibig', 'otherDeduction','incentives','otherDeductionNotes','accountName','accountNumber','paymentMethod','releaseDate'])) {
             $this->filterAttendanceRecords();
             $this->computeTotalSalary();
             $this->computeTotalTimeWorked();
