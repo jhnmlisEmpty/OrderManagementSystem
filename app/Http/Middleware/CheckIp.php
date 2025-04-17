@@ -29,7 +29,7 @@ class CheckIp
         '143.44.216.31',
         '2001:fd8:b986:c700:c5c0:173f:8fc:aef8'
         ];
-        $ip = $request->ip();
+        $ip = $request->header('X-Forwarded-For') ?? $request->ip();
 
         $user = $request->user();
         if ($user && in_array($user->role, ['admin', 'super_admin'])) {
