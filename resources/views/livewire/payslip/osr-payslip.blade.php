@@ -109,7 +109,7 @@
 
         <div class="col-span-2 md:col-span-1">
             <label for="otherDeductionNotes" class="block text-sm font-medium text-gray-700">Notes in other deduction</label>
-            <textarea id="otherDeductionNotes" wire:model="otherDeductionNotes"  @if(auth()->user()->role === 'osr') disabled @endif class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter notes for other deductions"></textarea>
+            <textarea id="otherDeductionNotes" wire:model.change="otherDeductionNotes"  @if(auth()->user()->role === 'osr') disabled @endif class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter notes for other deductions"></textarea>
         </div>
 
         <div class="col-span-4 md:col-span-1">
@@ -138,22 +138,22 @@
            <div class="grid grid-cols-1 md:grid-cols-4 gap-2 ">
             <div>
                 <label for="paymentMethod" class="block text-sm font-medium text-gray-700">Payment Method</label>
-                <input type="text" id="paymentMethod" wire:model="paymentMethod" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter Payment Method" @if(auth()->user()->role === 'osr') disabled @endif>
+                <input type="text" id="paymentMethod" wire:model.change="paymentMethod" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter Payment Method" @if(auth()->user()->role === 'osr') disabled @endif>
             </div>
 
             <div>
                 <label for="accountName" class="block text-sm font-medium text-gray-700">Account Name</label>
-                <input type="text" id="accountName" wire:model="accountName" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter Account Name" @if(auth()->user()->role === 'osr') disabled @endif>
+                <input type="text" id="accountName" wire:model.change="accountName" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter Account Name" @if(auth()->user()->role === 'osr') disabled @endif>
             </div>
 
             <div>
                 <label for="accountNumber" class="block text-sm font-medium text-gray-700">Account Number</label>
-                <input type="text" id="accountNumber" wire:model="accountNumber" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter Account Number" @if(auth()->user()->role === 'osr') disabled @endif>
+                <input type="text" id="accountNumber" wire:model.change="accountNumber" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter Account Number" @if(auth()->user()->role === 'osr') disabled @endif>
             </div>
 
             <div>
                 <label for="releaseDate" class="block text-sm font-medium text-gray-700">Release Date</label>
-                <input type="date" id="releaseDate" wire:model="releaseDate" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter release date" @if(auth()->user()->role === 'osr') disabled @endif>
+                <input type="date" id="releaseDate" wire:model.change="releaseDate" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter release date" @if(auth()->user()->role === 'osr') disabled @endif>
             </div>
 
             <div class="mt-2">
