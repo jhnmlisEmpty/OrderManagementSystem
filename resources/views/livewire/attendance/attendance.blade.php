@@ -69,14 +69,14 @@
                             @if ($isAdmin)
                                 <input type="time" wire:change="updateAttendance({{ $record->id }}, 'time_in', $event.target.value)" value="{{ $record->time_in }}">
                             @else
-                                {{ $record->time_in ?? 'N/A' }}
+                                {{ \Carbon\Carbon::parse($record->time_in)->format('h:i A') ?? 'N/A' }}
                             @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             @if ($isAdmin)
                                 <input type="time" wire:change="updateAttendance({{ $record->id }}, 'time_out', $event.target.value)" value="{{ $record->time_out }}">
                             @else
-                                {{ $record->time_out ?? 'N/A' }}
+                            {{ \Carbon\Carbon::parse($record->time_out)->format('h:i A') ?? 'N/A' }}
                             @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
