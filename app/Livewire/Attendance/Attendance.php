@@ -129,7 +129,7 @@ class Attendance extends Component
     public function updated($propertyName)
     {
         // Refresh attendance records when startDate or endDate is updated
-        if (in_array($propertyName, ['startDate', 'endDate'])) {
+        if (in_array($propertyName, ['startDate', 'endDate', 'search'])) {
             $this->filterAttendanceRecords();
         }
     }
