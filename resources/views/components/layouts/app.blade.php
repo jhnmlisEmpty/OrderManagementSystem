@@ -131,7 +131,7 @@
                                 <path fill-rule="evenodd" d="M2 11a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-7Zm7.5 1a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z" clip-rule="evenodd"/>
                                 <path d="M10.5 14.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/>
                               </svg>                              
-                            <span class="flex-1 ms-3 whitespace-nowrap">Manage Finance</span>
+                            <span class="flex-1 ms-3 whitespace-nowrap">Salary</span>
                         </a>
                     @endif
                 </li>
