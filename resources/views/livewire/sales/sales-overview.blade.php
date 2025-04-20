@@ -65,7 +65,7 @@
             </div>
         </div>
 
-        <div class="overflow-y-auto max-h-[420px] shadow-lg mt-4 rounded-lg">
+        <div class="shadow-lg mt-4 rounded-lg">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 sticky top-0 z-10">
                     <tr>
@@ -116,7 +116,7 @@
             </div>
         </div>
 
-        <div class="overflow-y-auto  shadow-max-h-[420px] lg mt-4 rounded-lg">
+        <div class="lg mt-4 rounded-lg">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 sticky top-0 z-10">
                     <tr>

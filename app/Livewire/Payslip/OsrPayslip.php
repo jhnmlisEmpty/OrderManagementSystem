@@ -248,13 +248,13 @@ class OsrPayslip extends Component
     public function render()
     {
         return view('livewire.payslip.osr-payslip', [
-            'attendanceRecords' => $this->attendanceRecords,
-            'totalSalary' => $this->totalSalary,
-            'totalHours' => $this->totalHours,
-            'totalMinutes' => $this->totalMinutes,
-            'presentDays' => $this->presentDays,
-            'totalSeconds' => $this->totalSeconds,
-            'netPay' => $this->netPay,
+            'attendanceRecords' => (float) $this->attendanceRecords,
+            'totalSalary' => (float) $this->totalSalary,
+            'totalHours' => (float) $this->totalHours,
+            'totalMinutes' => (float) $this->totalMinutes,
+            'presentDays' => (float) $this->presentDays,
+            'totalSeconds' => (float) $this->totalSeconds,
+            'netPay' => (float) $this->netPay,
         ]);
     }
 }

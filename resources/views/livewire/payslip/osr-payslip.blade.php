@@ -32,8 +32,12 @@
                         <td class="px-6 py-4 whitespace-nowrap">{{ $record->user->name ?? 'N/A' }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">{{ $record->date }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">{{ \Carbon\Carbon::parse($record->date)->format('l') }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $record->time_in ?? 'N/A' }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $record->time_out ?? 'N/A' }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            {{ $record->time_in ? \Carbon\Carbon::parse($record->time_in)->format('h:i A') : 'N/A' }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            {{ $record->time_out ? \Carbon\Carbon::parse($record->time_out)->format('h:i A') : 'N/A' }}
+                        </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             @if ($record->seconds_elapsed !== null)
                                 @php
@@ -129,8 +133,8 @@
 
         <div class="shadow-md bg-slate-400 p-4 rounded-lg col-span-4 md:col-span-1">
             <p class="block text-xl font-bold text-gray-700">Net Payout</p>
-            <p class="text-3xl font-bold text-red-500">
-               {{$netPay}}
+            <p class="text-3xl font-bold text-yellow-500">
+               {{ round($netPay, 2) }}
             </p>
         </div>
 
