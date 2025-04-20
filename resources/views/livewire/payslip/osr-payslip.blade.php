@@ -83,7 +83,7 @@
         <div class="col-span-4 md:col-span-1">
             <p class="block text-xl font-bold text-gray-700">Based Salary</p>
             <p class="text-3xl font-bold text-red-500">
-               {{$totalSalary}}
+               {{ round($totalSalary, 2) }}
             </p>
         </div>
 
