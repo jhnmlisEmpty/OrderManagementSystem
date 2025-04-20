@@ -39,7 +39,7 @@ class OsrPayslip extends Component
     public $paymentMethod;
     public $qrcode;
     public $releaseDate;
-    public $status = 'not released'; // Default status
+    public $status = 'pending'; // Default status
     public $incentives;
 
     public $netPay;
@@ -126,6 +126,7 @@ class OsrPayslip extends Component
             'incentives' => $this->incentives,
             'start_date' => $this->startDate,
             'end_date' => $this->endDate,
+            'status' => $this->status,
             ]);
         } else {
             OsrPayslipInfo::create([
