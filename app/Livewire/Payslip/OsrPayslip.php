@@ -39,7 +39,7 @@ class OsrPayslip extends Component
     public $paymentMethod;
     public $qrcode;
     public $releaseDate;
-    public $status = 'not release'; // Default status
+    public $status = 'pending'; // Default status
     public $incentives;
 
     public $netPay;
