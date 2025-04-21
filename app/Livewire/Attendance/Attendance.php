@@ -3,6 +3,7 @@
 namespace App\Livewire\Attendance;
 
 use Livewire\Component;
+use App\Models\GlobalFilter;
 use App\Models\UserAttendance;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,9 +21,9 @@ class Attendance extends Component
 
     public function mount()
     {
-        $this->date = now()->format('Y-m-d'); // Default to today's date
-        $this->startDate = now()->subMonth()->format('Y-m-d'); // Default: one month ago
-        $this->endDate = now()->format('Y-m-d'); // Default: today
+        $filter = GlobalFilter::where('filter_name', 'attendance_date_range')->first();
+        $this->startDate = $filter->start_date ?? now()->subYear()->format('Y-m-d'); // Default: one year ago
+        $this->endDate = $filter->end_date ?? now()->format('Y-m-d'); // Default: today
 
         // Check if the user is admin or super admin
         $this->isAdmin = in_array(Auth::user()->role, ['admin', 'super_admin']);
@@ -139,6 +140,14 @@ class Attendance extends Component
     {
         // Refresh attendance records when startDate or endDate is updated
         if (in_array($propertyName, ['startDate', 'endDate', 'search'])) {
+
+            GlobalFilter::updateOrCreate(
+                ['filter_name' => 'attendance_date_range'],
+                [
+                    'start_date' => $this->startDate,
+                    'end_date' => $this->endDate,
+                ]
+            );
             $this->filterAttendanceRecords();
         }
     }
