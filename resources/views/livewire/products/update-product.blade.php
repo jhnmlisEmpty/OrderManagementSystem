@@ -28,25 +28,11 @@
                     @error('stocks') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
            </div>
-    
-            {{-- <div class="mb-4">
-                <label for="newImage" class="block text-sm font-medium text-gray-700">Product Image</label>
-                <input type="file" id="newImage" wire:model="newImage" class="mt-1 block w-full">
-                @error('newImage') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-    
-                @if ($newImage)
-                    
-                @else
-                    <div class="mt-2">
-                        <img src="{{ asset('storage/' . $image) }}" class="h-24 w-24 object-cover">
-                    </div> 
-                @endif
-            </div>     --}}
 
             <div class="grid grid-cols-1 md:grid-cols-2 mb-4">
                 <div>
                     <label for="image" class="block text-sm font-medium text-gray-700">Product Image</label>
-                    <input type="file" id="image" wire:model="image" class="mt-1 block w-full">
+                    <input type="file" id="image" wire:model="newImage" class="mt-1 block w-full">
                     @error('image') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
 
                     @if ($newImage)
