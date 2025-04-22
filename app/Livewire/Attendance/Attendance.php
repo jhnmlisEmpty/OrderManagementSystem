@@ -127,6 +127,15 @@ class Attendance extends Component
         }
     }
 
+    public function deleteRecord($id)
+    {
+        $record = Attendance::find($id);
+        if ($record) {
+            $record->delete();
+            session()->flash('message', 'Record deleted successfully.');
+        }
+    }
+
     public function deleteAttendance()
     {
         if ($this->isAdmin) {

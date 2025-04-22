@@ -89,6 +89,9 @@
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time In</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time Out</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time Stamp</th>
+                    @if ($isAdmin)
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    @endif
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
@@ -108,9 +111,13 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             @if ($isAdmin)
-                                <input type="time" wire:change="updateAttendance({{ $record->id }}, 'time_out', $event.target.value)" value="{{ $record->time_out }}">
+                                @if ($record->time_out)
+                                    <input type="time" wire:change="updateAttendance({{ $record->id }}, 'time_out', $event.target.value)" value="{{ $record->time_out }}">
+                                @else
+                                    <span class="text-gray-500">No data available</span>
+                                @endif
                             @else
-                                {{ $record->time_out ? \Carbon\Carbon::parse($record->time_out)->format('h:i A') : 'N/A' }}
+                                {{ $record->time_out ? \Carbon\Carbon::parse($record->time_out)->format('h:i A') : 'No data available' }}
                             @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
@@ -125,6 +132,15 @@
                                 N/A
                             @endif
                         </td>
+                        @if ($isAdmin)
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <button 
+                                wire:click="deleteRecord({{ $record->id }})" 
+                                class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-800">
+                                Delete
+                            </button>
+                        </td>
+                    @endif
                     </tr>
                 @endforeach
             </tbody>
