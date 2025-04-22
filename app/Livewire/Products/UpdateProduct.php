@@ -76,7 +76,7 @@ class UpdateProduct extends Component
             'name' => $this->name,
             'code' => $this->code,
             'stocks' => $this->stocks,
-            'image' => $imagePath,
+            'image' => $this->imagePath,
             'category' => $this->category,
         ]);
 
