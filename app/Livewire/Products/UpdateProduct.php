@@ -70,13 +70,14 @@ class UpdateProduct extends Component
 
         if ($this->newImage) {
             $imagePath = $this->newImage->store('products', 'public');
+            $product->image = $imagePath;
         }
 
         $product->update([
             'name' => $this->name,
             'code' => $this->code,
             'stocks' => $this->stocks,
-            'image' => $this->imagePath,
+            
             'category' => $this->category,
         ]);
 
