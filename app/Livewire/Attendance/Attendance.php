@@ -84,12 +84,42 @@ class Attendance extends Component
         }
     }
 
+    // public function updateAttendance($attendanceId, $field, $value)
+    // {
+    //     if ($this->isAdmin) {
+    //         $attendance = UserAttendance::find($attendanceId);
+
+    //         if ($attendance) {
+    //             $attendance->$field = $value;
+
+    //             // If updating time_out, calculate seconds_elapsed
+    //             if ($field === 'time_out' && $attendance->time_in) {
+    //                 $timeIn = \Carbon\Carbon::createFromFormat('H:i:s', $attendance->time_in);
+    //                 $timeOut = \Carbon\Carbon::createFromFormat('H:i:s', $value);
+    //                 $attendance->seconds_elapsed = $timeIn->diffInSeconds($timeOut);
+    //             }
+
+    //             $attendance->save();
+    //             $this->filterAttendanceRecords(); // Refresh the list
+    //             $this->checkLastAttendance();
+    //         }
+    //     }
+    // }
     public function updateAttendance($attendanceId, $field, $value)
     {
         if ($this->isAdmin) {
             $attendance = UserAttendance::find($attendanceId);
 
             if ($attendance) {
+                // Validate the time format
+                if ($field === 'time_out' || $field === 'time_in') {
+                    $value = $value ?: '00:00:00'; // Default to '00:00:00' if empty
+                    if (!preg_match('/^\d{2}:\d{2}(:\d{2})?$/', $value)) {
+                        $this->alert('error', 'Invalid time format.');
+                        return;
+                    }
+                }
+
                 $attendance->$field = $value;
 
                 // If updating time_out, calculate seconds_elapsed
