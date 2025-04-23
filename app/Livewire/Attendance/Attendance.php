@@ -17,6 +17,7 @@ class Attendance extends Component
     public $canTimeIn = true;
     public $canTimeOut = false;
     public $search = ''; 
+    public $attendanceId;
     
 
     public function mount()
@@ -129,7 +130,7 @@ class Attendance extends Component
 
     public function deleteRecord($id)
     {
-        $record = Attendance::find($id);
+        $record = UserAttendance::find($id);
         if ($record) {
             $record->delete();
             session()->flash('message', 'Record deleted successfully.');
