@@ -6,9 +6,12 @@ use Livewire\Component;
 use App\Models\GlobalFilter;
 use App\Models\UserAttendance;
 use Illuminate\Support\Facades\Auth;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class Attendance extends Component
 {
+    use LivewireAlert;
+    
     public $date;
     public $startDate;
     public $endDate;
@@ -133,7 +136,14 @@ class Attendance extends Component
         $record = UserAttendance::find($id);
         if ($record) {
             $record->delete();
-            session()->flash('message', 'Record deleted successfully.');
+            
+            $this->alert('warning', 'Attendance Deleted Successfully', [
+                'position' => 'top-right',
+                'timer' => 5000,
+            ]);
+
+            $this->filterAttendanceRecords(); // Refresh the list
+            $this->checkLastAttendance(); // Reset time-in and time-out flags
         }
     }
 
