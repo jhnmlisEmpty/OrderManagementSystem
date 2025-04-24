@@ -104,7 +104,7 @@
                         <td class="px-6 py-4 whitespace-nowrap">{{ \Carbon\Carbon::parse($record->date)->format('l') }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             @if ($isAdmin)
-                                <input type="time" wire:change="updateAttendance({{ $record->id }}, 'time_in', $event.target.value)" value="{{ $record->time_in }}">
+                                <input type="time" wire:change="updateAttendance({{ $record->id }}, 'time_in', $event.target.value)" value="{{ $record->time_in }}" onkeydown="return false;">
                             @else
                                 {{ \Carbon\Carbon::parse($record->time_in)->format('h:i A') ?? 'N/A' }}
                             @endif
@@ -112,7 +112,7 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             @if ($isAdmin)
                                 @if ($record->time_out)
-                                    <input type="time" wire:change="updateAttendance({{ $record->id }}, 'time_out', $event.target.value)" value="{{ $record->time_out }}">
+                                    <input type="time" wire:change="updateAttendance({{ $record->id }}, 'time_out', $event.target.value)" value="{{ $record->time_out }}" onkeydown="return false;">
                                 @else
                                     <span class="text-gray-500">No data available</span>
                                 @endif
