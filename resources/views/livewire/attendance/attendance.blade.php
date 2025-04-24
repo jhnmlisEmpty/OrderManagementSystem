@@ -112,12 +112,12 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             @if ($isAdmin)
                                 @if ($record->time_out)
-                                    <input type="time" wire:change="updateAttendance({{ $record->id }}, 'time_out', $event.target.value)" value="{{ $record->time_out ?? '00:00' }}">
+                                    <input type="time" wire:change="updateAttendance({{ $record->id }}, 'time_out', $event.target.value)" value="{{ $record->time_out }}">
                                 @else
                                     <span class="text-gray-500">No data available</span>
                                 @endif
                             @else
-                                {{ $record->time_out ? \Carbon\Carbon::parse($record->time_out ?? '')->format('h:i A') : 'No data available' }}
+                                {{ $record->time_out ? \Carbon\Carbon::parse($record->time_out)->format('h:i A') : 'No data available' }}
                             @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
