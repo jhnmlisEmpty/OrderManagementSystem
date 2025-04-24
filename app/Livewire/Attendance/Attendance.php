@@ -98,9 +98,8 @@ class Attendance extends Component
                 try {
                     $timeOut = \Carbon\Carbon::createFromFormat('H:i:s', $value);
                 } catch (\Exception $e) {
-                    $timeOut = \Carbon\Carbon::createFromFormat('H:i:s', '12:00:01'); // Default to '00:00:00' if invalid
+                    $timeOut = \Carbon\Carbon::createFromFormat('H:i:s', '00:00:00'); // Default to '00:00:00' if invalid
                 }
-                    
                     $attendance->seconds_elapsed = $timeIn->diffInSeconds($timeOut);
                 }
 
