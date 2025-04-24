@@ -95,9 +95,10 @@ class Attendance extends Component
                 // If updating time_out, calculate seconds_elapsed
                 if ($field === 'time_out' && $attendance->time_in) {
                     $timeIn = \Carbon\Carbon::createFromFormat('H:i:s', $attendance->time_in);
-                    $timeOut = \Carbon\Carbon::createFromFormat('H:i:s', $value, now()->getTimezone())->format('H:i:s');
-                    if (substr_count($value, ':') === 1) {
-                        $timeOut = \Carbon\Carbon::createFromFormat('H:i', $value, now()->getTimezone())->format('H:i:s');
+                    try {
+                        $timeOut = \Carbon\Carbon::createFromFormat('H:i:s', $value);
+                    } catch (\Exception $e) {
+                        $timeOut = \Carbon\Carbon::createFromFormat('H:i', $value);
                     }
                     $attendance->seconds_elapsed = $timeIn->diffInSeconds($timeOut);
                 }
