@@ -145,10 +145,10 @@
                                 {{ $product->stocks }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $product->price }}
+                                {{ $product->pivot->price ?? 'N/A' }} <!-- Display price from pivot -->
                             </td>
                             <td class="px-6 py-4">
-                                <input type="number" wire:model="price.{{ $product->id }}" class="form-input" placeholder="Enter price" value="{{ $price[$product->id] ?? '' }}">
+                                <input type="number" wire:model="price.{{ $product->id }}" class="form-input" placeholder="Enter price" value="{{ $product->pivot->price ?? '' }}">
                             </td>
                             <td class="px-6 py-4">
                                 <button type="button" wire:click="updatePrice({{ $product->id }})" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">

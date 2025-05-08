@@ -21,6 +21,7 @@ class AssignProducts extends Component
     public function mount(User $user)
     {
         $this->user = $user;
+        
     }
 
     public function assignProduct($productId)
@@ -30,8 +31,13 @@ class AssignProducts extends Component
             return;
         }
 
-        $this->user->products()->attach($productId);
-        $this->alert('success', 'Product assigned successfully!');
+        // $this->user->products()->attach($productId);
+        // $this->alert('success', 'Product assigned successfully!');
+
+        $price = $this->price[$productId] ?? 0; // Default price if not provided
+        $this->user->products()->attach($productId, ['price' => $price]);
+    
+        $this->alert('success', 'Product assigned successfully with price!');
     }
 
     public function unassignProduct($productId)
@@ -42,8 +48,15 @@ class AssignProducts extends Component
 
     public function updatePrice($productId)
     {
+        // $price = $this->price[$productId] ?? 0;
+        // Product::where('id', $productId)->update(['price' => $price]);
+        // $this->alert('success', 'Price updated successfully!');
+
+
         $price = $this->price[$productId] ?? 0;
-        Product::where('id', $productId)->update(['price' => $price]);
+        // Update the price in the pivot table
+        $this->user->products()->updateExistingPivot($productId, ['price' => $price]);
+    
         $this->alert('success', 'Price updated successfully!');
     }
 

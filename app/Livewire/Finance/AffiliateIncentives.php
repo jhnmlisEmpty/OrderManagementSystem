@@ -93,11 +93,15 @@ class AffiliateIncentives extends Component
             return $order->orderItems->sum('total_amount');
         });
 
-        
-
         $this->wholesaleAmount = (float) $deliveredOrders->sum(function ($order) {
             return $order->orderItems->sum(function ($orderItem) {
-                return $orderItem->product->price * $orderItem->quantity;
+                $user = $this->user; // Get the current user
+                $pivotPrice = $user->products()
+                    ->where('product_id', $orderItem->product_id)
+                    ->first()
+                    ->pivot->price ?? 0; // Get the pivot price or default to 0
+        
+                return $pivotPrice * $orderItem->quantity;
             });
         });
 
@@ -192,28 +196,89 @@ class AffiliateIncentives extends Component
         $this->alert('success', 'Incentive fields cleared successfully!');
     }
 
-    public function render()
-    {
-        $deliveredOrders = Order::where('user_id', $this->user->id)
-            ->where('status', 'delivered')
-            ->whereNotNull('date_received')
-            ->whereBetween('date_received', [$this->startDate, $this->endDate])
-            ->get();
+    // public function render()
+    // {
+    //     $deliveredOrders = Order::where('user_id', $this->user->id)
+    //         ->where('status', 'delivered')
+    //         ->whereNotNull('date_received')
+    //         ->whereBetween('date_received', [$this->startDate, $this->endDate])
+    //         ->with(['orderItems' => function ($query) {
+    //             $query->with('product'); // Load the product relationship
+    //         }])
+    //         ->get();
+        
+    //     // Add pivot price to each order item
+    //     $deliveredOrders->each(function ($order) {
+    //         $order->orderItems->each(function ($orderItem) {
+    //             $user = $this->user; // Get the current user
+    //             $pivotPrice = $user->products()
+    //                 ->where('product_id', $orderItem->product_id)
+    //                 ->first()
+    //                 ->pivot->price ?? 0; // Get the pivot price or default to 0
+        
+    //             // Attach the pivot price to the order item
+    //             $orderItem->pivot_price = $pivotPrice;
+    //         });
+    //     })->toArray();
 
-        return view('livewire.finance.affiliate-incentives',[
-            'user' => $this->user,
-            'returnedCount' => $this->returnedCount,
-            'deductedAmount' => $this->deductedAmount,
-            'deliveredCount' => $this->deliveredCount,
-            'deliveredAmount' => $this->deliveredAmount,
-            'totalIncentive' => $this->totalIncentive,
-            'deliveredOrders' => $deliveredOrders,
-            'deliveredIncentive' => $this->deliveredIncentive,
-            'returnedOrders' => $this->returnedOrders,
-            'shippingAmount' => $this->shippingAmount,
-            'wholesaleAmount' => $this->wholesaleAmount,
-            'fullAmount' => $this->fullAmount,
+    //     $deliveredOrdersArray = $deliveredOrders->toArray();
 
-        ]);
-    }
+    //     return view('livewire.finance.affiliate-incentives',[
+    //         'deliveredOrders' => $deliveredOrdersArray,
+    //         'user' => $this->user,
+    //         'returnedCount' => $this->returnedCount,
+    //         'deductedAmount' => $this->deductedAmount,
+    //         'deliveredCount' => $this->deliveredCount,
+    //         'deliveredAmount' => $this->deliveredAmount,
+    //         'totalIncentive' => $this->totalIncentive,
+    //         'deliveredOrders' => $deliveredOrders,
+    //         'deliveredIncentive' => $this->deliveredIncentive,
+    //         'returnedOrders' => $this->returnedOrders,
+    //         'shippingAmount' => $this->shippingAmount,
+    //         'wholesaleAmount' => $this->wholesaleAmount,
+    //         'fullAmount' => $this->fullAmount,
+    //     ]);
+    // }
+public function render()
+{
+    $deliveredOrders = Order::where('user_id', $this->user->id)
+        ->where('status', 'delivered')
+        ->whereNotNull('date_received')
+        ->whereBetween('date_received', [$this->startDate, $this->endDate])
+        ->with(['orderItems' => function ($query) {
+            $query->with('product'); // Load the product relationship
+        }])
+        ->with(['orderItems.product', 'customer', 'paymentMethod'])
+        ->get();
+
+    // Transform the data and add pivot_price
+    $deliveredOrdersArray = $deliveredOrders->map(function ($order) {
+        $order->orderItems = $order->orderItems->map(function ($orderItem) {
+            $user = $this->user; // Get the current user
+            $pivotPrice = $user->products()
+                ->where('product_id', $orderItem->product_id)
+                ->first()
+                ->pivot->price ?? 0; // Get the pivot price or default to 0
+
+            $orderItem->pivot_price = $pivotPrice; // Attach pivot_price
+            return $orderItem;
+        });
+        return $order;
+    })->toArray();
+
+    return view('livewire.finance.affiliate-incentives', [
+        'deliveredOrdered' => $deliveredOrdersArray,
+        'user' => $this->user,
+        'returnedCount' => $this->returnedCount,
+        'deductedAmount' => $this->deductedAmount,
+        'deliveredCount' => $this->deliveredCount,
+        'deliveredAmount' => $this->deliveredAmount,
+        'totalIncentive' => $this->totalIncentive,
+        'deliveredIncentive' => $this->deliveredIncentive,
+        'returnedOrders' => $this->returnedOrders,
+        'shippingAmount' => $this->shippingAmount,
+        'wholesaleAmount' => $this->wholesaleAmount,
+        'fullAmount' => $this->fullAmount,
+    ]);
+}
 }

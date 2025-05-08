@@ -83,7 +83,7 @@
                         <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Stocks: {{ $product->stocks }}</p>
                         <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Code: {{ $product->code }}</p>
                         @if(auth()->user()->role === 'affiliate' || auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin')
-                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Wholesale Price: {{ $product->price }}</p>
+                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400"> Wholesale Price: {{ $product->pivot->price ?? 'N/A' }}</p>
                         @endif
                         <a wire:click.prevent='addToCart({{$product->id}})' href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                             Add to Cart

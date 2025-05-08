@@ -85,15 +85,15 @@ class Cart extends Component
         'cancelOrder'
     ];
 
-    public function mount()
+public function mount()
     {
         $this->packagings = Packaging::all();
         $this->cartItems = CartManagement::getCartItemsFromSession();
 
         foreach ($this->cartItems as &$cartItem) {
-            $cartItem['layout'] = []; 
-            $cartItem['price'] = $cartItem['price'] ?? 0; 
-            $cartItem['quantity'] = $cartItem['quantity'] ?? 1; 
+            $cartItem['layout'] = [];
+            $cartItem['price'] = $cartItem['price'] ?? 0;
+            $cartItem['quantity'] = $cartItem['quantity'] ?? 1;
             $cartItem['total_amount'] = $cartItem['total_amount'] ?? 0;
             $cartItem['packaging_id'] = $cartItem['packaging_id'] ?? null;
             $cartItem['additionalService'] = $cartItem['additionalService'] ?? null;
@@ -106,7 +106,15 @@ class Cart extends Component
                 $cartItem['product_name'] = $product->name;
                 $cartItem['product_image'] = $product->image;
                 $cartItem['product_stock'] = $product->stocks;
-                $cartItem['price'] = $product->price;
+
+                // Fetch the price from the pivot table for the authenticated user
+                $user = auth()->user();
+                $pivotPrice = $user->products()
+                    ->where('product_id', $product->id)
+                    ->first()
+                    ->pivot->price;
+
+                $cartItem['price'] = $pivotPrice;
             } else {
                 $cartItem['product_name'] = 'Product not found';
                 $cartItem['product_image'] = null;
@@ -120,7 +128,7 @@ class Cart extends Component
                 $cartItem['packaging_name'] = 'Packaging not found';
             }
         }
-}
+    }
     
     public function saveOrderWithItems()
     {

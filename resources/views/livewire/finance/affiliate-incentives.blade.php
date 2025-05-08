@@ -1,3 +1,4 @@
+{{-- @dd($deliveredOrdered) --}}
 <div class="container mx-auto mt-5  max-w-full" >
     <div class="bg-white shadow overflow-hidden sm:rounded-lg">
         <div class="flex flex-column sm:flex-row flex-wrap space-y-2 sm:space-y-0 items-center justify-between pl-4">
@@ -176,37 +177,37 @@
                 </thead>
     
                 <tbody>
-                    @if($deliveredOrders->isEmpty())
+                    @if(empty($deliveredOrdered))
                         <tr>
                             <td colspan="12" class="p-4 text-center text-gray-500">
                                 No orders found matching your search criteria.
                             </td>
                         </tr>
                     @else
-                        @foreach ($deliveredOrders as $order)
+                        @foreach ($deliveredOrdered as $order)
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-center">
                                 <td class="w-4 p-4">
-                                    {{ $order->id }}
+                                    {{ $order['id'] }}
                                 </td>
                                 <td>
-                                    @if($order->tracking)
-                                        <a href="https://www.trackingmore.com/track/en/{{ $order->tracking }}?express=jtexpress-ph" 
+                                    @if($order['tracking'])
+                                        <a href="https://www.trackingmore.com/track/en/{{ $order['tracking'] }}?express=jtexpress-ph" 
                                         class="text-blue-500 underline" 
                                         target="_blank">
-                                            {{ $order->tracking }}
+                                            {{ $order['tracking'] }}
                                         </a>
                                     @else
                                         Not set
                                     @endif
                                 </td>
                                 <td class="w-4 p-4">
-                                    {{ $order->customer->name }}
+                                    {{ $order['customer']['name'] }}
                                 </td>
                                 <td class="w-4 p-4">
-                                    {{ $order->platform }}
+                                    {{ $order['platform'] }}
                                 </td>
                                 <td class="w-4 p-4">
-                                    {{ $order->paymentMethod->method }}
+                                    {{ $order['payment_method']['method'] }}
                                 </td>
                                 <td class="px-6 py-4 w-24">
                                     <table class="w-full">
@@ -227,46 +228,43 @@
                                                 <th scope="col" class="px-6 py-3">
                                                     Total Amount
                                                 </th>
-                                                
                                             </tr>
                                         </thead>
-                                        @foreach($order->orderItems as $item)
+                                        @foreach($order['orderItems'] as $item)
                                             <tr>
-                                                <td class="px-4 py-2">{{ $item->product->name }}</td>
-                                                <td class="px-4 py-2">{{ $item->product->price }}</td>
-                                                <td class="px-4 py-2">₱{{ number_format($item->price, 2) }}</td>
-                                                <td class="px-4 py-2">{{ $item->quantity }}</td>
-                                                <td class="px-4 py-2">{{ $item->additionalService ?? 'N/A' }}</td>
-                                                <td class="px-4 py-2">{{ $item->servicePrice ? '₱' . number_format($item->servicePrice, 2) : 'N/A' }}</td>
-                                                <td class="px-4 py-2">{{ $item->total_amount }}</td>
+                                                <td class="px-4 py-2">{{ $item['product']['name'] }}</td>
+                                                <td class="px-4 py-2">{{ $item['pivot_price'] }}</td>
+                                                <td class="px-4 py-2">₱{{ number_format($item['price'], 2) }}</td>
+                                                <td class="px-4 py-2">{{ $item['quantity'] }}</td>
+                                                <td class="px-4 py-2">{{ $item['total_amount'] }}</td>
                                             </tr>
                                         @endforeach
                                     </table>
                                 </td>
                                 <td class="px-6 py-4">
-                                    ₱{{ number_format($order->total_from_items, 2) }}
+                                    ₱{{ number_format($order['total_from_items'], 2) }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    ₱{{ number_format($order->paymentMethod->amount, 2) }}
+                                    ₱{{ number_format($order['payment_method']['amount'], 2) }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    @if($order->shipping_price)
-                                        ₱{{ number_format($order->shipping_price, 2) }}
+                                    @if($order['shipping_price'])
+                                        ₱{{ number_format($order['shipping_price'], 2) }}
                                     @else
                                         Not set
                                     @endif
                                 </td>
                                 <td class="px-6 py-4">
-                                    ₱{{ number_format($order->full_amount, 2) }}
+                                    ₱{{ number_format($order['full_amount'], 2) }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ $order->date_received }}
+                                    {{ $order['date_received'] }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ $order->status }}
+                                    {{ $order['status'] }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    <a href="{{ route('view.order', ['orderId' => $order->id]) }}" target="_blank" class="font-medium text-blue-600 dark:blue-red-500 hover:underline">
+                                    <a href="{{ route('view.order', ['orderId' => $order['id']]) }}" target="_blank" class="font-medium text-blue-600 dark:blue-red-500 hover:underline">
                                         View
                                     </a>
                                 </td>

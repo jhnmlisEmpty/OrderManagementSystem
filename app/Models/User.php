@@ -53,10 +53,10 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
-    public function products()
-    {
-        return $this->belongsToMany(Product::class);
-    }
+    // public function products()
+    // {
+    //     return $this->belongsToMany(Product::class);
+    // }
 
     public function orderItems()
     {
@@ -66,6 +66,13 @@ class User extends Authenticatable
     public function incentive()
     {
         return $this->hasOne(Incentive::class);
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'product_user')
+            ->withPivot('price')
+            ->withTimestamps();
     }
 
 

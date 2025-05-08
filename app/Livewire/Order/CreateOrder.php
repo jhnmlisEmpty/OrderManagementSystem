@@ -20,7 +20,9 @@ class CreateOrder extends Component
     public function boot()
     {
         $this->cartCount = count(CartManagement::getCartItemsFromSession());
+        
     }
+
 
     public function addToCart($id)
     {
@@ -40,18 +42,19 @@ class CreateOrder extends Component
         $user = Auth::user();
 
         if ($user->role === 'affiliate') {
-            $assignedProductIds = $user->products->pluck('id')->toArray();
-            $products = Product::whereIn('id', $assignedProductIds)
+            // Retrieve products assigned to the user with the pivot price
+            $products = $user->products()
                 ->where(function ($query) {
                     $query->where('name', 'like', '%' . $this->search . '%')
-                          ->orWhere('code', 'like', '%' . $this->search . '%');
+                        ->orWhere('code', 'like', '%' . $this->search . '%');
                 })
                 ->orderBy('stocks', 'desc')
                 ->get();
         } else {
+            // Retrieve all products for admin or other roles
             $products = Product::where(function ($query) {
                 $query->where('name', 'like', '%' . $this->search . '%')
-                      ->orWhere('code', 'like', '%' . $this->search . '%');
+                    ->orWhere('code', 'like', '%' . $this->search . '%');
             })
             ->orderBy('stocks', 'desc')
             ->get();

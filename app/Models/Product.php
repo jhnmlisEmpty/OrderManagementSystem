@@ -27,7 +27,9 @@ class Product extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, 'product_user')
+                    ->withPivot('price') // Include the price column
+                    ->withTimestamps();
     }
 
     public function platformOrderItems()
