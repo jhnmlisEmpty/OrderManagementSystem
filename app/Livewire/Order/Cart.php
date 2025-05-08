@@ -112,7 +112,7 @@ public function mount()
                 $pivotPrice = $user->products()
                     ->where('product_id', $product->id)
                     ->first()
-                    ->pivot->price;
+                    ->pivot->price ?? 0;
 
                 $cartItem['price'] = $pivotPrice;
             } else {
