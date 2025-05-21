@@ -12,7 +12,7 @@
 
     <div class="grid grid-cols-3 gap-4 p-2">
         <div class="p-4 bg-gray-100 rounded-lg">
-            <h3 class="text-sm font-lg">Number of Products</h3>
+            <h3 class="text-sm font-lg">Number of Products Shipped</h3>
             <p class="text-lg font-semibold">{{ $totalProducts }}</p>
         </div>
 
