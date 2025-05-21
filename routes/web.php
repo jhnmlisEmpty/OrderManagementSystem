@@ -2,27 +2,28 @@
 
 use App\Livewire\Order\Cart;
 
+use App\Http\Middleware\CheckIp;
+
 use App\Livewire\Order\OrderView;
 
 use App\Livewire\Order\TableOrder;
-
 use App\Livewire\Order\CreateOrder;
+
 use App\Livewire\Order\ManageOrders;
 
 use App\Livewire\Products\AddProduct;
-
 use App\Livewire\Sales\SalesOverview;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Employee\AddEmployee;
 use App\Livewire\Finance\FinanceTable;
-use App\Livewire\Attendance\Attendance;
 
+use App\Livewire\Attendance\Attendance;
 use App\Livewire\Employee\EditEmployee;
 use App\Livewire\Finance\FinanceStatus;
+
 use App\Livewire\Logistic\SetLogistics;
 
 use App\Livewire\Products\TableProduct;
-
 use App\Livewire\Customer\TableCustomer;
 use App\Livewire\Employee\TableEmployee;
 use App\Livewire\Platform\OrderPlatform;
@@ -31,9 +32,9 @@ use App\Livewire\Products\UpdateProduct;
 use App\Livewire\Dashboard\ViewDashboard;
 use App\Livewire\Employee\AssignProducts;
 use App\Livewire\Packaging\PackagingManager;
-use App\Livewire\Finance\AffiliateIncentives;
 
-use App\Http\Middleware\CheckIp;
+use App\Livewire\Finance\AffiliateIncentives;
+use App\Livewire\Finance\ProductionIncentives;
 
 
 Route::middleware(['auth'])->group(function () {
@@ -77,6 +78,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/finance', FinanceTable::class)->name('finance.table');
     Route::get('/finance/status/{user}', FinanceStatus::class)->name('finance.status');
     Route::get('/finance/affiliate/{user}', AffiliateIncentives::class)->name('affiliate.incentives');
+    Route::get('/finance/production/{user}', ProductionIncentives::class)->name('production.incentives');
 
     // Sales Route
     Route::get('/sales-overview', SalesOverview::class)->name('sales.overview');

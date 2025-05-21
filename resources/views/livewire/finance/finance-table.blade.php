@@ -107,6 +107,45 @@
             </table>
         @endif
     </div>
+
+    <!-- Affiliate Users Section -->
+    <div class="mt-8 shadow-md p-2 m-2 rounded-lg overflow-y-auto">
+        <div class="mt-2">
+            <h2 class="text-xl font-bold text-black mb-4">Production Users</h2>
+        </div>
+        @if ($productionUsers->isEmpty())
+            <p class="text-gray-500 text-center text-sm mt-4">No Production Users found.</p>
+        @else
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-center text-gray-700 uppercase bg-blue-100 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">Name</th>
+                        <th scope="col" class="px-6 py-3">Email</th>
+                        <th scope="col" class="px-6 py-3">Role</th>
+                        <th scope="col" class="px-6 py-3">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($productionUsers as $user)
+                    <tr class="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">{{ $user->name }}</td>
+                        <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">{{ $user->email }}</td>
+                        <td class="px-6 py-4 text-gray-500 uppercase dark:text-gray-400">{{ $user->role }}</td>
+                        <td class="px-6 py-4">
+                            <a 
+                                href="{{ route('production.incentives', ['user' => $user->id]) }}" 
+                                target="_blank" 
+                                class="inline-block px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                            >
+                                Status
+                            </a>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
+    </div>
     
     <!-- Other Users Section -->
     <div class="mt-8 shadow-md p-2 m-2 rounded-lg overflow-y-auto">

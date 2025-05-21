@@ -10,6 +10,7 @@ class FinanceTable extends Component
     public $osrUsers;
     public $otherUsers;
     public $affiliateUsers;
+    public $productionUsers;
     public $search = '';
 
     public function mount()
@@ -33,8 +34,12 @@ class FinanceTable extends Component
         $this->affiliateUsers = User::where('role', 'affiliate')
             ->where('name', 'like', $searchTerm)
             ->get();
+
+        $this->productionUsers = User::where('role', 'production')
+            ->where('name', 'like', $searchTerm)
+            ->get();
     
-        $this->otherUsers = User::whereNotIn('role', ['osr', 'affiliate', 'super_admin'])
+        $this->otherUsers = User::whereNotIn('role', ['osr', 'affiliate', 'super_admin', 'production'])
             ->where('name', 'like', $searchTerm)
             ->get();
     }
