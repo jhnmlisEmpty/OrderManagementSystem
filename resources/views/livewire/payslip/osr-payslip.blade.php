@@ -6,11 +6,11 @@
     <div class="mb-4 grid grid-cols-2 gap-4">
         <div>
             <label for="startDate" class="block text-sm font-medium text-gray-700">Start Date</label>
-            <input type="date" id="startDate" wire:model.live="startDate" @if(auth()->user()->role === 'osr') disabled @endif class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            <input type="date" id="startDate" wire:model.live="startDate" @if(auth()->user()->role === 'osr' || auth()->user()->role === 'production') disabled @endif class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
         </div>
         <div>
             <label for="endDate" class="block text-sm font-medium text-gray-700">End Date</label>
-            <input type="date" id="endDate" wire:model.live="endDate" @if(auth()->user()->role === 'osr') disabled @endif class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            <input type="date" id="endDate" wire:model.live="endDate" @if(auth()->user()->role === 'osr' || auth()->user()->role === 'production') disabled @endif class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
         </div>
     </div>
 
@@ -63,7 +63,7 @@
     <div class="mt-4 grid grid-cols-1 md:grid-cols-4 gap-2 shadow-md bg-slate-200 p-4 rounded-lg">
         <div class="col-span-4 md:col-span-1">
             <label for="salaryRate" class="block text-sm font-medium text-gray-700">Salary Rate</label>
-            <input type="number" id="salaryRate" wire:model.change="dailySalaryRate" @if(auth()->user()->role === 'osr') disabled @endif class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter salary rate">
+            <input type="number" id="salaryRate" wire:model.change="dailySalaryRate" @if(auth()->user()->role === 'osr'  || auth()->user()->role === 'production') disabled @endif class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter salary rate">
         </div>
 
         <div class=" col-span-4 md:col-span-1">
@@ -93,27 +93,27 @@
 
         <div class="col-span-4 md:col-span-1">
             <label for="sss" class="block text-sm font-medium text-gray-700">SSS</label>
-            <input type="number" id="sss" wire:model.change="sss" @if(auth()->user()->role === 'osr') disabled @endif class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter salary rate">
+            <input type="number" id="sss" wire:model.change="sss" @if(auth()->user()->role === 'osr' || auth()->user()->role === 'production') disabled @endif class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter salary rate">
         </div>
 
         <div class="col-span-4 md:col-span-1">
             <label for="philhealth" class="block text-sm font-medium text-gray-700">Phil Health</label>
-            <input type="number" id="philhealth" wire:model.change="philhealth" @if(auth()->user()->role === 'osr') disabled @endif class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter salary rate">
+            <input type="number" id="philhealth" wire:model.change="philhealth" @if(auth()->user()->role === 'osr' || auth()->user()->role === 'production') disabled @endif class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter salary rate">
         </div>
 
         <div class="col-span-4 md:col-span-1">
             <label for="pagibig" class="block text-sm font-medium text-gray-700">Pag-Ibig</label>
-            <input type="number" id="pagibig" wire:model.change="pagibig" @if(auth()->user()->role === 'osr') disabled @endif class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter salary rate">
+            <input type="number" id="pagibig" wire:model.change="pagibig" @if(auth()->user()->role === 'osr' || auth()->user()->role === 'production') disabled @endif class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter salary rate">
         </div>
 
         <div class="col-span-4 md:col-span-1">
             <label for="otherDeduction" class="block text-sm font-medium text-gray-700">Other Deduction</label>
-            <input type="number" id="otherDeduction" wire:model.change="otherDeduction"  @if(auth()->user()->role === 'osr') disabled @endif class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter salary rate">
+            <input type="number" id="otherDeduction" wire:model.change="otherDeduction"  @if(auth()->user()->role === 'osr' || auth()->user()->role === 'production') disabled @endif class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter salary rate">
         </div>
 
         <div class="col-span-2 md:col-span-1">
             <label for="otherDeductionNotes" class="block text-sm font-medium text-gray-700">Notes in other deduction</label>
-            <textarea id="otherDeductionNotes" wire:model.change="otherDeductionNotes"  @if(auth()->user()->role === 'osr') disabled @endif class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter notes for other deductions"></textarea>
+            <textarea id="otherDeductionNotes" wire:model.change="otherDeductionNotes"  @if(auth()->user()->role === 'osr' || auth()->user()->role === 'production') disabled @endif class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter notes for other deductions"></textarea>
         </div>
 
         <div class="col-span-4 md:col-span-1">
@@ -123,7 +123,7 @@
     
             <div>
                 
-                <input type="number" id="incentives" wire:model.change="incentives" @if(auth()->user()->role === 'osr') disabled @endif  class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter Incentives">
+                <input type="number" id="incentives" wire:model.change="incentives" @if(auth()->user()->role === 'osr' || auth()->user()->role === 'production') disabled @endif  class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter Incentives">
             </div>
         </div>
 
