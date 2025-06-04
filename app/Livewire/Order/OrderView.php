@@ -22,7 +22,7 @@ class OrderView extends Component
     {
         $this->order = Order::findOrFail($orderId);
         $this->shippingFee = $this->order->shipping_price;
-        $this->trackingInput = $order->tracking;
+        $this->trackingInput = $this->order->tracking;
     }
 
     public function enableTrackingEdit()
