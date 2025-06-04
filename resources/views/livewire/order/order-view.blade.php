@@ -47,7 +47,7 @@
                             @if($editingTracking)
                                 <form wire:submit.prevent="updateTracking" class="flex items-center space-x-2">
                                     <input type="text" wire:model.defer="trackingInput" class="border rounded px-2 py-1" />
-                                    @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin' || auth()->user()->role === 'production')
+                                    @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin' || auth()->user()->role === 'logistics')
                                         <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Save</button>
                                         <button type="button" wire:click="$set('editingTracking', false)" class="text-gray-500 px-2">Cancel</button>
                                     @endif
@@ -59,12 +59,12 @@
                                     target="_blank">
                                         {{ $order->tracking }}
                                     </a>
-                                    @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin' || auth()->user()->role === 'production')
+                                    @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin' || auth()->user()->role === 'logistics')
                                         <button type="button" wire:click="enableTrackingEdit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Edit</button>
                                     @endif
                                 @else
                                     <span>Waiting to set by logistician</span>
-                                    @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin' || auth()->user()->role === 'production')
+                                    @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin' || auth()->user()->role === 'logistics')
                                         <button type="button" wire:click="enableTrackingEdit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Set</button>
                                     @endif
                                 @endif
