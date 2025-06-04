@@ -44,14 +44,27 @@
                     <div>
                          <dt class="text-sm font-medium text-gray-500">Tracking</dt>
                         <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                            @if($order->tracking)
-                                <a href="https://www.trackingmore.com/track/en/{{ $order->tracking }}?express=jtexpress-ph" 
-                                   class="text-blue-500 underline" 
-                                   target="_blank">
-                                    {{ $order->tracking }}
-                                </a>
+                            @if($editingTracking)
+                                <form wire:submit.prevent="updateTracking" class="flex items-center space-x-2">
+                                    <input type="text" wire:model.defer="trackingInput" class="border rounded px-2 py-1" />
+                                    <button type="submit" class="bg-blue-500 text-white px-3 py-1 rounded">Save</button>
+                                    <button type="button" wire:click="$set('editingTracking', false)" class="text-gray-500 px-2">Cancel</button>
+                                </form>
                             @else
-                                Waiting to set by logistician
+                                @if($order->tracking)
+                                    <a href="https://www.trackingmore.com/track/en/{{ $order->tracking }}?express=jtexpress-ph"
+                                    class="text-blue-500 underline"
+                                    target="_blank">
+                                        {{ $order->tracking }}
+                                    </a>
+                                    <button type="button" wire:click="enableTrackingEdit" class="ml-2 text-xs text-blue-600 underline">Edit</button>
+                                @else
+                                    <span>Waiting to set by logistician</span>
+                                    <button type="button" wire:click="enableTrackingEdit" class="ml-2 text-xs text-blue-600 underline">Set</button>
+                                @endif
+                            @endif
+                            @if (session()->has('message'))
+                                <div class="text-green-600 text-xs mt-1">{{ session('message') }}</div>
                             @endif
                         </dd>
                     </div>

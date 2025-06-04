@@ -14,12 +14,28 @@ class OrderView extends Component
     public $tracking;
     public $shippingFee;
     public $statusDate;
+    public $editingTracking = false;
+    public $trackingInput;
 
     // Load the order details when the component is mounted
     public function mount($orderId)
     {
         $this->order = Order::findOrFail($orderId);
         $this->shippingFee = $this->order->shipping_price;
+        $this->trackingInput = $order->tracking;
+    }
+
+    public function enableTrackingEdit()
+    {
+        $this->editingTracking = true;
+    }
+
+    public function updateTracking()
+    {
+        $this->order->tracking = $this->trackingInput;
+        $this->order->save();
+        $this->editingTracking = false;
+        session()->flash('message', 'Tracking number updated!');
     }
 
     public function updateStatus($status)
