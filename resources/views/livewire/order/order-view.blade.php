@@ -199,7 +199,7 @@
                            
                         @endif
                         @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin' || auth()->user()->role === 'logistics')
-                            @if ($order->status == 'ready_to_ship' || $order->status == 'shipped' || $order->status == 'delivered' || $order->status == 'returned' || $order->status == 'reprocess')
+                            @if ($order->status == 'ready_to_ship' )
                                 <div class="col-span-2">
                                     <div class="flex items-center space-x-2">
                                         <input type="text" wire:model="tracking" class="block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="Tracking Number">
