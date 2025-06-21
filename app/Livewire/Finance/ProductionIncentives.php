@@ -58,7 +58,7 @@ class ProductionIncentives extends Component
     public function calculateIncentives()
     {
         // Calculate the total incentives based on the date range
-        $this->totalPlatformOrderCount = PlatformOrder::whereBetween('order_ship_date', [$this->startDate, $this->endDate])->count();
+        $this->totalPlatformOrderCount = PlatformOrder::whereBetween('created_at', [$this->startDate, $this->endDate])->count();
         $this->totalPlatformOrderItemCount = PlatformOrderItems::whereBetween('created_at', [$this->startDate, $this->endDate])->sum('quantity');
 
         $this->totalOrdersCount = Order::whereBetween('created_at', [$this->startDate, $this->endDate])
