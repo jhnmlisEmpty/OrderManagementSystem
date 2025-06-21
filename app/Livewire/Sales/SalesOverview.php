@@ -80,8 +80,8 @@ class SalesOverview extends Component
                 ->get();
 
             $this->orders = $ordersQuery = Order::with('customer', 'user')
-                ->whereBetween('created_at', [$this->startDate, $this->endDate])
-                ->where('status', 'delivered')
+                ->whereBetween('order_ship_date', [$this->startDate, $this->endDate])
+                ->where('status', ['delivered', 'shipped'])
                 ->where(function($query) {
                     $query->where('id', 'like', '%' . $this->searchOrders . '%')
                         ->orWhereHas('customer', function($query) {
@@ -94,31 +94,31 @@ class SalesOverview extends Component
 
 
             //Computation for overall sales
-            $this->totalFromItems = Order::whereBetween('created_at', [$this->startDate, $this->endDate])
-                ->where('status', 'delivered')
+            $this->totalFromItems = Order::whereBetween('order_ship_date', [$this->startDate, $this->endDate])
+                ->where('status', ['delivered', 'shipped'])
                 ->sum('total_from_items');
             
             $this->totalPlatformOrder = PlatformOrder::whereBetween('created_at', [$this->startDate, $this->endDate])
                 ->sum('full_amount');
             
-            $this->totalShipping = Order::whereBetween('created_at', [$this->startDate, $this->endDate])
-                ->where('status', 'delivered')
+            $this->totalShipping = Order::whereBetween('order_ship_date', [$this->startDate, $this->endDate])
+                ->where('status', ['delivered', 'shipped'])
                 ->sum('shipping_price');
             
             
             $this->totalPlatformOrderCount = PlatformOrder::whereBetween('created_at', [$this->startDate, $this->endDate])
                 ->count();
 
-            $this->totalOrdersCount = Order::whereBetween('created_at', [$this->startDate, $this->endDate])
-                ->where('status', 'delivered')
+            $this->totalOrdersCount = Order::whereBetween('order_ship_date', [$this->startDate, $this->endDate])
+                ->where('status', ['delivered', 'shipped'])
                 ->count();
             
             $this->totalPlatformOrderItemCount = PlatformOrderItems::whereBetween('created_at', [$this->startDate, $this->endDate])
                 ->sum('quantity');
 
             $this->totalOrderItemsCount = OrderItem::whereHas('order', function ($query) {
-                    $query->whereBetween('created_at', [$this->startDate, $this->endDate])
-                          ->where('status', 'delivered');
+                    $query->whereBetween('order_ship_date', [$this->startDate, $this->endDate])
+                          ->where('status', ['delivered', 'shipped']);
                 })
                 ->sum('quantity');
             
@@ -151,8 +151,8 @@ class SalesOverview extends Component
 
             foreach ($pages as $page) {
                 $this->pageSales[$page] = [
-                    'totalFromItems' => Order::whereBetween('created_at', [$this->startDate, $this->endDate])
-                        ->where('status', 'delivered')
+                    'totalFromItems' => Order::whereBetween('order_ship_date', [$this->startDate, $this->endDate])
+                        ->where('status', ['delivered', 'shipped'])
                         ->where('page', $page)
                         ->sum('total_from_items'),
     
@@ -160,8 +160,8 @@ class SalesOverview extends Component
                         ->where('page', $page)
                         ->sum('full_amount'),
     
-                    'totalShipping' => Order::whereBetween('created_at', [$this->startDate, $this->endDate])
-                        ->where('status', 'delivered')
+                    'totalShipping' => Order::whereBetween('order_ship_date', [$this->startDate, $this->endDate])
+                        ->where('status', ['delivered', 'shipped'])
                         ->where('page', $page)
                         ->sum('shipping_price'),
     
@@ -170,7 +170,7 @@ class SalesOverview extends Component
                     'totalParcels' => PlatformOrder::whereBetween('created_at', [$this->startDate, $this->endDate])
                         ->where('page', $page)
                         ->count() + Order::whereBetween('created_at', [$this->startDate, $this->endDate])
-                        ->where('status', 'delivered')
+                        ->where('status', ['delivered', 'shipped'])
                         ->where('page', $page)
                         ->count(),
     
@@ -179,8 +179,8 @@ class SalesOverview extends Component
                                   ->where('page', $page);
                         })
                         ->sum('quantity') + OrderItem::whereHas('order', function ($query) use ($page) {
-                            $query->whereBetween('created_at', [$this->startDate, $this->endDate])
-                                  ->where('status', 'delivered')
+                            $query->whereBetween('order_ship_date', [$this->startDate, $this->endDate])
+                                  ->where('status', ['delivered', 'shipped'])
                                   ->where('page', $page);
                         })
                         ->sum('quantity'),
