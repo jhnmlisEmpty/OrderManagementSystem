@@ -58,7 +58,7 @@ class ProductionIncentives extends Component
     public function calculateIncentives()
     {
         // Calculate the total incentives based on the date range
-        $this->totalPlatformOrderCount = PlatformOrder::whereBetween('created_at', [$this->startDate, $this->endDate])->count();
+        $this->totalPlatformOrderCount = PlatformOrder::whereBetween('order_ship_date', [$this->startDate, $this->endDate])->count();
         $this->totalPlatformOrderItemCount = PlatformOrderItems::whereBetween('created_at', [$this->startDate, $this->endDate])->sum('quantity');
 
         $this->totalOrdersCount = Order::whereBetween('created_at', [$this->startDate, $this->endDate])
@@ -67,7 +67,7 @@ class ProductionIncentives extends Component
 
         // Fetch order items related to orders with status 'delivered' or 'shipped'
         $this->totalOrderItemsCount = OrderItem::whereHas('order', function ($query) {
-            $query->whereBetween('created_at', [$this->startDate, $this->endDate])
+            $query->whereBetween('order_ship_date', [$this->startDate, $this->endDate])
             ->whereIn('status', ['delivered', 'shipped']); // Filter by status
         })->sum('quantity');
 
@@ -79,7 +79,7 @@ class ProductionIncentives extends Component
             ->get();
 
         $this->orders = Order::with('customer', 'user')
-            ->whereBetween('created_at', [$this->startDate, $this->endDate])
+            ->whereBetween('order_ship_date', [$this->startDate, $this->endDate])
             ->whereIn('status', ['shipped', 'delivered']) // Filter by status
             ->get();
     }
