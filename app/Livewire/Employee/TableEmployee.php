@@ -11,6 +11,7 @@ use Livewire\Component;
 class TableEmployee extends Component
 {
     use LivewireAlert;
+     use WithPagination;
 
     public $osrUsers;
     public $otherUsers;
