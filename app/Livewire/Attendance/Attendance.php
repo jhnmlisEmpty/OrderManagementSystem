@@ -25,9 +25,12 @@ class Attendance extends Component
 
     public function mount()
     {
-        $filter = GlobalFilter::where('filter_name', 'attendance_date_range')->first();
-        $this->startDate = $filter->start_date ?? now()->subYear()->format('Y-m-d'); // Default: one year ago
-        $this->endDate = $filter->end_date ?? now()->format('Y-m-d'); // Default: today
+        // $filter = GlobalFilter::where('filter_name', 'attendance_date_range')->first();
+        // $this->startDate = $filter->start_date ?? now()->subYear()->format('Y-m-d'); // Default: one year ago
+        // $this->endDate = $filter->end_date ?? now()->format('Y-m-d'); // Default: today
+
+        $this->startDate = now()->startOfWeek()->format('Y-m-d');
+        $this->endDate = now()->endOfWeek()->format('Y-m-d');
 
         // Check if the user is admin or super admin
         $this->isAdmin = in_array(Auth::user()->role, ['admin', 'super_admin']);
