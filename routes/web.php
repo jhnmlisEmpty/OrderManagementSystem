@@ -84,8 +84,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/sales-overview', SalesOverview::class)->name('sales.overview');
 
     //Attendance Route
-    Route::get('/attendance', Attendance::class)->name('attendance.attendance')->middleware(CheckIp::class);
-
+    Route::get('/attendance', Attendance::class)->name('attendance.attendance');
+    // Route::get('/attendance', Attendance::class)->name('attendance.attendance')->middleware(CheckIp::class);
    
 
 });
