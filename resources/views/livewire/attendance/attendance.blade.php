@@ -89,7 +89,7 @@
             <div class="flex justify-center">
                 <button 
                     wire:click.debounce.500ms="timeIn" 
-                    class="px-24 py-5 bg-blue-500 text-white rounded-md disabled:opacity-50" 
+                    class="px-4 py-5 bg-blue-500 text-white rounded-md disabled:opacity-50" 
                     @if (!$canTimeIn) disabled @endif>
                     Time In
                 </button>
@@ -97,7 +97,7 @@
             <div class="flex justify-center">
                 <button 
                     wire:click.debounce.500ms="timeOut({{ $attendanceRecords->last()->id ?? 'null' }})" 
-                    class="px-24 py-5 bg-red-500 text-white rounded-md disabled:opacity-50" 
+                    class="px-4 py-5 bg-red-500 text-white rounded-md disabled:opacity-50" 
                     @if (!$canTimeOut) disabled @endif>
                     Time Out
                 </button>
