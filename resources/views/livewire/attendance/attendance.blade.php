@@ -1,10 +1,38 @@
 <div class="container mx-auto mt-5 max-w-full shadow-md rounded-lg p-6">
     <div class="mb-10 flex flex-column sm:flex-row flex-wrap space-y-2 sm:space-y-0 items-center justify-between pl-4">
         <div>
-            <h3 class="text-3xl font-bold text-gray-900 mt-2">
+            <h3 class="text-3xl font-bold text-gray-900 mb-6">
                 Attendance Records
             </h3>
+
+            @if($isAdmin)
+                <form wire:submit.prevent="updateIp" class="space-y-3">
+                    <label for="ip" class="block text-sm font-medium text-gray-700">Your IP Address</label>
+
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-3 space-y-3 sm:space-y-0">
+                        <input
+                            type="text"
+                            id="ip"
+                            wire:model="inputIpAddress"
+                            class="w-full sm:w-auto flex-1 border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder="Enter IP Address"
+                        />
+
+                        <button
+                            type="submit"
+                            class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded shadow"
+                        >
+                            Update IP
+                        </button>
+                    </div>
+
+                    @error('inputIpAddress')
+                        <span class="text-sm text-red-600">{{ $message }}</span>
+                    @enderror
+                </form>
+            @endif
         </div>
+
 
         <div class="relative overflow-x-auto sm:rounded-lg p-4">
             <div class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between py-4">

@@ -5,6 +5,7 @@ namespace App\Livewire\Attendance;
 use Livewire\Component;
 use App\Models\GlobalFilter;
 use App\Models\UserAttendance;
+use App\Models\IpAddress;
 use Illuminate\Support\Facades\Auth;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
@@ -21,6 +22,7 @@ class Attendance extends Component
     public $canTimeOut = false;
     public $search = ''; 
     public $attendanceId;
+    public $inputIpAddress;
     
 
     public function mount()
@@ -37,6 +39,8 @@ class Attendance extends Component
 
         $this->filterAttendanceRecords();
         $this->checkLastAttendance();
+
+        $this->inputIpAddress = request()->getClientIp();
     }
     
     public function checkLastAttendance()
@@ -53,6 +57,22 @@ class Attendance extends Component
             $this->canTimeOut = false;
         }
     }
+
+    public function updateIp()
+    {
+        $this->validate([
+            'inputIpAddress' => 'required|ip',
+        ]);
+
+        IpAddress::updateOrCreate(
+            ['ip_address' => $this->inputIpAddress]
+        );
+
+        $this->alert('warning', 'IP Address updated successfully', [
+            'position' => 'top-right',
+            'timer' => 5000,
+        ]);
+    }   
 
     public function timeIn()
     {

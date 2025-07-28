@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Models\IpAddress;
 
 class CheckIp
 {
@@ -15,26 +16,7 @@ class CheckIp
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $allowedIps = ['192.168.1.21',
-        '127.0.0.1',
-        '192.168.1.108',
-        '192.168.1.105',
-        '192.168.1.101',
-        '192.168.1.107',
-        '192.168.1.103', 
-        '192.168.1.106',
-        '192.168.1.104',
-        '192.168.68.98',
-        '192.168.254.104',
-        '143.44.216.31',
-        '136.158.120.187',
-        '136.158.121.123',
-        '136.158.121.11',
-        '2001:fd8:b986:c700:c5c0:173f:8fc:aef8',
-        '2001:fd8:b986:c700:b801:c40b:f4:b1c8' ,
-        '2001:fd8:b986:c700:293b:b382:467a:143e',
-        '136.158.121.23'
-        ];
+        $allowedIps = IpAddress::pluck('ip_address')->toArray();
         $ip = request()->getClientIp();
 
         $user = $request->user();
