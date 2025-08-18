@@ -27,7 +27,9 @@ class ProductionIncentives extends Component
 
     public $totalParcels;
     public $totalProducts;
-    
+
+    public $attendedParcels;
+    public $attendedProducts;
 
     public function mount($user)
     {
@@ -38,6 +40,7 @@ class ProductionIncentives extends Component
         $this->endDate = $filter->end_date ?? now()->format('Y-m-d'); // Default: today
 
         $this->calculateIncentives();
+        $this->calculateAttendedIncentives();
     }
 
     public function updated($propertyName)
@@ -53,8 +56,52 @@ class ProductionIncentives extends Component
             );
     
             $this->calculateIncentives();
+            $this->calculateAttendedIncentives();
         }
     }
+
+    public function calculateAttendedIncentives()
+    {
+        // Get all attendance dates for the user in the range
+        $attendanceDates = \App\Models\UserAttendance::where('user_id', $this->user->id)
+            ->whereBetween('date', [$this->startDate, $this->endDate])
+            ->pluck('date')
+            ->toArray();
+
+        if (empty($attendanceDates)) {
+            $this->attendedOrderCount = 0;
+            $this->attendedOrderItemsCount = 0;
+            $this->attendedPlatformOrderCount = 0;
+            $this->attendedPlatformOrderItemCount = 0;
+            $this->attendedParcels = 0;
+            $this->attendedProducts = 0;
+            return;
+        }
+
+        // Orders shipped or delivered on attended dates
+        $this->attendedOrderCount = Order::whereIn('order_ship_date', $attendanceDates)
+            ->whereIn('status', ['delivered', 'shipped'])
+            ->count();
+
+        // Order items for those orders
+        $this->attendedOrderItemsCount = OrderItem::whereHas('order', function ($query) use ($attendanceDates) {
+            $query->whereIn('order_ship_date', $attendanceDates)
+            ->whereIn('status', ['delivered', 'shipped']);
+        })->sum('quantity');
+
+        // Platform orders created on attended dates
+        $this->attendedPlatformOrderCount = PlatformOrder::whereDate('created_at', $attendanceDates)
+            ->count();
+
+        // Platform order items created on attended dates
+        $this->attendedPlatformOrderItemCount = PlatformOrderItems::whereDate('created_at', $attendanceDates)
+            ->sum('quantity');
+
+        $this->attendedParcels = $this->attendedOrderCount + $this->attendedPlatformOrderCount;
+        $this->attendedProducts = $this->attendedOrderItemsCount + $this->attendedPlatformOrderItemCount;
+
+    }
+
     public function calculateIncentives()
     {
         // Calculate the total incentives based on the date range

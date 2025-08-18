@@ -27,6 +27,18 @@
         </div>
     </div>
 
+    <div class="grid grid-cols-3 gap-4 p-2">
+        <div class="p-4 bg-gray-100 rounded-lg">
+            <h3 class="text-sm font-lg">Number of Parcels</h3>
+            <p class="text-lg font-semibold">{{ $attendedParcels ?? 0 }}</p>
+        </div>
+
+        <div class="p-4 bg-gray-100 rounded-lg">
+            <h3 class="text-sm font-lg">Final Watches Out Incentives this week</h3>
+            <p class="text-lg font-semibold">{{ $attendedProducts ?? 0 }}</p>
+        </div>
+    </div>
+
 
     @livewire('payslip.osr-payslip', ['userId' => $user->id])
 

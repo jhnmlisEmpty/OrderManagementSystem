@@ -41,6 +41,8 @@ class OsrPayslip extends Component
     public $releaseDate;
     public $status = 'pending'; // Default status
     public $incentives;
+    public $incentivesNotes; // New property for incentives notes
+    public $user;
 
     public $netPay;
     
@@ -72,6 +74,7 @@ class OsrPayslip extends Component
             $this->paymentProof = $existingPayslip->payment_proof;
             $this->status = $existingPayslip->status;
             $this->incentives = $existingPayslip->incentives;
+            $this->incentivesNotes = $existingPayslip->incentives_notes;
         }
 
         $this->filterAttendanceRecords();
@@ -124,6 +127,7 @@ class OsrPayslip extends Component
             'payment_proof' => $paymentProofPath,
             'status' => $this->status,
             'incentives' => $this->incentives,
+            'incentives_notes' => $this->incentivesNotes,
             'start_date' => $this->startDate,
             'end_date' => $this->endDate,
             'status' => $this->status,
@@ -147,6 +151,7 @@ class OsrPayslip extends Component
             'payment_proof' => $paymentProofPath,
             'status' => $this->status,
             'incentives' => $this->incentives,
+            'incentives_notes' => $this->incentivesNotes,
             ]);
         }
 

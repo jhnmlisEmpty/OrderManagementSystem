@@ -1,6 +1,10 @@
 <div>
     <div class="mt-8">
-        <h2 class="text-3xl font-bold text-black mb-4">OSR PAYSLIP</h2>
+        @if($user->role === 'osr')
+            <h2 class="text-3xl font-bold text-black mb-4">OSR PAYSLIP</h2>
+        @elseif($user->role === 'production')
+            <h2 class="text-3xl font-bold text-black mb-4">PRODUCTION PAYSLIP</h2>
+        @endif
     </div>
 
     <div class="mb-4 grid grid-cols-2 gap-4">
@@ -122,9 +126,13 @@
             </div>
     
             <div>
-                
                 <input type="number" id="incentives" wire:model.change="incentives" @if(auth()->user()->role === 'osr' || auth()->user()->role === 'production') disabled @endif  class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter Incentives">
             </div>
+        </div>
+
+        <div class="col-span-2 md:col-span-1">
+                <label for="incentivesNotes" class="block text-sm font-medium text-gray-700">Notes in other Incentives</label>
+                <textarea id="incentivesNotes" wire:model.change="incentivesNotes"  @if(auth()->user()->role === 'osr' || auth()->user()->role === 'production') disabled @endif class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter notes for other incentives"></textarea>
         </div>
 
         <div class="mt-8 col-span-4">

@@ -26,6 +26,7 @@ class OsrPayslipInfo extends Model
         'payment_proof',
         'status',
         'incentives',
+        'incentives_notes',
         'start_date',
         'end_date',
     ];
