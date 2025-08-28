@@ -108,7 +108,7 @@ class ProductionIncentives extends Component
         $this->totalPlatformOrderCount = PlatformOrder::whereBetween('created_at', [$this->startDate, $this->endDate])->count();
         $this->totalPlatformOrderItemCount = PlatformOrderItems::whereBetween('created_at', [$this->startDate, $this->endDate])->sum('quantity');
 
-        $this->totalOrdersCount = Order::whereBetween('created_at', [$this->startDate, $this->endDate])
+        $this->totalOrdersCount = Order::whereBetween('order_ship_date', [$this->startDate, $this->endDate])
             ->whereIn('status', ['delivered', 'shipped']) // Filter by status
             ->count();
 
