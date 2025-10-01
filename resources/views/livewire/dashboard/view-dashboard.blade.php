@@ -2,7 +2,7 @@
     <div class="flex flex-column sm:flex-row flex-wrap space-y-2 sm:space-y-0 items-center justify-between pl-4">
         <div>
             <h3 class="text-3xl font-bold text-gray-900 mt-4">
-                Dashboard
+                Dashboard test
             </h3>
         </div>
     </div>
