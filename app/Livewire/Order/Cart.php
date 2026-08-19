@@ -174,6 +174,11 @@ public function mount()
                 return;
             }
 
+            if ($productQuantities[$productId] > (int)$product->stocks) {
+               $this->addError('cartItems.' . $index . '.quantity', 'Insufficient stock for product: ' . $product->name);
+                return;
+            }
+
             if (!$packaging) {
                 $this->addError('cartItems.' . $index . '.packaging_id', 'Packaging not found.');
                 return;

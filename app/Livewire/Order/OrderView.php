@@ -46,6 +46,11 @@ class OrderView extends Component
             case 'pending':
                 $order->status = $status;
                 break;
+                
+            case 'created':
+                $order->status = $status;
+                $order->created_at = now('Asia/Manila')->toDateString();
+                break;
 
             case 'on_prod':
                 foreach ($order->orderItems as $orderItem) {

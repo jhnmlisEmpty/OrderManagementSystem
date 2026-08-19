@@ -97,7 +97,7 @@
 
                                 @if($user->role === 'affiliate')
                                     <td class="px-6 py-4">
-                                        {{ $product->price ?? 'N/A' }} 
+                                        {{ $product->pivot->price ?? 'N/A' }} 
                                 @endif
                                 <td class="px-6 py-4">
                                     @if (auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin' || auth()->user()->role === 'production')

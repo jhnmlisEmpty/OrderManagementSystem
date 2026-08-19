@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Products;
 
+use App\Models\User;
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\WithPagination;
@@ -66,15 +68,15 @@ class TableProduct extends Component
 
     public function render()
     {
+         $user = Auth::user();
         if ($this->user->role === 'affiliate') {
-            $assignedProductIds = $this->user->products->pluck('id')->toArray();
-            $products = Product::whereIn('id', $assignedProductIds)
-                ->where(function ($query) {
-                    $query->where('name', 'like', '%' . $this->search . '%')
-                          ->orWhere('code', 'like', '%' . $this->search . '%');
-                })
-                ->orderBy('stocks', 'asc')
-                ->get();
+                $products = $user->products()
+                    ->where(function ($query) {
+                        $query->where('name', 'like', '%' . $this->search . '%')
+                            ->orWhere('code', 'like', '%' . $this->search . '%');
+                    })
+                    ->orderBy('stocks', 'desc')
+                    ->get();
         } else {
             $products = Product::where(function ($query) {
                 $query->where('name', 'like', '%' . $this->search . '%')

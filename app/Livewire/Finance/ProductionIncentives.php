@@ -79,14 +79,14 @@ class ProductionIncentives extends Component
         }
 
         // Orders shipped or delivered on attended dates
-        $this->attendedOrderCount = Order::whereIn('order_ship_date', $attendanceDates)
-            ->whereIn('status', ['delivered', 'shipped'])
+        $this->attendedOrderCount = Order::whereIn('created_at', $attendanceDates)
+            ->whereIn('status', ['created', 'shipped', 'delivered', 'canceled', 'returned', 'reprocess'])
             ->count();
 
         // Order items for those orders
         $this->attendedOrderItemsCount = OrderItem::whereHas('order', function ($query) use ($attendanceDates) {
-            $query->whereIn('order_ship_date', $attendanceDates)
-            ->whereIn('status', ['delivered', 'shipped']);
+            $query->whereIn('created_at', $attendanceDates)
+            ->whereIn('status', ['created', 'shipped', 'delivered', 'canceled', 'returned', 'reprocess']);
         })->sum('quantity');
 
         // Platform orders created on attended dates
@@ -108,7 +108,7 @@ class ProductionIncentives extends Component
         $this->totalPlatformOrderCount = PlatformOrder::whereBetween('created_at', [$this->startDate, $this->endDate])->count();
         $this->totalPlatformOrderItemCount = PlatformOrderItems::whereBetween('created_at', [$this->startDate, $this->endDate])->sum('quantity');
 
-        $this->totalOrdersCount = Order::whereBetween('created_at', [$this->startDate, $this->endDate])
+        $this->totalOrdersCount = Order::whereBetween('order_ship_date', [$this->startDate, $this->endDate])
             ->whereIn('status', ['delivered', 'shipped']) // Filter by status
             ->count();
 
