@@ -102,12 +102,8 @@
 
                         <div class="mb-2 flex space-x-4">
                             <div class="flex-1">
-                                <label for="addittionalService_{{ $index }}" class="block font-medium">Additional Service</label>
-                                <select id="additionalService_{{ $index }}" wire:model.live="cartItems.{{ $index }}.additionalService" class="border rounded w-full p-2">
-                                    <option value="">Select Additional Service</option>
-                                    <option value="Engraving">Engraving</option>
-                                    <option value="Box Upgrade">Box Upgrade</option>      
-                                </select>
+                                <label for="additionalService_{{ $index }}" class="block font-medium">Additional Service</label>
+                                <input type="text" id="additionalService_{{ $index }}" wire:model.live="cartItems.{{ $index }}.additionalService" class="border rounded w-full p-2" placeholder="Enter additional service">
                                 @error("cartItems.{$index}.additionalService") <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                             </div>
                         
