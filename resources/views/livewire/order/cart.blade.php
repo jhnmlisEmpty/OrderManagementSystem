@@ -192,6 +192,7 @@
                     <option value="F8Watch">F8Watch</option>
                     <option value="PixWatch">PixWatch</option>
                     <option value="Detoxime">Detoxime</option>
+                    <option value="Elevate Watch">Elevate Watch</option>
                 </select>
                 @error('page') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
