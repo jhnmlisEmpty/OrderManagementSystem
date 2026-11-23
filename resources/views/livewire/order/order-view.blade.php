@@ -4,6 +4,64 @@
             <h3 class="text-2xl font-medium leading-6 text-gray-900">Order Details (ID: {{ $order->id }})</h3>
             <p class="mt-1 max-w-2xl text-sm text-gray-500">Agent: {{ $order->user->name }}</p>
         </div>
+        @php
+            $copyText = "Date: {$order->created_at->format('F d, Y')}\n"
+                . "Full Name: " . ($order->customer->name ?? '') . "\n"
+                . "Contact Number: " . ($order->customer->contact_number ?? '') . "\n"
+                . "House/Building/Street: " . ($order->customer->street ?? '') . "\n"
+                . "Barangay: " . ($order->customer->landmark ?? '') . "\n"
+                . "City/Municipality: " . ($order->customer->city ?? '') . "\n"
+                . "Province: " . ($order->customer->province ?? '') . "\n"
+                . "Mode of Payment: " . ($order->paymentMethod->method ?? '') . "\n"
+                . "Shipping Price: " . ($order->shipping_price !== null ? '₱' . number_format($order->shipping_price, 2) : 'Waiting to set') . "\n"
+                . "\n";
+
+            foreach ($order->orderItems as $item) {
+                $copyText .= "Quantity: " . $item->quantity . "\n"
+                    . "Price: ₱" . number_format($item->price, 2) . "\n"
+                    . "Order Item: " . ($item->product->name ?? '') . "\n\n";
+            }
+        @endphp
+        <div class="px-4 py-5 sm:px-6 border-t border-gray-200">
+            <div class="flex items-center justify-between mb-2">
+                <h4 class="text-lg font-medium text-gray-900">Copy Order Details</h4>
+                <button
+                    type="button"
+                    id="copy-order-details"
+                    class="inline-flex items-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500"
+                >
+                    Copy
+                </button>
+            </div>
+            <textarea
+                id="order-details-text"
+                readonly
+                rows="{{ max(12, count($order->orderItems) * 4 + 9) }}"
+                class="block w-full rounded-md border-gray-300 font-mono text-sm text-gray-900 shadow-sm"
+            >{{ $copyText }}</textarea>
+            <p id="copy-order-status" class="mt-2 text-sm text-green-600" aria-live="polite"></p>
+        </div>
+        <script>
+            document.getElementById('copy-order-details').addEventListener('click', function () {
+                var textArea = document.getElementById('order-details-text');
+                var status = document.getElementById('copy-order-status');
+
+                textArea.select();
+                textArea.setSelectionRange(0, textArea.value.length);
+
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(textArea.value).then(function () {
+                        status.textContent = 'Order details copied.';
+                    }).catch(function () {
+                        document.execCommand('copy');
+                        status.textContent = 'Order details copied.';
+                    });
+                } else {
+                    document.execCommand('copy');
+                    status.textContent = 'Order details copied.';
+                }
+            });
+        </script>
         <div class="overflow-y-auto border-t border-gray-200">
             <dl>
                 <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-6">
