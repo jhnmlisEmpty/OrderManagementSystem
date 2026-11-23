@@ -37,7 +37,7 @@
                 . "\n";
 
             foreach ($combinedItems as $itemName => $item) {
-                $copyText .= "Order Item: " . $itemName . " x " . $item['quantity']
+                $copyText .= $itemName . " x " . $item['quantity']
                     . " = ₱" . number_format($item['total'], 2) . "\n";
             }
         @endphp
