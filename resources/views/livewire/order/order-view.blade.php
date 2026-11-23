@@ -40,6 +40,8 @@
                 $copyText .= $itemName . " x " . $item['quantity']
                     . " = ₱" . number_format($item['total'], 2) . "\n";
             }
+
+            $copyText = strtoupper($copyText);
         @endphp
         <div class="px-4 py-5 sm:px-6 border-t border-gray-200">
             <div class="flex items-center justify-between mb-2">
