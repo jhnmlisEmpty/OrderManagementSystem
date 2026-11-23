@@ -23,6 +23,19 @@
                 $combinedItems[$itemName]['total'] += (float) $item->total_amount;
             }
 
+            $amountPaid = (float) ($order->paymentMethod->amount ?? 0);
+            $shippingPrice = (float) ($order->shipping_price ?? 0);
+            $fullAmount = (float) $order->total_from_items + $shippingPrice;
+            $balance = max(0, $fullAmount - $amountPaid);
+
+            if ($amountPaid <= 0) {
+                $paymentCategory = 'COD';
+            } elseif ($balance <= 0) {
+                $paymentCategory = 'NON-COD';
+            } else {
+                $paymentCategory = 'DOWNPAYMENT/COD';
+            }
+
             $copyText = "Date: {$order->created_at->format('F d, Y')}\n"
                 . "Full Name: " . ($order->customer->name ?? '') . "\n"
                 . "Contact Number: " . ($order->customer->contact_number ?? '') . "\n"
@@ -30,10 +43,19 @@
                 . "Barangay: " . ($order->customer->landmark ?? '') . "\n"
                 . "City/Municipality: " . ($order->customer->city ?? '') . "\n"
                 . "Province: " . ($order->customer->province ?? '') . "\n"
-                . "Mode of Payment: " . ($order->paymentMethod->method ?? '') . "\n"
-                . "Shipping Price: " . ($order->shipping_price !== null ? '₱' . number_format($order->shipping_price, 2) : 'Waiting to set') . "\n"
-                . "Full Amount: " . ($order->full_amount !== null ? '₱' . number_format($order->full_amount, 2) : 'Waiting to calculate') . "\n"
-                . "Quantity: " . $combinedQuantity . "\n"
+                . "Mode of Payment: " . $paymentCategory . "\n"
+                . "Shipping Price: " . ($shippingPrice > 0 ? '₱' . number_format($shippingPrice, 2) : 'Waiting to set') . "\n"
+                . "Full Amount: ₱" . number_format($fullAmount, 2) . "\n";
+
+            if ($amountPaid > 0) {
+                $copyText .= "Amount Paid: ₱" . number_format($amountPaid, 2) . "\n";
+            }
+
+            if ($balance > 0) {
+                $copyText .= "Balance: ₱" . number_format($balance, 2) . "\n";
+            }
+
+            $copyText .= "Quantity: " . $combinedQuantity . "\n"
                 . "\n";
 
             foreach ($combinedItems as $itemName => $item) {
