@@ -5,6 +5,24 @@
             <p class="mt-1 max-w-2xl text-sm text-gray-500">Agent: {{ $order->user->name }}</p>
         </div>
         @php
+            $combinedItems = [];
+            $combinedQuantity = 0;
+
+            foreach ($order->orderItems as $item) {
+                $itemName = $item->product->name ?? 'Unnamed Item';
+                $combinedQuantity += (int) $item->quantity;
+
+                if (!isset($combinedItems[$itemName])) {
+                    $combinedItems[$itemName] = [
+                        'quantity' => 0,
+                        'total' => 0,
+                    ];
+                }
+
+                $combinedItems[$itemName]['quantity'] += (int) $item->quantity;
+                $combinedItems[$itemName]['total'] += (float) $item->total_amount;
+            }
+
             $copyText = "Date: {$order->created_at->format('F d, Y')}\n"
                 . "Full Name: " . ($order->customer->name ?? '') . "\n"
                 . "Contact Number: " . ($order->customer->contact_number ?? '') . "\n"
@@ -14,12 +32,13 @@
                 . "Province: " . ($order->customer->province ?? '') . "\n"
                 . "Mode of Payment: " . ($order->paymentMethod->method ?? '') . "\n"
                 . "Shipping Price: " . ($order->shipping_price !== null ? '₱' . number_format($order->shipping_price, 2) : 'Waiting to set') . "\n"
+                . "Full Amount: " . ($order->full_amount !== null ? '₱' . number_format($order->full_amount, 2) : 'Waiting to calculate') . "\n"
+                . "Quantity: " . $combinedQuantity . "\n"
                 . "\n";
 
-            foreach ($order->orderItems as $item) {
-                $copyText .= "Quantity: " . $item->quantity . "\n"
-                    . "Price: ₱" . number_format($item->price, 2) . "\n"
-                    . "Order Item: " . ($item->product->name ?? '') . "\n\n";
+            foreach ($combinedItems as $itemName => $item) {
+                $copyText .= "Order Item: " . $itemName . " x " . $item['quantity']
+                    . " = ₱" . number_format($item['total'], 2) . "\n";
             }
         @endphp
         <div class="px-4 py-5 sm:px-6 border-t border-gray-200">
