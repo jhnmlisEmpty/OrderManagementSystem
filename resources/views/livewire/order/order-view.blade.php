@@ -24,8 +24,9 @@
             }
 
             $amountPaid = (float) ($order->paymentMethod->amount ?? 0);
+            $itemsTotal = (float) $order->total_from_items;
             $shippingPrice = (float) ($order->shipping_price ?? 0);
-            $fullAmount = (float) $order->total_from_items + $shippingPrice;
+            $fullAmount = $itemsTotal + $shippingPrice;
             $balance = max(0, $fullAmount - $amountPaid);
 
             if ($amountPaid <= 0) {
@@ -39,13 +40,12 @@
             $copyText = "Date: {$order->created_at->format('F d, Y')}\n"
                 . "Full Name: " . ($order->customer->name ?? '') . "\n"
                 . "Contact Number: " . ($order->customer->contact_number ?? '') . "\n"
-                . "House/Building/Street: " . ($order->customer->street ?? '') . "\n"
-                . "Barangay: " . ($order->customer->landmark ?? '') . "\n"
-                . "City/Municipality: " . ($order->customer->city ?? '') . "\n"
-                . "Province: " . ($order->customer->province ?? '') . "\n"
-                . "Mode of Payment: " . $paymentCategory . "\n"
-                . "Shipping Price: " . ($shippingPrice > 0 ? '₱' . number_format($shippingPrice, 2) : 'Waiting to set') . "\n"
-                . "Full Amount: ₱" . number_format($fullAmount, 2) . "\n";
+                . "Address: " . implode(', ', array_filter([
+                    $order->customer->street ?? '',
+                    $order->customer->landmark ?? '',
+                    $order->customer->city ?? '',
+                    $order->customer->province ?? '',
+                ])) . "\n";
 
             if ($amountPaid > 0) {
                 $copyText .= "Amount Paid: ₱" . number_format($amountPaid, 2) . "\n";
@@ -62,6 +62,12 @@
                 $copyText .= $itemName . " x " . $item['quantity']
                     . " = ₱" . number_format($item['total'], 2) . "\n";
             }
+
+            $copyText .= "\nMode of Payment: " . $paymentCategory . "\n"
+                . "Shipping Price: " . ($shippingPrice > 0 ? '₱' . number_format($shippingPrice, 2) : 'Waiting to set') . "\n"
+                . "Full Amount: ₱" . number_format($shippingPrice, 2)
+                . " + ₱" . number_format($itemsTotal, 2)
+                . " = ₱" . number_format($fullAmount, 2) . "\n";
 
             $copyText = strtoupper($copyText);
         @endphp
