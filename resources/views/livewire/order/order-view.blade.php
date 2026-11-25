@@ -47,14 +47,6 @@
                     $order->customer->province ?? '',
                 ])) . "\n";
 
-            if ($amountPaid > 0) {
-                $copyText .= "Amount Paid: ₱" . number_format($amountPaid, 2) . "\n";
-            }
-
-            if ($balance > 0) {
-                $copyText .= "Balance: ₱" . number_format($balance, 2) . "\n";
-            }
-
             $copyText .= "Quantity: " . $combinedQuantity . "\n"
                 . "\n";
 
@@ -65,9 +57,14 @@
 
             $copyText .= "\nMode of Payment: " . $paymentCategory . "\n"
                 . "Shipping Price: " . ($shippingPrice > 0 ? '₱' . number_format($shippingPrice, 2) : 'Waiting to set') . "\n"
+                . "Items Total: ₱" . number_format($itemsTotal, 2) . "\n"
                 . "Full Amount: ₱" . number_format($shippingPrice, 2)
                 . " + ₱" . number_format($itemsTotal, 2)
-                . " = ₱" . number_format($fullAmount, 2) . "\n";
+                . " = ₱" . number_format($fullAmount, 2) . "\n"
+                . "Amount Paid: ₱" . number_format($amountPaid, 2) . "\n"
+                . "Balance: ₱" . number_format($fullAmount, 2)
+                . " - ₱" . number_format($amountPaid, 2)
+                . " = ₱" . number_format($balance, 2) . "\n";
 
             $copyText = strtoupper($copyText);
         @endphp
